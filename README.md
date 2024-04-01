@@ -16,3 +16,4 @@ db.<your_collection_name>.insertOne({"gg":"wp"}) : to create a document in a col
 db.<your_collection_name>.drop() : to delete a collection
 
 get restaurants based on restaurant or menuitem
+how are images stored

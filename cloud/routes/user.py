@@ -6,23 +6,38 @@ from beanie import PydanticObjectId
 
 router = APIRouter() 
 
-@router.get('/test')
-async def test():
-    return {"gg":"wp"}
-
-# @app.get("/testuser")
-# async def get_user():
-
-#     await testuser.find(testuser.age == 22, lazy_parse=True).to_list()
-#     if user:
-#         return user
-#     else:
-#         raise HTTPException(status_code=404, detail="User not found")
+async def get_user(user_id: PydanticObjectId) -> testuser:
+    user = await testuser.get(user_id)
+    if user is None:
+        raise HTTPException(status_code=404, detail="Note not found")
+    return user
 
 
-# @user.get('/get_test_data')
-# async def get_test_collection_data():
-#     return serializeList(conn.manishclouddb.testcollection.find())
+@router.get('/test_get_api')
+async def test_get_api(testuser: testuser = Depends(get_user)):
+    return testuser
+
+@router.get('/gg')
+async def gg(user_id: PydanticObjectId):
+    user = await testuser.get(user_id)
+    if user is None:
+        raise HTTPException(status_code=404, detail="Note not found")
+    return user
+
+@router.post('/add_user')
+async def adduser(name,age):
+    user = testuser(name=name, age=age)
+    await user.insert()
+
+@router.post('/add_users')
+async def addusers(details:testuser):
+    user = testuser(name=details.name, age=details.age)
+    await user.insert()
+
+@router.get('/gg')
+async def test_get_api(testuser: testuser = Depends(get_user)):
+    return testuser
+
 
 # @user.get("/search_restaurant")
 # async def search_restaurant(
@@ -62,19 +77,8 @@ async def test():
 
 #     return {"uid":result[0]["uid"], "username": username,"password":result[0]["password"]}
 
-async def get_user(user_id: PydanticObjectId) -> testuser:
-    user = await testuser.get(user_id)
-    if user is None:
-        raise HTTPException(status_code=404, detail="Note not found")
-    return user
 
 
-@router.get('/test_get_api')
-async def test_get_api(testuser: testuser = Depends(get_user)):
-    return testuser
 
-# @user.get('/test')
-# async def test():
-#     return {"gg":"wp"}
 
 

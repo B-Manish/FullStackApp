@@ -1,59 +1,80 @@
 {
   "restaurants": [
     {
-      "rid": 1,
       "name": "Saravana Bhavan",
-      "type": "South Indian",
-      "distance": "2kms",
+      "type": [
+        "South Indian"
+      ],
+      "locations": [
+        "Perungudi",
+        "Anna Nagar"
+      ],
       "timings": "7AM-10PM",
-      "menu": [
-        {
-          "mid": 1,
-          "name": "idli",
-          "price": "Rs.30",
-          "rating": 4.3
-        },
-        { "mid": 2, "name": "dosa", "price": "Rs.50", "rating": 4.3 },
-        { "mid": 3, "name": "pongal", "price": "Rs.70", "rating": 4.5 }
-      ]
+      "rating": 4.4,
+      "menu": {
+        "veg": [
+          {
+            "name": "idli",
+            "price": "Rs.30",
+            "rating": 4.3
+          },
+          {
+            "name": "dosa",
+            "price": "Rs.50",
+            "rating": 4.3
+          },
+          {
+            "name": "pongal",
+            "price": "Rs.70",
+            "rating": 4.5
+          }
+        ]
+      }
     },
     {
-      "rid": 2,
-      "name": "Gupta Bhavan",
-      "type": "South Indian",
-      "distance": "0.2kms",
-      "timings": "7AM-10PM",
-      "menu": [
-        {
-          "mid": 1,
-          "name": "idli",
-          "price": "Rs.20",
-          "rating": 4.3
-        },
-        { "mid": 2, "name": "dosa", "price": "Rs.30", "rating": 4.3 },
-        { "mid": 3, "name": "pongal", "price": "Rs.50", "rating": 4.5 }
-      ]
-    },
-    {
-      "rid": 3,
       "name": "Ovenstory",
-      "type": "Pizza",
-      "distance": "2.9kms",
-      "timings": "24Hrs",
-      "menu": [
-        {
-          "mid": 1,
-          "name": "pizza",
-          "price": "Rs.200",
-          "rating": 4.3
-        },
-        { "mid": 2, "name": "shezwan pizza", "price": "Rs.300", "rating": 3.9 },
-        { "mid": 3, "name": "garlic bread", "price": "Rs.150", "rating": 4.4 }
-      ]
+      "type": [
+        "Pizza"
+      ],
+      "locations": [
+        "Kandanchavadi",
+        "T Nagar"
+      ],
+      "timings": "12AM-12AM",
+      "rating": 4.2,
+      "menu": {
+        "veg": [
+          {
+            "name": "shezwan pizza",
+            "price": "Rs.350",
+            "rating": 3.9
+          },
+          {
+            "name": "margerita",
+            "price": "Rs.250",
+            "rating": 4.6
+          }
+        ],
+        "non-veg": [
+          {
+            "name": "chicken pizza",
+            "price": "Rs.350",
+            "rating": 4.2
+          }
+        ]
+      }
     }
   ],
   "users": [
-    { "uid": 1, "username": "Manish", "password": "password", "orders": [] },
-    { "uid": 2, "username": "Batchu", "password": "password", "orders": [] }
+    {
+      "username": "Manish",
+      "password": "password",
+      "orders": []
+    },
+    {
+      "username": "Batchu",
+      "password": "password",
+      "orders": []
+    }
   ]
 }
