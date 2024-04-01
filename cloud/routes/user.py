@@ -64,3 +64,13 @@ async def test_get_api(testuser: User = Depends(get_user)):
 @user.get('/test')
 async def test():
     return {"gg":"wp"}
+
+
+@user.get("/testuser")
+async def get_user():
+    # user = await Testuser.get(user_id)
+    await testuser.find(testuser.age == 22, lazy_parse=True).to_list()
+    if user:
+        return user
+    else:
+        raise HTTPException(status_code=404, detail="User not found")
