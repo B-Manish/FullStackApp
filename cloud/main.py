@@ -60,32 +60,59 @@
     
 
 
-import asyncio
-from typing import Optional
+# import asyncio
+# from typing import Optional
 
-from motor.motor_asyncio import AsyncIOMotorClient
-from pydantic import BaseModel
+# from motor.motor_asyncio import AsyncIOMotorClient
+# from pydantic import BaseModel
 
-from beanie import Document, Indexed, init_beanie
-
-
-class testuser(Document): 
-    name:str
-    age:int   
+# from beanie import Document, Indexed, init_beanie
 
 
-async def example():
-    client = AsyncIOMotorClient("mongodb+srv://manishbatchu:Q7h5KtERcGZdfJ4E@manishcluster.71tedsw.mongodb.net/")
-
-    await init_beanie(database=client.manishclouddb, document_models=[testuser])
-
-    test_testuser = testuser(name="gg", age=2)
-    await test_testuser.insert() 
+# class testuser(Document): 
+#     name:str
+#     age:int   
 
 
+# async def example():
+#     client = AsyncIOMotorClient("mongodb+srv://manishbatchu:Q7h5KtERcGZdfJ4E@manishcluster.71tedsw.mongodb.net/")
 
+#     await init_beanie(database=client.manishclouddb, document_models=[testuser])
+
+#     test_testuser = testuser(name="gg", age=2)
+#     await test_testuser.insert() 
+
+
+
+# if __name__ == "__main__":
+#     asyncio.run(example())
+
+
+from fastapi import FastAPI
+from routes import User
+from config.db import init
+from contextlib import asynccontextmanager
+ 
+app = FastAPI()
+ 
+ 
+ 
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+     await init()
+ 
+     yield
+app = FastAPI(lifespan=lifespan)
+app.include_router(User.router)
+ 
+ 
+ 
+ 
+ 
+ 
 if __name__ == "__main__":
-    asyncio.run(example())
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)    
 
 
 

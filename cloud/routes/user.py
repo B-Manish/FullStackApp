@@ -1,11 +1,23 @@
 from fastapi import APIRouter,Query, HTTPException, Depends
-from models.user import User 
-from config.db import conn 
+# from config.db import conn 
 from bson import ObjectId
 from models.user import testuser
 from beanie import PydanticObjectId
 
-user = APIRouter() 
+router = APIRouter() 
+
+@router.get('/test')
+async def test():
+    return {"gg":"wp"}
+
+# @app.get("/testuser")
+# async def get_user():
+
+#     await testuser.find(testuser.age == 22, lazy_parse=True).to_list()
+#     if user:
+#         return user
+#     else:
+#         raise HTTPException(status_code=404, detail="User not found")
 
 
 # @user.get('/get_test_data')
@@ -57,20 +69,12 @@ async def get_user(user_id: PydanticObjectId) -> testuser:
     return user
 
 
-@user.get('/test_get_api')
-async def test_get_api(testuser: User = Depends(get_user)):
+@router.get('/test_get_api')
+async def test_get_api(testuser: testuser = Depends(get_user)):
     return testuser
 
-@user.get('/test')
-async def test():
-    return {"gg":"wp"}
+# @user.get('/test')
+# async def test():
+#     return {"gg":"wp"}
 
 
-@user.get("/testuser")
-async def get_user():
-    # user = await Testuser.get(user_id)
-    await testuser.find(testuser.age == 22, lazy_parse=True).to_list()
-    if user:
-        return user
-    else:
-        raise HTTPException(status_code=404, detail="User not found")
