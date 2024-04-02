@@ -1,7 +1,7 @@
 from fastapi import APIRouter,Query, HTTPException, Depends
 # from config.db import conn 
 from bson import ObjectId
-from models.user import testuser
+from models.user import testuser,restaurants
 from beanie import PydanticObjectId
 
 router = APIRouter() 
@@ -37,6 +37,17 @@ async def addusers(details:testuser):
 @router.get('/gg')
 async def test_get_api(testuser: testuser = Depends(get_user)):
     return testuser
+
+
+
+
+@router.get('/get_restaurant')
+async def get_restaurant():
+    restaurantdata = await restaurants.get('660c3aa1736d2ea7a0dbf836')
+    if restaurantdata is None:
+        raise HTTPException(status_code=404, detail="Note not found")
+    return restaurantdata
+
 
 
 # @user.get("/search_restaurant")
