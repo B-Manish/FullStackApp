@@ -41,12 +41,12 @@ async def test_get_api(testuser: testuser = Depends(get_user)):
 
 
 
-@router.get('/get_restaurant')
-async def get_restaurant():
-    restaurantdata = await restaurants.get('660c3aa1736d2ea7a0dbf836')
+@router.get('/get_restaurants')
+async def get_restaurants():
+    restaurantdata = await restaurants.find().to_list()
     if restaurantdata is None:
         raise HTTPException(status_code=404, detail="Note not found")
-    return restaurantdata
+    return {"restaurantdata":restaurantdata}
 
 
 
