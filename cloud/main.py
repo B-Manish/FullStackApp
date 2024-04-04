@@ -7,11 +7,12 @@ from contextlib import asynccontextmanager
  
 app = FastAPI()
  
-origins = [
-    "http://localhost:8000",
-    "http://localhost:3000",
-    "http://localhost:5000/"
-]
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+     await init()
+ 
+     yield
+app = FastAPI(lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
@@ -20,13 +21,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
- 
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-     await init()
- 
-     yield
-app = FastAPI(lifespan=lifespan)
+
 app.include_router(User.router)
  
  
