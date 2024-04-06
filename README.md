@@ -20,3 +20,4 @@ how are images stored
 add img urls,description, number of ratings to menuitems
 and img urls to restaurants
 on hover of each card reduce the scale to 90%
+work on add to cart api-ideally it is not dependent on login
