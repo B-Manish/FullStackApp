@@ -4,9 +4,20 @@ import Swiggy from "../assets/swiggy.svg";
 import SwiggyRating from "../assets/swiggyrating.png";
 import Icon from "./Icon";
 
-function RestaurantCard({ imgSrc, imgHeight, imgWidth, name, rating, type }) {
+function RestaurantCard({
+  imgSrc,
+  imgHeight,
+  imgWidth,
+  name,
+  rating,
+  type,
+  clickHandler,
+}) {
   return (
-    <Box>
+    <Box
+      onClick={clickHandler}
+      sx={{ cursor: "pointer", border: "1px solid red" }}
+    >
       <img
         src={imgSrc}
         alt="img"

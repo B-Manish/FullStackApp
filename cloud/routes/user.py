@@ -48,6 +48,13 @@ async def get_restaurants():
         raise HTTPException(status_code=404, detail="Note not found")
     return {"restaurantdata":restaurantdata}
 
+@router.get('/get_restaurant_details/{id}')
+async def gg(id: PydanticObjectId):
+    restaurant = await restaurants.get(id)
+    if restaurant is None:
+        raise HTTPException(status_code=404, detail="Note not found")
+    return {"restaurant":restaurant}
+
 
 
 # @user.get("/search_restaurant")
