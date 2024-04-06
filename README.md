@@ -17,3 +17,6 @@ db.<your_collection_name>.drop() : to delete a collection
 
 get restaurants based on restaurant or menuitem
 how are images stored
+add img urls,description, number of ratings to menuitems
+and img urls to restaurants
+on hover of each card reduce the scale to 90%

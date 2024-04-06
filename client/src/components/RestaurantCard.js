@@ -1,7 +1,7 @@
 import { Box, InputBase, Grid, Typography } from "@mui/material";
 import React, { useState, useEffect } from "react";
-import Swiggy from "../assets/swiggy.svg";
 import SwiggyRating from "../assets/swiggyrating.png";
+import PlaceHolder from "../assets/placeholder.png";
 import Icon from "./Icon";
 
 function RestaurantCard({
@@ -16,13 +16,20 @@ function RestaurantCard({
   return (
     <Box
       onClick={clickHandler}
-      sx={{ cursor: "pointer", border: "1px solid red" }}
+      sx={{ cursor: "pointer", border: "1px solid red", width: "80%" }}
     >
-      <img
-        src={imgSrc}
-        alt="img"
-        style={{ height: "180px", width: "270px", border: "1px solid red" }}
-      />
+      <Box
+        sx={{
+          borderRadius: "20px",
+        }}
+      >
+        <Icon
+          src={imgSrc || PlaceHolder}
+          isRounded
+          imgWidth="100%"
+          imgHeight="100%"
+        />
+      </Box>
       <Typography>{name}</Typography>
       <Box sx={{ display: "flex" }}>
         <Icon src={SwiggyRating} />

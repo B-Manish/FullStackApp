@@ -22,7 +22,7 @@ function Home() {
   return (
     <Box>
       Home Page
-      <Grid container>
+      <Grid container sx={{ border: "1px solid blue", width: "80vw" }}>
         {restData?.data?.restaurantdata?.map((item, index) => (
           <Grid
             item
@@ -32,10 +32,11 @@ function Home() {
               border: "1px solid yellow",
               display: "grid",
               placeItems: "center",
+              padding: "20px",
             }}
           >
             <RestaurantCard
-              imgSrc={Swiggy}
+              // imgSrc={Swiggy}
               name={item?.name}
               rating={item?.rating}
               type={item?.type[0]}

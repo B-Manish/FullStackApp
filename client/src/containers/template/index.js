@@ -4,7 +4,7 @@ import Navbar from "../../components/Navbar";
 
 function Template({ screen }) {
   return (
-    <Box sx={{ width: "100vw", height: "100vh", border: "1px solid yellow" }}>
+    <Box sx={{ width: "99.93vw", display: "grid", placeItems: "center" }}>
       <Navbar />
       <Box>{screen}</Box>
     </Box>
