@@ -16,7 +16,15 @@ function RestaurantCard({
   return (
     <Box
       onClick={clickHandler}
-      sx={{ cursor: "pointer", border: "1px solid red", width: "80%" }}
+      sx={{
+        cursor: "pointer",
+        border: "1px solid red",
+        width: "90%",
+        "&:hover": {
+          transform: "scale(0.9)",
+          transition: "transform 0.2s ease",
+        },
+      }}
     >
       <Box
         sx={{

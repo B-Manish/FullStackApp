@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import Home from "./containers/home";
 import Template from "./containers/template";
 import RestaurantDetails from "./containers/restaurantdetails";
+import SignUp from "./components/SIgnUp";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
         path="/restaurant/:restaurantID"
         element={<Template screen={<RestaurantDetails />} />}
       />
+      <Route path="/signup" element={<Template screen={<SignUp />} />} />
     </Routes>
   );
 }
