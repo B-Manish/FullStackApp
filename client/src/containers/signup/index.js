@@ -1,4 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import {
+  Box,
+  InputBase,
+  Grid,
+  Typography,
+  Input,
+  TextField,
+} from "@mui/material";
 import UserPool from "../../UserPool";
 
 const SignUp = () => {
@@ -6,7 +14,8 @@ const SignUp = () => {
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState();
   const onSubmit = (event) => {
-    event.preventDefault();
+    // event.preventDefault();
+    console.log("clicked submit");
     UserPool.signUp(
       email,
       password,
@@ -20,30 +29,135 @@ const SignUp = () => {
       }
     );
   };
+
   return (
-    <div>
-      <form onSubmit={onSubmit}>
-        <label htmlFor="email">Email</label>
-        <input
+    <Box sx={{ width: "360px" }}>
+      <Typography
+        sx={{ color: "#282C3F", fontSize: "30px", marginBottom: "50px" }}
+      >
+        Sign Up
+      </Typography>
+      <Box
+        sx={{
+          border: "1px solid #d4d5d9",
+          height: "72px",
+          padding: "7px 0 0 20px",
+        }}
+      >
+        <TextField
+          id="standard-basic"
+          label="Email"
+          variant="standard"
           value={email}
           onChange={(event) => setEmail(event.target.value)}
-        ></input>
-
-        <label htmlFor="password">Password</label>
-        <input
+          InputLabelProps={{
+            style: { color: "#93959f" },
+          }}
+          sx={{
+            "& .MuiInput-underline:before": {
+              borderBottom: "none",
+            },
+            "& .MuiInput-underline:after": {
+              borderBottom: "none",
+            },
+            "& .MuiInput-root": {
+              "&:hover:not(.Mui-disabled):before": {
+                borderBottom: "none",
+              },
+            },
+          }}
+        />
+      </Box>
+      <Box
+        sx={{
+          border: "1px solid #d4d5d9",
+          height: "72px",
+          padding: "7px 0 0 20px",
+        }}
+      >
+        <TextField
+          id="standard-basic"
+          label="Password"
+          variant="standard"
           value={password}
           onChange={(event) => setPassword(event.target.value)}
-        ></input>
-
-        <label htmlFor="phone">Phone</label>
-        <input
+          InputLabelProps={{
+            style: { color: "#93959f" },
+          }}
+          sx={{
+            "& .MuiInput-underline:before": {
+              borderBottom: "none",
+            },
+            "& .MuiInput-underline:after": {
+              borderBottom: "none",
+            },
+            "& .MuiInput-root": {
+              "&:hover:not(.Mui-disabled):before": {
+                borderBottom: "none",
+              },
+            },
+          }}
+        />
+      </Box>
+      <Box
+        sx={{
+          border: "1px solid #d4d5d9",
+          height: "72px",
+          padding: "7px 0 0 20px",
+        }}
+      >
+        <TextField
+          id="standard-basic"
+          label="Phone"
+          variant="standard"
           value={phone}
           onChange={(event) => setPhone(event.target.value)}
-        ></input>
+          InputLabelProps={{
+            style: { color: "#93959f" },
+          }}
+          sx={{
+            "& .MuiInput-underline:before": {
+              borderBottom: "none",
+            },
+            "& .MuiInput-underline:after": {
+              borderBottom: "none",
+            },
+            "& .MuiInput-root": {
+              "&:hover:not(.Mui-disabled):before": {
+                borderBottom: "none",
+              },
+            },
+          }}
+        />
+      </Box>
 
-        <button type="submit">SignUp</button>
-      </form>
-    </div>
+      <Box
+        onClick={() => onSubmit()}
+        sx={{
+          background: "#FC8019",
+          height: "50px",
+          color: "white",
+          fontWeight: "700",
+          display: "grid",
+          placeItems: "center",
+          cursor: "pointer",
+          margin: "35px 0 0 0",
+        }}
+      >
+        CONTINUE
+      </Box>
+
+      <Typography
+        sx={{
+          mt: "6px",
+          color: "#686b78",
+          fontSize: "12px",
+          fontWeight: "500",
+        }}
+      >
+        By creating an account,I accept the Terms & Conditions & Privacy Policy
+      </Typography>
+    </Box>
   );
 };
 export default SignUp;
