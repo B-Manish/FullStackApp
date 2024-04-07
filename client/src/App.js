@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import Home from "./containers/home";
 import Template from "./containers/template";
 import RestaurantDetails from "./containers/restaurantdetails";
-import SignUp from "./components/SIgnUp";
+import SignUp from "./containers/signup";
 
 function App() {
   return (
