@@ -46,12 +46,6 @@ const SignIn = () => {
           onChange={(event) => setPassword(event.target.value)}
         ></input>
 
-        <label htmlFor="phone">Phone</label>
-        <input
-          value={phone}
-          onChange={(event) => setPhone(event.target.value)}
-        ></input>
-
         <button type="submit">SignIn</button>
       </form>
     </div>
