@@ -1,10 +1,12 @@
 import { Paper, Box } from "@mui/material";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import Swiggy from "../assets/swiggy.svg";
 import Icon from "./Icon";
 import NavbarCards from "./NavbarCards";
 
 function Navbar() {
+  const navigate = useNavigate();
   const navbaritems = [
     { heading: "Search", hasSearch: true, hasSignin: false },
     { heading: "Sign In", hasSearch: false, hasSignin: true },
@@ -28,7 +30,19 @@ function Navbar() {
           justifyContent: "space-between",
         }}
       >
-        <Icon src={Swiggy} imgWidth="37px" imgHeight="54px" />
+        <Box
+          onClick={() => navigate("/")}
+          sx={{
+            cursor: "pointer",
+            "&:hover": {
+              transform: "scale(1.1)",
+              transition: "transform 0.2s ease",
+            },
+          }}
+        >
+          <Icon src={Swiggy} imgWidth="37px" imgHeight="54px" />
+        </Box>
+
         <Box sx={{ display: "flex" }}>
           {navbaritems.map((item, index) => (
             <Box

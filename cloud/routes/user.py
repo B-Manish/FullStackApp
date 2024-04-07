@@ -1,7 +1,7 @@
 from fastapi import APIRouter,Query, HTTPException, Depends
 # from config.db import conn 
 from bson import ObjectId
-from models.user import testuser,restaurants
+from models.user import testuser,restaurants,cart
 from beanie import PydanticObjectId
 
 router = APIRouter() 
@@ -49,11 +49,22 @@ async def get_restaurants():
     return {"restaurantdata":restaurantdata}
 
 @router.get('/get_restaurant_details/{id}')
-async def gg(id: PydanticObjectId):
+async def get_restaurant_data(id: PydanticObjectId):
     restaurant = await restaurants.get(id)
     if restaurant is None:
         raise HTTPException(status_code=404, detail="Note not found")
     return {"restaurant":restaurant}
+
+
+@router.get('/get_cart_details/')
+async def get_cart_details(mail: str = Query(None)):  
+    if mail is None:
+        cart_id = ObjectId("661272104501ec3f470518f2")
+        cartdetails = await cart.get(cart_id)
+        return {"cart": cartdetails} 
+    return {"gg": "wp"}
+
+
 
 
 

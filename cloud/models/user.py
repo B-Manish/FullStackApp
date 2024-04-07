@@ -25,4 +25,32 @@ class restaurants(Document):
     menu:menu
 
 
+class cartitem(BaseModel):
+    name:str
+    price:str
+    rating:float
+    quantity:int
+
+
+class cartmenu(BaseModel): 
+    veg:Optional[List[cartitem]] = None     
+    nonveg:Optional[List[cartitem]] = None 
+
+
+class billdetails(BaseModel):
+    deliveryFee: int
+    hasOne: bool
+    platformFee: int
+    gst: int
+    total: int
+
+
+
+class cart(Document):
+    restaurantid:str 
+    items:cartmenu
+    billdetails: billdetails
+
+
+
     
