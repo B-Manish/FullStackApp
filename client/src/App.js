@@ -3,6 +3,7 @@ import Home from "./containers/home";
 import Template from "./containers/template";
 import RestaurantDetails from "./containers/restaurantdetails";
 import SignUp from "./containers/signup";
+import SignIn from "./containers/signin";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         element={<Template screen={<RestaurantDetails />} />}
       />
       <Route path="/signup" element={<Template screen={<SignUp />} />} />
+      <Route path="/signin" element={<Template screen={<SignIn />} />} />
     </Routes>
   );
 }
