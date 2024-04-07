@@ -1,21 +1,14 @@
 import React, { useEffect, useState } from "react";
-import {
-  Box,
-  InputBase,
-  Grid,
-  Typography,
-  Input,
-  TextField,
-} from "@mui/material";
+import { Box, Typography, TextField } from "@mui/material";
 import UserPool from "../../UserPool";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState();
   const onSubmit = (event) => {
-    // event.preventDefault();
-    console.log("clicked submit");
     UserPool.signUp(
       email,
       password,
@@ -24,6 +17,9 @@ const SignUp = () => {
       (err, data) => {
         if (err) {
           console.error(err);
+        }
+        if (data) {
+          navigate("/signin");
         }
         console.log(data);
       }
