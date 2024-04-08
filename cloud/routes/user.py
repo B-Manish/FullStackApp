@@ -65,6 +65,40 @@ async def get_cart_details(mail: str = Query(None)):
     return {"gg": "wp"}
 
 
+@router.post('/add_to_cart')
+async def add_to_cart(menuitemid:int):
+    vegornonveg=""
+    restaurantid=""
+    restaurantdata = await restaurants.find().to_list()
+    for restaurant in restaurantdata:
+        # restaurantid=restaurant._id # ask how to set id
+        restmenu=restaurant.menu 
+        veg=restmenu.veg
+        nonveg=restmenu.nonveg
+        if veg is not None:
+            for menuitem in veg:
+                if menuitem.mid==menuitemid:
+                    vegornonveg="veg"
+                    # restaurantid=restaurant["_id"]  should set it here
+
+        if nonveg is not None:
+            for menuitem in nonveg:
+                if menuitem.mid==menuitemid:
+                    vegornonveg="nonveg"
+                    # restaurantid=restaurant["_id"] should set it here
+
+    return {"restaurantid":restaurantid, "type":vegornonveg } 
+
+
+
+
+
+
+       
+
+
+
+
 
 
 
