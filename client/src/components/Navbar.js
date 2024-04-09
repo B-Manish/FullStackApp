@@ -1,18 +1,27 @@
 import { Paper, Box } from "@mui/material";
-import React from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import Swiggy from "../assets/swiggy.svg";
 import Icon from "./Icon";
 import NavbarCards from "./NavbarCards";
+import CustomModal from "./CustomModal";
+import SignIn from "../containers/signin";
+import { LoginContext } from "../context/LoginContext";
 
 function Navbar() {
   const navigate = useNavigate();
+  const { username, isLoggedIn } = useContext(LoginContext);
+  const [openModal, setOpenModal] = useState(false);
   const ppp = () => {
     console.log("p");
   };
 
-  const goToSignin = () => {
-    navigate("/signin");
+  const openSigninModal = () => {
+    setOpenModal(true);
+  };
+
+  const handleClose = () => {
+    setOpenModal(false);
   };
   const navbaritems = [
     {
@@ -22,10 +31,10 @@ function Navbar() {
       clickHandler: ppp,
     },
     {
-      heading: "Sign In",
+      heading: isLoggedIn ? username : "Sign In",
       hasSearch: false,
       hasSignin: true,
-      clickHandler: goToSignin,
+      clickHandler: openSigninModal,
     },
   ];
   return (
@@ -39,6 +48,9 @@ function Navbar() {
           "0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)",
       }}
     >
+      <CustomModal open={openModal} handleClose={handleClose}>
+        <SignIn />
+      </CustomModal>
       <Box
         sx={{
           display: "flex",

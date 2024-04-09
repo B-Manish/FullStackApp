@@ -6,7 +6,7 @@ export const fetchrestaurantdata = createAsyncThunk(
     const response = await fetch(
       `http://localhost:8000/get_restaurant_details/${id}`
     );
-    console.log("response.json()", response.json());
+    // console.log("response.json()", response.json());
     return response.json();
   }
 );

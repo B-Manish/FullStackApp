@@ -52,9 +52,9 @@ function RestaurantDetails() {
 
   const gg = useSelector((state) => state);
 
-  useEffect(() => {
-    console.log("detail", gg);
-  }, [gg, restaurantID]);
+  // useEffect(() => {
+  //   console.log("detail", gg);
+  // }, [gg, restaurantID]);
 
   return (
     <Box sx={{ width: "800px" }}>

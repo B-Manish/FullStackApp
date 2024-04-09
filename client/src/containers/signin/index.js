@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { CognitoUser, AuthenticationDetails } from "amazon-cognito-identity-js";
 import UserPool from "../../UserPool";
+import { LoginContext } from "../../context/LoginContext";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [phone, setPhone] = useState();
+  const { setUsername, setIsLoggedIn } = useContext(LoginContext);
   const onSubmit = (event) => {
     event.preventDefault();
 
@@ -22,6 +23,9 @@ const SignIn = () => {
     user.authenticateUser(authDetails, {
       onSuccess: (data) => {
         console.log("onSuccess: ", data);
+        console.log("data?.idToken?.email", data?.idToken?.email);
+        setIsLoggedIn(true);
+        setUsername("Cognito User");
       },
       onFailure: (err) => {
         console.error("onFailure: ", err);

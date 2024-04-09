@@ -6,14 +6,17 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import { store } from "./redux/store";
+import LoginProvider from "./context/LoginContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <LoginProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </LoginProvider>
     </Provider>
   </React.StrictMode>
 );
