@@ -70,6 +70,7 @@ function RestaurantDetails() {
 
       {data?.restaurant?.menu?.veg?.map((item, index) => (
         <MenuItemCard
+          key={item.name}
           isVeg
           name={item?.name}
           cost={item?.price}
