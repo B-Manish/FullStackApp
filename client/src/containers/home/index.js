@@ -4,12 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { fetchallrestaurantsdata } from "../../redux/restaurantSlice";
 import RestaurantCard from "../../components/RestaurantCard";
-import Swiggy from "../../assets/swiggy.svg";
-import { LoginContext } from "../../context/LoginContext";
 
 function Home() {
   const navigate = useNavigate();
-  const { username } = useContext(LoginContext);
   useEffect(() => {
     dispatch(fetchallrestaurantsdata());
   }, []);
@@ -23,7 +20,6 @@ function Home() {
 
   return (
     <Box>
-      Hi {username}
       <Grid container sx={{ border: "1px solid blue", width: "80vw" }}>
         {restData?.data?.restaurantdata?.map((item, index) => (
           <Grid
