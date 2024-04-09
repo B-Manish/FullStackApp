@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routes import User
+from routes import user
 from config.db import init
 from contextlib import asynccontextmanager
 
@@ -22,7 +22,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(User.router)
+app.include_router(user.router)
  
  
  
