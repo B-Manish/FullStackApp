@@ -7,9 +7,26 @@ import NavbarCards from "./NavbarCards";
 
 function Navbar() {
   const navigate = useNavigate();
+  const ppp = () => {
+    console.log("p");
+  };
+
+  const goToSignin = () => {
+    navigate("/signin");
+  };
   const navbaritems = [
-    { heading: "Search", hasSearch: true, hasSignin: false },
-    { heading: "Sign In", hasSearch: false, hasSignin: true },
+    {
+      heading: "Search",
+      hasSearch: true,
+      hasSignin: false,
+      clickHandler: ppp,
+    },
+    {
+      heading: "Sign In",
+      hasSearch: false,
+      hasSignin: true,
+      clickHandler: goToSignin,
+    },
   ];
   return (
     <Paper
@@ -56,6 +73,7 @@ function Navbar() {
                 heading={item?.heading}
                 hasSearch={item?.hasSearch}
                 hasSignin={item?.hasSignin}
+                clickhandler={item?.clickHandler}
               />
             </Box>
           ))}

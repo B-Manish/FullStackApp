@@ -16,6 +16,7 @@ function NavbarCards({ img, heading, clickhandler, hasSearch, hasSignin }) {
       }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      onClick={() => clickhandler()}
     >
       {img && <Icon src={img} />}
       {hasSearch && (
