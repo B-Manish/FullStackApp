@@ -17,7 +17,9 @@ function Navbar() {
   };
 
   const openSigninModal = () => {
-    setOpenModal(true);
+    if (!isLoggedIn) {
+      setOpenModal(true);
+    }
   };
 
   const handleClose = () => {
@@ -29,12 +31,14 @@ function Navbar() {
       hasSearch: true,
       hasSignin: false,
       clickHandler: ppp,
+      isLoggedIn: isLoggedIn,
     },
     {
       heading: isLoggedIn ? username : "Sign In",
       hasSearch: false,
       hasSignin: true,
       clickHandler: openSigninModal,
+      isLoggedIn: isLoggedIn,
     },
   ];
   return (
@@ -86,6 +90,8 @@ function Navbar() {
                 hasSearch={item?.hasSearch}
                 hasSignin={item?.hasSignin}
                 clickhandler={item?.clickHandler}
+                type={item?.type || "notsignin"}
+                isLoggedIn={item?.isLoggedIn}
               />
             </Box>
           ))}

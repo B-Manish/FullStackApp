@@ -1,11 +1,33 @@
 import { Box, Typography } from "@mui/material";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Icon from "./Icon";
 import SearchIcon from "@mui/icons-material/Search";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
+import SignInDropDownModal from "./SigninDropdownModal";
 
-function NavbarCards({ img, heading, clickhandler, hasSearch, hasSignin }) {
+function NavbarCards({
+  img,
+  heading,
+  clickhandler,
+  hasSearch,
+  hasSignin = false,
+  isLoggedIn,
+}) {
   const [isHovered, setIsHovered] = useState(false);
+  const [openSigninDropdownModal, setOpenSigninDropdownModal] = useState(false);
+  const openModal = () => {
+    if (isLoggedIn === true && hasSignin && openSigninDropdownModal === false) {
+      setOpenSigninDropdownModal(true);
+    }
+  };
+
+  const handleClose = () => {
+    setOpenSigninDropdownModal(false);
+  };
+
+  useEffect(() => {
+    console.log("openSigninDropdownModal", openSigninDropdownModal);
+  }, [openSigninDropdownModal]);
   return (
     <Box
       sx={{
@@ -13,11 +35,22 @@ function NavbarCards({ img, heading, clickhandler, hasSearch, hasSignin }) {
         cursor: "pointer",
         height: "80px",
         alignItems: "center",
+        border: "1px solid red",
       }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseEnter={() => {
+        setIsHovered(true);
+        openModal();
+      }}
+      onMouseLeave={() => {
+        setIsHovered(false);
+        handleClose();
+      }}
       onClick={() => clickhandler()}
     >
+      <SignInDropDownModal
+        open={openSigninDropdownModal}
+        handleClose={handleClose}
+      />
       {img && <Icon src={img} />}
       {hasSearch && (
         <SearchIcon style={{ color: isHovered ? "#FC8019" : "#3D4152" }} />
