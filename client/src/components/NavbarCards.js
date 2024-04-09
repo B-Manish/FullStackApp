@@ -25,9 +25,6 @@ function NavbarCards({
     setOpenSigninDropdownModal(false);
   };
 
-  useEffect(() => {
-    console.log("openSigninDropdownModal", openSigninDropdownModal);
-  }, [openSigninDropdownModal]);
   return (
     <Box
       sx={{

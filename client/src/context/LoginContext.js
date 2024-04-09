@@ -30,7 +30,7 @@ const LoginProvider = ({ children }) => {
     const user = UserPool.getCurrentUser(); // tells whether user exists or not
     if (user) {
       user.signOut(); // cognito's logout function
-      // navigate("/signin");
+      setIsLoggedIn(false);
     }
   };
 
