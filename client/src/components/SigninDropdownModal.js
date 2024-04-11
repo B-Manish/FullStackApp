@@ -23,7 +23,7 @@ const SignInDropDownModal = ({ open, handleClose }) => {
             boorder: "1px solid red",
           }}
         >
-          <Box onClick={() => logOut} sx={{ cursor: "pointer" }}>
+          <Box onClick={() => logOut()} sx={{ cursor: "pointer" }}>
             logout
           </Box>
         </Box>
