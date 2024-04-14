@@ -48,7 +48,8 @@ class billdetails(BaseModel):
 
 
 class cart(Document):
-    restaurantid:str 
+    username:str
+    restaurantname:str 
     items:cartmenu
     billdetails: billdetails
 

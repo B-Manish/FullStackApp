@@ -59,7 +59,7 @@ async def get_restaurant_data(id: PydanticObjectId):
 @router.get('/get_cart_details/')
 async def get_cart_details(mail: str = Query(None)):  
     if mail is None:
-        cart_id = ObjectId("661272104501ec3f470518f2")
+        cart_id = ObjectId("661c2f59628892a1178dd693")
         cartdetails = await cart.get(cart_id)
         return {"cart": cartdetails} 
     return {"gg": "wp"}
@@ -71,23 +71,24 @@ async def add_to_cart(menuitemid:int):
     restaurantid=""
     restaurantdata = await restaurants.find().to_list()
     for restaurant in restaurantdata:
-        # restaurantid=restaurant._id # ask how to set id
+         # ask how to set id
         restmenu=restaurant.menu 
+        print(restmenu)
         veg=restmenu.veg
         nonveg=restmenu.nonveg
         if veg is not None:
             for menuitem in veg:
                 if menuitem.mid==menuitemid:
                     vegornonveg="veg"
-                    # restaurantid=restaurant["_id"]  should set it here
+                    restaurantname=restaurant.name
 
         if nonveg is not None:
             for menuitem in nonveg:
                 if menuitem.mid==menuitemid:
                     vegornonveg="nonveg"
-                    # restaurantid=restaurant["_id"] should set it here
+                    restaurantname=restaurant.name
 
-    return {"restaurantid":restaurantid, "type":vegornonveg } 
+    return {"restaurantname":restaurantname, "type":vegornonveg } 
 
 
 
