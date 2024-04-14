@@ -6,7 +6,7 @@ import NonVeg from "../assets/nonveg.png";
 import Saravana from "../assets/saravanabhavan.png";
 import PlaceHolder from "../assets/placeholder.png";
 import Star from "../assets/greenstar.png";
-
+import AddButton from "./AddButton";
 import Icon from "./Icon";
 
 function MenuItemCard({ img, isVeg, name, cost, rating }) {
@@ -50,7 +50,12 @@ function MenuItemCard({ img, isVeg, name, cost, rating }) {
         </Box>
       </Grid>
 
-      <Grid item xs={4} sx={{ display: "grid", placeItems: "center" }}>
+      <Grid
+        item
+        xs={4}
+        sx={{ display: "grid", placeItems: "center", position: "relative" }}
+      >
+        <AddButton />
         {!img ? (
           <Icon
             src={PlaceHolder}
