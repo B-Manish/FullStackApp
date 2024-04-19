@@ -57,6 +57,14 @@ function NavbarCards({
           style={{ color: isHovered ? "#FC8019" : "#3D4152" }}
         />
       )}
+
+      {heading === "Cart" && (
+        <Box
+          sx={{ fontSize: "16px", color: isHovered ? "#FC8019" : "#3D4152" }}
+        >
+          0
+        </Box>
+      )}
       <Typography
         sx={{
           marginLeft: "5px",

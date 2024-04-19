@@ -1,12 +1,14 @@
 import { Paper, Box } from "@mui/material";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Swiggy from "../assets/swiggy.svg";
 import Icon from "./Icon";
 import NavbarCards from "./NavbarCards";
 import CustomModal from "./CustomModal";
 import SignIn from "../containers/signin";
+import { useDispatch, useSelector } from "react-redux";
 import { LoginContext } from "../context/LoginContext";
+import { fetchCartdata } from "../redux/cartSlice";
 
 function Navbar() {
   const navigate = useNavigate();
@@ -15,6 +17,17 @@ function Navbar() {
   const ppp = () => {
     console.log("p");
   };
+
+  useEffect(() => {
+    dispatch(fetchCartdata());
+  }, []);
+
+  const dispatch = useDispatch();
+  const cartData = useSelector((state) => state);
+
+  useEffect(() => {
+    console.log("cartData", cartData);
+  }, [cartData]);
 
   const openSigninModal = () => {
     if (!isLoggedIn) {
@@ -38,6 +51,14 @@ function Navbar() {
       hasSearch: false,
       hasSignin: true,
       clickHandler: openSigninModal,
+      isLoggedIn: isLoggedIn,
+    },
+
+    {
+      heading: "Cart",
+      hasSearch: false,
+      hasSignin: false,
+      clickHandler: ppp,
       isLoggedIn: isLoggedIn,
     },
   ];

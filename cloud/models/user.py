@@ -44,6 +44,7 @@ class billdetails(BaseModel):
     platformFee: int
     gst: int
     total: int
+    totalQuantity:int
 
 
 
