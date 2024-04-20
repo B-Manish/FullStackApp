@@ -63,7 +63,9 @@ async def get_cart_details(mail: str = Query(None)):# makes mail optional
         cart_id = ObjectId("66238088d6f3ad69e5a024cf")
         cartdetails = await cart.get(cart_id)
         return {"cart": cartdetails} 
-    return {"gg": "wp"}
+    else:
+        cartdetails = await cart.find_one({'username': mail})
+        return {"cart": cartdetails} 
 
 
 @router.post('/add_to_cart')
