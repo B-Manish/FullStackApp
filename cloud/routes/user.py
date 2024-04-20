@@ -4,6 +4,10 @@ from bson import ObjectId
 from models.user import testuser,restaurants,cart
 from beanie import PydanticObjectId
 import boto3
+from pymongo import MongoClient
+
+client = MongoClient("mongodb+srv://manishbatchu:Q7h5KtERcGZdfJ4E@manishcluster.71tedsw.mongodb.net/")
+db = client["manishclouddb"]
 
 router = APIRouter() 
 
@@ -132,7 +136,13 @@ async def add_to_cart( menuitemid:int,mail:str= Query(None),):
 
     cartdocument = await cart.aggregate(pipeline).to_list()
     id=cartdocument[0]["_id"]
-                
+
+    dbcart = db["cart"]
+    
+    updated_data = {"$set": {"restaurantname":"Ovenstory3"}}
+    if id is not None:
+        dbcart.update_one({"_id": ObjectId(id)}, updated_data)
+    
     return {"restaurantname":restaurantname, "type":vegornonveg,"tobeaddedtocartdetails":tobeaddedtocartdetails,"id":id } 
 
 
