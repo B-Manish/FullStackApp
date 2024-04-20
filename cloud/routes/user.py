@@ -58,7 +58,30 @@ async def get_restaurant_data(id: PydanticObjectId):
 
 
 @router.get('/get_cart_details/')
-async def get_cart_details(mail: str = Query(None)):# makes mail optional  
+    # pipeline=[
+    #     {
+    #         "$project": {
+    #             "_id": 0,
+    #             "veg": {
+    #                 "$filter": {
+    #                     "input": "$items.veg",
+    #                     "as": "vegItem",
+    #                     "cond": {"$eq": ["$$vegItem.mid", 6]}
+    #                 }
+    #             },
+    #             "nonveg": {
+    #                 "$filter": {
+    #                     "input": "$items.nonveg",
+    #                     "as": "nonvegItem",
+    #                     "cond": {"$eq": ["$$nonvegItem.mid", 6]}
+    #                 }
+    #             }
+    #         }
+    #     }
+    # ]
+    # cartdetails = await cart.aggregate(pipeline).to_list(None)
+    # return cartdetails
+async def get_cart_details(mail: str = Query(None),mid: int = Query(None)):# makes mail and mid optional  
     if mail is None:
         cart_id = ObjectId("66238088d6f3ad69e5a024cf")
         cartdetails = await cart.get(cart_id)
@@ -66,6 +89,8 @@ async def get_cart_details(mail: str = Query(None)):# makes mail optional
     else:
         cartdetails = await cart.find_one({'username': mail})
         return {"cart": cartdetails} 
+
+
 
 
 @router.post('/add_to_cart')
