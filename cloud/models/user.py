@@ -24,6 +24,7 @@ class restaurants(Document):
     timings:str
     rating:float
     menu:menu
+    img:str
 
 
 class cartitem(BaseModel):

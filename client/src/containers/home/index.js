@@ -34,7 +34,7 @@ function Home() {
             }}
           >
             <RestaurantCard
-              // imgSrc={Swiggy}
+              imgSrc={item?.img}
               name={item?.name}
               rating={item?.rating}
               type={item?.type[0]}
