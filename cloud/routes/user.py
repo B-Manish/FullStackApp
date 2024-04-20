@@ -3,6 +3,7 @@ from fastapi import APIRouter,Query, HTTPException, Depends
 from bson import ObjectId
 from models.user import testuser,restaurants,cart
 from beanie import PydanticObjectId
+import boto3
 
 router = APIRouter() 
 
@@ -91,6 +92,16 @@ async def add_to_cart( menuitemid:int,username:str= Query(None),):
     return {"restaurantname":restaurantname, "type":vegornonveg } 
 
 
+
+
+@router.get('/gets3')
+async def generate_presigned_url():
+    s3_client = boto3.client('s3')
+    presigned_url = s3_client.generate_presigned_url(
+        'get_object',
+        Params={'Bucket': "fullstackapp", 'Key':"saravanabhavan.png"})
+
+    return presigned_url
 
 
 
