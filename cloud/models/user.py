@@ -40,7 +40,7 @@ class cartmenu(BaseModel):
     nonveg:Optional[List[cartitem]] = None 
 
 
-class billdetails(BaseModel):
+class billDetails(BaseModel):
     deliveryFee: int
     hasOne: bool
     platformFee: int
@@ -52,9 +52,9 @@ class billdetails(BaseModel):
 
 class cart(Document):
     username:str
-    restaurantname:str 
-    items:cartmenu
-    billdetails: billdetails
+    restaurantname:Optional[str]=None
+    items:Optional[cartmenu]=None
+    billdetails:Optional[billDetails]=None
 
 
 
