@@ -28,6 +28,7 @@ class restaurants(Document):
 
 
 class cartitem(BaseModel):
+    mid:int
     name:str
     price:str
     rating:float

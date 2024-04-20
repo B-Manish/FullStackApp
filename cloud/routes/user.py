@@ -60,7 +60,7 @@ async def get_restaurant_data(id: PydanticObjectId):
 @router.get('/get_cart_details/')
 async def get_cart_details(mail: str = Query(None)):# makes mail optional  
     if mail is None:
-        cart_id = ObjectId("661c2f59628892a1178dd693")
+        cart_id = ObjectId("66238088d6f3ad69e5a024cf")
         cartdetails = await cart.get(cart_id)
         return {"cart": cartdetails} 
     return {"gg": "wp"}
@@ -74,7 +74,6 @@ async def add_to_cart( menuitemid:int,username:str= Query(None),):
     for restaurant in restaurantdata:
          # ask how to set id
         restmenu=restaurant.menu 
-        print(restmenu)
         veg=restmenu.veg
         nonveg=restmenu.nonveg
         if veg is not None:
