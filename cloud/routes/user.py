@@ -130,9 +130,10 @@ async def add_to_cart( menuitemid:int,mail:str= Query(None),):
         # tobeaddedtocartdetails=await cart.distinct('id', {'username': mail})
 
 
-    id = await cart.aggregate(pipeline).to_list()
-                    
-    return {"restaurantname":restaurantname, "type":vegornonveg,"tobeaddedtocartdetails":tobeaddedtocartdetails,"id":id[0]["_id"] } 
+    cartdocument = await cart.aggregate(pipeline).to_list()
+    id=cartdocument[0]["_id"]
+                
+    return {"restaurantname":restaurantname, "type":vegornonveg,"tobeaddedtocartdetails":tobeaddedtocartdetails,"id":id } 
 
 
 
