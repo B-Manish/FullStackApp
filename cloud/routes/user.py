@@ -94,7 +94,7 @@ async def add_to_cart( menuitemid:int,username:str= Query(None),):
 
 
 
-@router.get('/gets3')
+@router.get('/get_presigned_url')
 async def generate_presigned_url():
     s3_client = boto3.client('s3')
     presigned_url = s3_client.generate_presigned_url(
