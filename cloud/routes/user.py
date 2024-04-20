@@ -81,7 +81,7 @@ async def get_restaurant_data(id: PydanticObjectId):
     # ]
     # cartdetails = await cart.aggregate(pipeline).to_list(None)
     # return cartdetails
-async def get_cart_details(mail: str = Query(None),mid: int = Query(None)):# makes mail and mid optional  
+async def get_cart_details(mail: str = Query(None)):# makes mail optional  
     if mail is None:
         cart_id = ObjectId("66238088d6f3ad69e5a024cf")
         cartdetails = await cart.get(cart_id)
@@ -94,12 +94,11 @@ async def get_cart_details(mail: str = Query(None),mid: int = Query(None)):# mak
 
 
 @router.post('/add_to_cart')
-async def add_to_cart( menuitemid:int,username:str= Query(None),):
+async def add_to_cart( menuitemid:int,mail:str= Query(None),):
     vegornonveg=""
     restaurantid=""
     restaurantdata = await restaurants.find().to_list()
     for restaurant in restaurantdata:
-         # ask how to set id
         restmenu=restaurant.menu 
         veg=restmenu.veg
         nonveg=restmenu.nonveg
@@ -115,7 +114,25 @@ async def add_to_cart( menuitemid:int,username:str= Query(None),):
                     vegornonveg="nonveg"
                     restaurantname=restaurant.name
 
-    return {"restaurantname":restaurantname, "type":vegornonveg } 
+    if mail is None:
+        tobeaddedtocartdetails = await cart.find_one({'username': "default"})
+        pipeline = [ #pipeline to return the id of the document when username is passed
+            {"$match": {"username": "default"}},
+            {"$project": {"_id": {"$toString": "$_id"}}}
+        ]
+        # tobeaddedtocartdetails=await cart.distinct('id', {'username': "default"}) #returns unique usernames in cart collection
+    else:
+        tobeaddedtocartdetails = await cart.find_one({'username': mail})
+        pipeline = [
+            {"$match": {"username": mail}},
+            {"$project": {"_id": {"$toString": "$_id"}}}
+        ]
+        # tobeaddedtocartdetails=await cart.distinct('id', {'username': mail})
+
+
+    id = await cart.aggregate(pipeline).to_list()
+                    
+    return {"restaurantname":restaurantname, "type":vegornonveg,"tobeaddedtocartdetails":tobeaddedtocartdetails,"id":id[0]["_id"] } 
 
 
 
