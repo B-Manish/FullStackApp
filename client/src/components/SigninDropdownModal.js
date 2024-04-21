@@ -59,11 +59,23 @@ const SignInDropDownModal = () => {
         </Box>
         <Box sx={{ padding: "20px" }}>
           <Box
+            // onClick={() => logOut()}
+            sx={{
+              cursor: "pointer",
+              marginBottom: "15px",
+              "&:hover": {
+                fontWeight: "500",
+              },
+            }}
+          >
+            Profile
+          </Box>
+          <Box
             onClick={() => logOut()}
             sx={{
               cursor: "pointer",
               "&:hover": {
-                fontWeight: "600",
+                fontWeight: "500",
               },
             }}
           >
