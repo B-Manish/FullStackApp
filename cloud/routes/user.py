@@ -102,79 +102,86 @@ def extract_integer(price_string):
 
 @router.post('/add_to_cart')
 async def add_to_cart(item:tobeaddedcartitem,mail:str= Query(None)):
-    if mail is None:
-        tobeaddedtocartdetails = await cart.find_one({'username': "default"})
-        pipeline = [ #pipeline to return the id of the document when username is passed
+    try:
+        if mail is None:
+            tobeaddedtocartdetails = await cart.find_one({'username': "default"})
+            pipeline = [ #pipeline to return the id of the document when username is passed
             {"$match": {"username": "default"}},
             {"$project": {"_id": {"$toString": "$_id"}}}
         ]
         # tobeaddedtocartdetails=await cart.distinct('id', {'username': "default"}) #returns unique usernames in cart collection
-    else:
-        tobeaddedtocartdetails = await cart.find_one({'username': mail})
-        pipeline = [
+        else:
+            tobeaddedtocartdetails = await cart.find_one({'username': mail})
+            pipeline = [
             {"$match": {"username": mail}},
             {"$project": {"_id": {"$toString": "$_id"}}}
         ]
+        
+        
 
 
-    cartdocument = await cart.aggregate(pipeline).to_list()
-    id=cartdocument[0]["_id"]
+        cartdocument = await cart.aggregate(pipeline).to_list()
+        id=cartdocument[0]["_id"]
 
-    # dbcart = db["cart"] to update a mongodb document
+        # dbcart = db["cart"] to update a mongodb document
     
-    # updated_data = {"$set": {"restaurantname":"Ovenstory3"}}
-    # if id is not None:
-    #     dbcart.update_one({"_id": ObjectId(id)}, updated_data)
+        # updated_data = {"$set": {"restaurantname":"Ovenstory3"}}
+        # if id is not None:
+        #     dbcart.update_one({"_id": ObjectId(id)}, updated_data)
 
-    # check if the mid exists
+        # check if the mid exists
 
-    cartveg=tobeaddedtocartdetails.items.veg
-    cartnonveg=tobeaddedtocartdetails.items.nonveg
+        cartveg=tobeaddedtocartdetails.items.veg
+        cartnonveg=tobeaddedtocartdetails.items.nonveg
 
-    carthasitem=False
-    itemindex=0
-
-    if cartveg is not None:
-        for index, vegitem in enumerate(cartveg):
-            if vegitem.mid==item.mid:
-                carthasitem=True
-                itemindex=index
+        carthasitem=False
+        itemindex=0
+        
+        if cartveg is not None:
+            for index, vegitem in enumerate(cartveg):
+                if vegitem.mid==item.mid:
+                    carthasitem=True
+                    itemindex=index
+                    
+            if cartnonveg is not None:
+                for index, nonvegitem in enumerate(cartnonveg):
+                    if nonvegitem.mid==item.mid:
+                        carthasitem=True
+                        itemindex=index            
             
-                
-
-    if cartnonveg is not None:
-        for index, nonvegitem in enumerate(cartnonveg):
-            if nonvegitem.mid==item.mid:
-                carthasitem=True
-                itemindex=index 
-
-    dbcart = db["cart"]
+        
+        dbcart = db["cart"]
     
 
-    # dbcart.update_one({ "_id": ObjectId(id) }, {"$set": {field: 5}} )
-    # dbcart.update_one({ "_id": ObjectId(id) },{ "$set": { "items.veg.0.quantity": 4 } }) # updates 
+        # dbcart.update_one({ "_id": ObjectId(id) }, {"$set": {field: 5}} )
+        # dbcart.update_one({ "_id": ObjectId(id) },{ "$set": { "items.veg.0.quantity": 4 } }) # updates 
     
-    billdetailsquantityfield=f"billdetails.totalQuantity" # gets the field which is to be updated
-    billdetailstotalfield=f"billdetails.total"
-    if carthasitem==True:
-        if item.vegornonveg=="veg":
-            field = f"items.veg.{itemindex}.quantity" 
-            dbcart.update_one({ "_id": ObjectId(id)},{"$inc": {field: 1,billdetailsquantityfield:1,billdetailstotalfield:extract_integer(item.price)}})
+        billdetailsquantityfield=f"billdetails.totalQuantity" # gets the field which is to be updated
+        billdetailstotalfield=f"billdetails.total"
+        if carthasitem==True:
+            if item.vegornonveg=="veg":
+                field = f"items.veg.{itemindex}.quantity" 
+                dbcart.update_one({ "_id": ObjectId(id)},{"$inc": {field: 1,billdetailsquantityfield:1,billdetailstotalfield:extract_integer(item.price)}})
 
-        if item.vegornonveg=="nonveg":
-            field = f"items.nonveg.{itemindex}.quantity"
-            dbcart.update_one({ "_id": ObjectId(id)},{"$inc": {field: 1,billdetailsquantityfield:1,billdetailstotalfield:extract_integer(item.price)}})
+            if item.vegornonveg=="nonveg":
+                field = f"items.nonveg.{itemindex}.quantity"
+                dbcart.update_one({ "_id": ObjectId(id)},{"$inc": {field: 1,billdetailsquantityfield:1,billdetailstotalfield:extract_integer(item.price)}})
 
-    else:
-        if item.vegornonveg=="veg":
-            dbcart.update_one({ "_id": ObjectId(id)},{"$inc":{billdetailsquantityfield:1,billdetailstotalfield:extract_integer(item.price)},"$push": {"items.veg": {"mid": item.mid,"name": item.name,"price": item.price,"rating": item.rating,"quantity": 1}}}) 
+        else:
+            if item.vegornonveg=="veg":
+                dbcart.update_one({ "_id": ObjectId(id)},{"$inc":{billdetailsquantityfield:1,billdetailstotalfield:extract_integer(item.price)},"$push": {"items.veg": {"mid": item.mid,"name": item.name,"price": item.price,"rating": item.rating,"quantity": 1}}}) 
 
-        if item.vegornonveg=="nonveg":
-            dbcart.update_one({ "_id": ObjectId(id)},{"$inc":{billdetailsquantityfield:1,billdetailstotalfield:extract_integer(item.price)},"$push": {"items.nonveg": {"mid": item.mid,"name": item.name,"price": item.price,"rating": item.rating,"quantity": 1}}})      
+            if item.vegornonveg=="nonveg":
+                dbcart.update_one({ "_id": ObjectId(id)},{"$inc":{billdetailsquantityfield:1,billdetailstotalfield:extract_integer(item.price)},"$push": {"items.nonveg": {"mid": item.mid,"name": item.name,"price": item.price,"rating": item.rating,"quantity": 1}}})      
               
 
     
-    return "gg"
+        return "Succesfully updated cart"
+    
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+        
+
 
 
 
