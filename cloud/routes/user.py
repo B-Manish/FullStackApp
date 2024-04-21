@@ -186,7 +186,6 @@ async def add_to_cart(item:tobeaddedcartitem,mail:str= Query(None)):
             dbcart.update_one({ "_id": ObjectId(id)},{"$inc": {field: 1,billdetailsquantityfield:1,billdetailstotalfield:extract_integer(item.price)}})
 
     else:
-        print("entered else")
         if item.vegornonveg=="veg":
             dbcart.update_one({ "_id": ObjectId(id)},{"$inc":{billdetailsquantityfield:1,billdetailstotalfield:extract_integer(item.price)},"$push": {"items.veg": {"mid": item.mid,"name": item.name,"price": item.price,"rating": item.rating,"quantity": 1}}}) 
 
