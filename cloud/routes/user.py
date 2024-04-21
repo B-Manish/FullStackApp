@@ -95,10 +95,13 @@ async def get_cart_details(mail: str = Query(None)):# makes mail optional
         return {"cart": cartdetails} 
 
 
-
+def extract_integer(price_string):
+    integer_part = ''.join(filter(str.isdigit, price_string))
+    integer_value = int(integer_part)
+    return integer_value
 
 @router.post('/add_to_cart')
-async def add_to_cart( menuitemid:int,mail:str= Query(None),):
+async def add_to_cart( menuitemid:int,menuitemprice:str,mail:str= Query(None),):
     vegornonveg=""
     restaurantid=""
     restaurantdata = await restaurants.find().to_list()
@@ -131,17 +134,57 @@ async def add_to_cart( menuitemid:int,mail:str= Query(None),):
             {"$match": {"username": mail}},
             {"$project": {"_id": {"$toString": "$_id"}}}
         ]
-        # tobeaddedtocartdetails=await cart.distinct('id', {'username': mail})
 
 
     cartdocument = await cart.aggregate(pipeline).to_list()
     id=cartdocument[0]["_id"]
 
+    # dbcart = db["cart"] to update a mongodb document
+    
+    # updated_data = {"$set": {"restaurantname":"Ovenstory3"}}
+    # if id is not None:
+    #     dbcart.update_one({"_id": ObjectId(id)}, updated_data)
+
+    # check if the mid exists
+
+    cartveg=tobeaddedtocartdetails.items.veg
+    cartnonveg=tobeaddedtocartdetails.items.nonveg
+
+    carthasitem=False
+    itemindex=0
+
+    if cartveg is not None:
+        for index, vegitem in enumerate(cartveg):
+            if vegitem.mid==menuitemid:
+                carthasitem=True
+                itemindex=index
+            
+                
+
+    if cartnonveg is not None:
+        for index, nonvegitem in enumerate(cartnonveg):
+            if nonvegitem.mid==menuitemid:
+                carthasitem=True
+                itemindex=index 
+
     dbcart = db["cart"]
     
-    updated_data = {"$set": {"restaurantname":"Ovenstory3"}}
-    if id is not None:
-        dbcart.update_one({"_id": ObjectId(id)}, updated_data)
+
+    # dbcart.update_one({ "_id": ObjectId(id) }, {"$set": {field: 5}} )
+    # dbcart.update_one({ "_id": ObjectId(id) },{ "$set": { "items.veg.0.quantity": 4 } }) # updates 
+    
+    
+    if carthasitem==True:
+        billdetailsquantityfield=f"billdetails.totalQuantity"
+        billdetailstotalfield=f"billdetails.total"
+        if vegornonveg=="veg":
+            field = f"items.veg.{itemindex}.quantity" # gets the field which is to be updated
+            dbcart.update_one({ "_id": ObjectId(id)},{"$inc": {field: 1,billdetailsquantityfield:1,billdetailstotalfield:extract_integer(menuitemprice)}})
+
+        if vegornonveg=="nonveg":
+            field = f"items.nonveg.{itemindex}.quantity"
+            dbcart.update_one({ "_id": ObjectId(id)},{"$inc": {field: 1,billdetailsquantityfield:1,billdetailstotalfield:extract_integer(menuitemprice)}})
+
     
     return {"restaurantname":restaurantname, "type":vegornonveg,"tobeaddedtocartdetails":tobeaddedtocartdetails,"id":id } 
 
