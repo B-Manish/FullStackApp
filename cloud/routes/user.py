@@ -102,26 +102,6 @@ def extract_integer(price_string):
 
 @router.post('/add_to_cart')
 async def add_to_cart(item:tobeaddedcartitem,mail:str= Query(None)):
-    vegornonveg=""
-    restaurantid=""
-    restaurantname=""
-    restaurantdata = await restaurants.find().to_list()
-    for restaurant in restaurantdata:
-        restmenu=restaurant.menu 
-        veg=restmenu.veg
-        nonveg=restmenu.nonveg
-        if veg is not None:
-            for menuitem in veg:
-                if menuitem.mid==item.mid:
-                    vegornonveg="veg"
-                    restaurantname=restaurant.name
-
-        if nonveg is not None:
-            for menuitem in nonveg:
-                if menuitem.mid==item.mid:
-                    vegornonveg="nonveg"
-                    restaurantname=restaurant.name
-
     if mail is None:
         tobeaddedtocartdetails = await cart.find_one({'username': "default"})
         pipeline = [ #pipeline to return the id of the document when username is passed
@@ -194,7 +174,7 @@ async def add_to_cart(item:tobeaddedcartitem,mail:str= Query(None)):
               
 
     
-    return {"restaurantname":restaurantname, "type":vegornonveg,"tobeaddedtocartdetails":tobeaddedtocartdetails,"id":id } 
+    return "gg"
 
 
 
