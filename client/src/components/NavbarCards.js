@@ -14,15 +14,15 @@ function NavbarCards({
   isLoggedIn,
 }) {
   const [isHovered, setIsHovered] = useState(false);
-  const [openSigninDropdownModal, setOpenSigninDropdownModal] = useState(false);
+  const [openSigninDropdown, setOpenSigninDropdown] = useState(false);
   const openModal = () => {
-    if (isLoggedIn === true && hasSignin && openSigninDropdownModal === false) {
-      setOpenSigninDropdownModal(true);
+    if (isLoggedIn === true && hasSignin && openSigninDropdown === false) {
+      setOpenSigninDropdown(true);
     }
   };
 
   const handleClose = () => {
-    setOpenSigninDropdownModal(false);
+    setOpenSigninDropdown(false);
   };
 
   return (
@@ -32,7 +32,7 @@ function NavbarCards({
         cursor: "pointer",
         height: "80px",
         alignItems: "center",
-        border: "1px solid red",
+        position: "relative",
       }}
       onMouseEnter={() => {
         setIsHovered(true);
@@ -44,10 +44,9 @@ function NavbarCards({
       }}
       onClick={() => clickhandler()}
     >
-      <SignInDropDownModal
-        open={openSigninDropdownModal}
-        handleClose={handleClose}
-      />
+      {isLoggedIn === true && hasSignin && openSigninDropdown && (
+        <SignInDropDownModal />
+      )}
       {img && <Icon src={img} />}
       {hasSearch && (
         <SearchIcon style={{ color: isHovered ? "#FC8019" : "#3D4152" }} />
