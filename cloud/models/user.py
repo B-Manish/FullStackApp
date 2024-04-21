@@ -34,6 +34,12 @@ class cartitem(BaseModel):
     rating:float
     quantity:int
 
+class tobeaddedcartitem(BaseModel):
+    mid:int
+    name:str
+    vegornonveg:str
+    price:str
+    rating:float   
 
 class cartmenu(BaseModel): 
     veg:Optional[List[cartitem]] = None     

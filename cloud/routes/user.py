@@ -1,7 +1,7 @@
 from fastapi import APIRouter,Query, HTTPException, Depends
 # from config.db import conn 
 from bson import ObjectId
-from models.user import testuser,restaurants,cart
+from models.user import testuser,restaurants,cart,tobeaddedcartitem
 from beanie import PydanticObjectId
 import boto3
 from pymongo import MongoClient
@@ -101,9 +101,10 @@ def extract_integer(price_string):
     return integer_value
 
 @router.post('/add_to_cart')
-async def add_to_cart( menuitemid:int,menuitemprice:str,mail:str= Query(None),):
+async def add_to_cart(item:tobeaddedcartitem,mail:str= Query(None)):
     vegornonveg=""
     restaurantid=""
+    restaurantname=""
     restaurantdata = await restaurants.find().to_list()
     for restaurant in restaurantdata:
         restmenu=restaurant.menu 
@@ -111,13 +112,13 @@ async def add_to_cart( menuitemid:int,menuitemprice:str,mail:str= Query(None),):
         nonveg=restmenu.nonveg
         if veg is not None:
             for menuitem in veg:
-                if menuitem.mid==menuitemid:
+                if menuitem.mid==item.mid:
                     vegornonveg="veg"
                     restaurantname=restaurant.name
 
         if nonveg is not None:
             for menuitem in nonveg:
-                if menuitem.mid==menuitemid:
+                if menuitem.mid==item.mid:
                     vegornonveg="nonveg"
                     restaurantname=restaurant.name
 
@@ -155,7 +156,7 @@ async def add_to_cart( menuitemid:int,menuitemprice:str,mail:str= Query(None),):
 
     if cartveg is not None:
         for index, vegitem in enumerate(cartveg):
-            if vegitem.mid==menuitemid:
+            if vegitem.mid==item.mid:
                 carthasitem=True
                 itemindex=index
             
@@ -163,7 +164,7 @@ async def add_to_cart( menuitemid:int,menuitemprice:str,mail:str= Query(None),):
 
     if cartnonveg is not None:
         for index, nonvegitem in enumerate(cartnonveg):
-            if nonvegitem.mid==menuitemid:
+            if nonvegitem.mid==item.mid:
                 carthasitem=True
                 itemindex=index 
 
@@ -173,17 +174,25 @@ async def add_to_cart( menuitemid:int,menuitemprice:str,mail:str= Query(None),):
     # dbcart.update_one({ "_id": ObjectId(id) }, {"$set": {field: 5}} )
     # dbcart.update_one({ "_id": ObjectId(id) },{ "$set": { "items.veg.0.quantity": 4 } }) # updates 
     
-    
+    billdetailsquantityfield=f"billdetails.totalQuantity" # gets the field which is to be updated
+    billdetailstotalfield=f"billdetails.total"
     if carthasitem==True:
-        billdetailsquantityfield=f"billdetails.totalQuantity"
-        billdetailstotalfield=f"billdetails.total"
-        if vegornonveg=="veg":
-            field = f"items.veg.{itemindex}.quantity" # gets the field which is to be updated
-            dbcart.update_one({ "_id": ObjectId(id)},{"$inc": {field: 1,billdetailsquantityfield:1,billdetailstotalfield:extract_integer(menuitemprice)}})
+        if item.vegornonveg=="veg":
+            field = f"items.veg.{itemindex}.quantity" 
+            dbcart.update_one({ "_id": ObjectId(id)},{"$inc": {field: 1,billdetailsquantityfield:1,billdetailstotalfield:extract_integer(item.price)}})
 
-        if vegornonveg=="nonveg":
+        if item.vegornonveg=="nonveg":
             field = f"items.nonveg.{itemindex}.quantity"
-            dbcart.update_one({ "_id": ObjectId(id)},{"$inc": {field: 1,billdetailsquantityfield:1,billdetailstotalfield:extract_integer(menuitemprice)}})
+            dbcart.update_one({ "_id": ObjectId(id)},{"$inc": {field: 1,billdetailsquantityfield:1,billdetailstotalfield:extract_integer(item.price)}})
+
+    else:
+        print("entered else")
+        if item.vegornonveg=="veg":
+            dbcart.update_one({ "_id": ObjectId(id)},{"$inc":{billdetailsquantityfield:1,billdetailstotalfield:extract_integer(item.price)},"$push": {"items.veg": {"mid": item.mid,"name": item.name,"price": item.price,"rating": item.rating,"quantity": 1}}}) 
+
+        if item.vegornonveg=="nonveg":
+            dbcart.update_one({ "_id": ObjectId(id)},{"$inc":{billdetailsquantityfield:1,billdetailstotalfield:extract_integer(item.price)},"$push": {"items.nonveg": {"mid": item.mid,"name": item.name,"price": item.price,"rating": item.rating,"quantity": 1}}})      
+              
 
     
     return {"restaurantname":restaurantname, "type":vegornonveg,"tobeaddedtocartdetails":tobeaddedtocartdetails,"id":id } 
