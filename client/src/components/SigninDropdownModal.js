@@ -1,10 +1,17 @@
 // RightModal.js
 import React, { useContext } from "react";
 import { Box, Paper } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import { LoginContext } from "../context/LoginContext";
 
 const SignInDropDownModal = () => {
+  const navigate = useNavigate();
   const { logOut } = useContext(LoginContext);
+
+  const goTo = (path) => {
+    navigate(path);
+  };
+
   return (
     <Box
       sx={{
@@ -59,7 +66,7 @@ const SignInDropDownModal = () => {
         </Box>
         <Box sx={{ padding: "20px" }}>
           <Box
-            // onClick={() => logOut()}
+            onClick={() => goTo("/profile")}
             sx={{
               cursor: "pointer",
               marginBottom: "15px",
