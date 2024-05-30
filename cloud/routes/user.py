@@ -48,10 +48,22 @@ async def test_get_api(testuser: testuser = Depends(get_user)):
 
 @router.get('/get_restaurants')
 async def get_restaurants():
-    restaurantdata = await restaurants.find().to_list()
-    if restaurantdata is None:
-        raise HTTPException(status_code=404, detail="Note not found")
-    return {"restaurantdata":restaurantdata}
+    restaurantsdata = await restaurants.find().to_list(None) 
+    if not restaurantsdata:
+        raise HTTPException(status_code=404, detail="No restaurants found")
+
+    modified_restaurants = []
+    for restaurant in restaurantsdata:
+        restaurant_dict = dict(restaurant)
+        s3_client = boto3.client('s3')
+        presigned_url = s3_client.generate_presigned_url(
+        'get_object',
+        Params={'Bucket': "fullstackapp", 'Key': restaurant_dict['key']})
+        if 'img' in restaurant_dict:
+            restaurant_dict['img'] = presigned_url 
+        modified_restaurants.append(restaurant_dict)
+
+    return {"restaurantdata": modified_restaurants}
 
 @router.get('/get_restaurant_details/{id}')
 async def get_restaurant_data(id: PydanticObjectId):

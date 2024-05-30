@@ -25,6 +25,7 @@ class restaurants(Document):
     rating:float
     menu:menu
     img:str
+    key:str
 
 
 class cartitem(BaseModel):
