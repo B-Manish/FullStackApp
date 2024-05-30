@@ -24,7 +24,7 @@ function DeliveryDetailsCard({ rating, type, margin }) {
       </Box>
 
       <Box sx={{ display: "flex" }}>
-        {type.map((item, index) => (
+        {type?.map((item, index) => (
           <Box
             key={item}
             sx={{

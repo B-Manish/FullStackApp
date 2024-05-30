@@ -11,13 +11,12 @@ import { useLocation } from "react-router-dom";
 function App() {
   const location = useLocation();
   const { getSession, setIsLoggedIn, setUsername } = useContext(LoginContext);
-  console.log("app.js");
 
   useEffect(() => {
     getSession().then((session) => {
       console.log("session", session);
       setIsLoggedIn(true);
-      // setUsername("bsdk");
+      // setUsername("temp");
     });
   }, [location]);
 
