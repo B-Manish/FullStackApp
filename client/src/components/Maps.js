@@ -20,6 +20,11 @@ const Maps = () => {
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
       (position) => {
+        console.log(
+          "Location fetched:",
+          position.coords.latitude,
+          position.coords.longitude
+        ); // Check if location is being fetched
         setCurrentLocation({
           lat: position.coords.latitude,
           lng: position.coords.longitude,
@@ -41,7 +46,16 @@ const Maps = () => {
         center={currentLocation.lat !== 0 ? currentLocation : defaultCenter}
         zoom={15}
       >
-        <Marker position={currentLocation} />
+        {currentLocation.lat !== 0 && (
+          <Marker position={currentLocation} title="You are here" />
+        )}
+        {/* Fallback marker (centered at Bangalore) if no location is available */}
+        {currentLocation.lat === 0 && (
+          <Marker
+            position={defaultCenter} // Default location (Bangalore)
+            title="Default Marker (Bangalore)"
+          />
+        )}
       </GoogleMap>
     </LoadScript>
   );
