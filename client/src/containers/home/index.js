@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 // import { fetchallrestaurantsdata } from "../../redux/restaurantSlice";
 import { getAllRestaurants } from "../../api/restaurantApi";
 import RestaurantCard from "../../components/RestaurantCard";
+import Maps from "../../components/Maps";
 
 function Home() {
   const navigate = useNavigate();
@@ -29,6 +30,7 @@ function Home() {
   }, []);
   return (
     <Box>
+      <Maps />
       <Grid container sx={{ border: "1px solid blue", width: "80vw" }}>
         {data?.map((item, index) => (
           <Grid
