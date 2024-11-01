@@ -3,6 +3,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { fetchallrestaurantsdata } from "../../redux/restaurantSlice";
+import { getAllRestaurants } from "../../api/restaurantApi";
 import RestaurantCard from "../../components/RestaurantCard";
 
 function Home() {
@@ -12,16 +13,24 @@ function Home() {
   }, []);
   const dispatch = useDispatch();
   const restData = useSelector((state) => state);
+  const [data, setData] = useState([]);
   // console.log("restData", restData);
 
   const goTo = (restaurantId) => {
     navigate(`/restaurant/${restaurantId}`);
   };
 
+  useEffect(() => {
+    getAllRestaurants()
+      .then((res) => {
+        setData(res);
+      })
+      .catch(() => {});
+  }, []);
   return (
     <Box>
       <Grid container sx={{ border: "1px solid blue", width: "80vw" }}>
-        {restData?.data?.restaurantdata?.map((item, index) => (
+        {data?.map((item, index) => (
           <Grid
             item
             xs={3}

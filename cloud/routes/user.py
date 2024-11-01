@@ -304,7 +304,6 @@ async def submitdata(data:dict):
         'name': data['name'],
     }
     table.put_item(Item = item)
-    print(data)
     return "data submitted successfully"
 
 # @router.post("/createRestaurant")
