@@ -8,7 +8,7 @@ import CustomModal from "./CustomModal";
 import SignIn from "../containers/signin";
 import { useDispatch, useSelector } from "react-redux";
 import { LoginContext } from "../context/LoginContext";
-import { fetchCartdata } from "../redux/cartSlice";
+// import { fetchCartdata } from "../redux/cartSlice";
 
 function Navbar() {
   const navigate = useNavigate();
@@ -18,9 +18,9 @@ function Navbar() {
     console.log("p");
   };
 
-  useEffect(() => {
-    dispatch(fetchCartdata());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(fetchCartdata());
+  // }, []);
 
   const dispatch = useDispatch();
   const cartData = useSelector((state) => state);

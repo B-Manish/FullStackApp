@@ -2,15 +2,15 @@ import { Box, Grid } from "@mui/material";
 import React, { useEffect, useState, useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { fetchallrestaurantsdata } from "../../redux/restaurantSlice";
+// import { fetchallrestaurantsdata } from "../../redux/restaurantSlice";
 import { getAllRestaurants } from "../../api/restaurantApi";
 import RestaurantCard from "../../components/RestaurantCard";
 
 function Home() {
   const navigate = useNavigate();
-  useEffect(() => {
-    dispatch(fetchallrestaurantsdata());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(fetchallrestaurantsdata());
+  // }, []);
   const dispatch = useDispatch();
   const restData = useSelector((state) => state);
   const [data, setData] = useState([]);
