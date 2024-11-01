@@ -306,6 +306,24 @@ async def submitdata(data:dict):
     table.put_item(Item = item)
     return "data submitted successfully"
 
+
+@router.get("/getRestaurant/{restaurant_id}")
+async def get_restaurant(restaurant_id: str):
+    table = dynamodb.Table('restaurants')
+    
+    try:
+        response = table.get_item(Key={'restaurant_id': restaurant_id})
+        item = response.get('Item')
+        
+        if item:
+            return {"restaurant":item}
+        else:
+            raise HTTPException(status_code=404, detail="Restaurant not found")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+
 # @router.post("/createRestaurant")
 # async def submitdata():
 #     table = dynamodb.Table('restaurants')

@@ -47,7 +47,7 @@ function Home() {
               name={item?.name}
               rating={item?.rating}
               type={item?.type[0]}
-              clickHandler={() => goTo(item?.id)}
+              clickHandler={() => goTo(item?.restaurant_id)}
             />
           </Grid>
         ))}
