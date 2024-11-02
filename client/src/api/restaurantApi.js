@@ -13,3 +13,11 @@ export const getRestaurantDetails = (restaurant_id) => {
       return payload;
     });
 };
+
+export const getCartDetails = (cart_id) => {
+  return api
+    .get(`http://localhost:8000/getCartDetails/${cart_id}`)
+    .then((payload) => {
+      return payload;
+    });
+};

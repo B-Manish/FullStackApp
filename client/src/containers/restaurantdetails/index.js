@@ -13,8 +13,6 @@ import MenuItemCard from "../../components/MenuItemCard";
 
 function RestaurantDetails() {
   const { restaurantID } = useParams();
-  const dispatch = useDispatch();
-
   const [data, setData] = useState({});
 
   useEffect(() => {
@@ -47,7 +45,13 @@ function RestaurantDetails() {
         />
       ))}
       {data?.restaurant?.menu?.nonveg?.map((item, index) => (
-        <MenuItemCard />
+        <MenuItemCard
+          key={item.name}
+          isVeg={false}
+          name={item?.name}
+          cost={item?.price}
+          rating={item?.rating}
+        />
       ))}
     </Box>
   );

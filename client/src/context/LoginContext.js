@@ -7,6 +7,7 @@ export const LoginContext = createContext();
 const LoginProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState("");
+  const [cartCount, setCartCount] = useState(0);
 
   const getSession = async () => {
     return await new Promise((resolve, reject) => {
@@ -43,6 +44,8 @@ const LoginProvider = ({ children }) => {
         logOut,
         setIsLoggedIn,
         setUsername,
+        cartCount,
+        setCartCount,
       }}
     >
       {children}

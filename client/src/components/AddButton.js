@@ -1,8 +1,10 @@
 import { Box, Paper, Grid } from "@mui/material";
 import React, { useState, useEffect, useContext } from "react";
+import { LoginContext } from "../context/LoginContext";
 
 function AddButton({ top = "130px" }) {
   const [count, setCount] = useState(0);
+  const { setCartCount } = useContext(LoginContext);
   return count === 0 ? (
     <Paper
       sx={{
@@ -20,7 +22,10 @@ function AddButton({ top = "130px" }) {
         position: "absolute",
         top: top,
       }}
-      onClick={() => setCount(count + 1)}
+      onClick={() => {
+        setCount(count + 1);
+        setCartCount((prev) => prev + 1);
+      }}
     >
       ADD
     </Paper>
@@ -40,7 +45,14 @@ function AddButton({ top = "130px" }) {
       }}
     >
       <Grid container sx={{ height: "100%" }}>
-        <Grid item xs={4} onClick={() => setCount(count - 1)}>
+        <Grid
+          item
+          xs={4}
+          onClick={() => {
+            setCount(count - 1);
+            setCartCount((prev) => prev - 1);
+          }}
+        >
           <Box
             sx={{
               width: "100%",
@@ -63,7 +75,10 @@ function AddButton({ top = "130px" }) {
         <Grid
           item
           xs={4}
-          onClick={() => setCount(count + 1)}
+          onClick={() => {
+            setCount(count + 1);
+            setCartCount((prev) => prev + 1);
+          }}
           sx={{ display: "grid", placeItems: "center" }}
         >
           <Box

@@ -22,7 +22,7 @@ function MenuItemCard({ img, isVeg, name, cost, rating }) {
       }}
     >
       <Grid item xs={8}>
-        {isVeg ? <Icon src={Veg} /> : <Icon src={NonVeg} />}
+        {isVeg === true ? <Icon src={Veg} /> : <Icon src={NonVeg} />}
         <Typography sx={{ color: "#02060CBF", fontSize: "18px" }}>
           {name}
         </Typography>

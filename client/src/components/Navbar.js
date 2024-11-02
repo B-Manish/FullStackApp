@@ -9,10 +9,11 @@ import SignIn from "../containers/signin";
 import { useDispatch, useSelector } from "react-redux";
 import { LoginContext } from "../context/LoginContext";
 // import { fetchCartdata } from "../redux/cartSlice";
+import { getCartDetails } from "../api/restaurantApi";
 
 function Navbar() {
   const navigate = useNavigate();
-  const { username, isLoggedIn } = useContext(LoginContext);
+  const { username, isLoggedIn, cartCount } = useContext(LoginContext);
   const [openModal, setOpenModal] = useState(false);
   const ppp = () => {
     console.log("p");
@@ -22,8 +23,15 @@ function Navbar() {
   //   dispatch(fetchCartdata());
   // }, []);
 
-  const dispatch = useDispatch();
-  const cartData = useSelector((state) => state);
+  const [cartData, setCartData] = useState({});
+
+  useEffect(() => {
+    getCartDetails("1")
+      .then((res) => {
+        setCartData(res?.cart);
+      })
+      .catch(() => {});
+  }, []);
 
   useEffect(() => {
     console.log("cartData", cartData);
@@ -113,6 +121,7 @@ function Navbar() {
                 clickhandler={item?.clickHandler}
                 type={item?.type || "notsignin"}
                 isLoggedIn={item?.isLoggedIn}
+                cartCount={cartCount}
               />
             </Box>
           ))}
