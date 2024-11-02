@@ -132,29 +132,7 @@
 #         raise HTTPException(status_code=500, detail=str(e))
         
 
-
-
-
-
-# @router.get('/get_presigned_url')
-# async def generate_presigned_url():
-#     s3_client = boto3.client('s3')
-#     presigned_url = s3_client.generate_presigned_url(
-#         'get_object',
-#         Params={'Bucket': "fullstackapp", 'Key':"saravanabhavan.png"})
-
-#     return presigned_url
-
-
-
-
        
-
-
-
-
-
-
 
 # # @user.get("/search_restaurant")
 # # async def search_restaurant(
@@ -273,7 +251,18 @@ async def get_cart(cart_id: str):
         else:
             raise HTTPException(status_code=404, detail="Restaurant not found")
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))    
+        raise HTTPException(status_code=500, detail=str(e))  
+    
+    
+@router.get('/get_presigned_url')
+async def generate_presigned_url(key):
+    # key="ovenstory.png"
+    s3_client = boto3.client('s3')
+    presigned_url = s3_client.generate_presigned_url(
+        'get_object',
+        Params={'Bucket': "fullstackapp", 'Key':key})
+
+    return presigned_url      
 
 
 
