@@ -188,12 +188,13 @@ import uuid
 from typing import List
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
+from .keys import ACCESS_KEY_ID,SECRET_ACCESS_KEY
 
 router = APIRouter() 
 
 dynamodb = boto3.resource('dynamodb',
-                    aws_access_key_id = "AKIATCKATMPUMCO62ZVH",
-                    aws_secret_access_key = "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",
+                    aws_access_key_id = ACCESS_KEY_ID,
+                    aws_secret_access_key = SECRET_ACCESS_KEY,
                     region_name='ap-south-1'
                           )
 
