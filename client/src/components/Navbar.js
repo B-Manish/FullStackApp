@@ -66,7 +66,7 @@ function Navbar() {
       heading: "Cart",
       hasSearch: false,
       hasSignin: false,
-      clickHandler: ppp,
+      clickHandler: () => navigate("/cart"),
       isLoggedIn: isLoggedIn,
     },
   ];

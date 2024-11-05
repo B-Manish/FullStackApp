@@ -199,9 +199,6 @@ dynamodb = boto3.resource('dynamodb',
                           )
 
 
-@router.get("/")
-def read_root():
-    return {"name": "aniket", "age":24}
 
 
 @router.get("/getAllRestaurants")
