@@ -53,6 +53,7 @@ function RestaurantDetails() {
             total: prev.billdetails.total + Item.price,
             item_total: prev.billdetails.item_total + Item.price,
           },
+          items_count: prev.items_count + 1,
         };
       } else {
         const updatedItems = [...prev.items];
@@ -70,6 +71,7 @@ function RestaurantDetails() {
             total: prev.billdetails.total + Item.price,
             item_total: prev.billdetails.item_total + Item.price,
           },
+          items_count: prev.items_count + 1,
         };
       }
     });
