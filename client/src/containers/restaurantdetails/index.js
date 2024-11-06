@@ -37,25 +37,27 @@ function RestaurantDetails() {
   }, []);
 
   useEffect(() => {
-    // localStorage.setItem("cartData", JSON.stringify(cartData));
-    console.log("cartData", cartData);
+    localStorage.setItem("cartData", JSON.stringify(cartData));
   }, [cartData]);
 
-  const ClickHandler = (newItem, isVeg = true) => {
+  const ClickHandler = (Item, isVeg = true) => {
     setCartData((prev) => {
-      const itemIndex = prev.items.findIndex(
-        (item) => item.mid === newItem.mid
-      );
+      const itemIndex = prev.items.findIndex((item) => item.mid === Item.mid);
 
       if (itemIndex === -1) {
         return {
           ...prev,
-
-          items: [...prev.items, { mid: newItem.mid, count: 1 }],
+          items: [...prev.items, { ...Item, mid: Item.mid, count: 1 }],
+          billdetails: {
+            ...prev.billdetails,
+            total: prev.billdetails.total + Item.price,
+            item_total: prev.billdetails.item_total + Item.price,
+          },
         };
       } else {
         const updatedItems = [...prev.items];
         updatedItems[itemIndex] = {
+          ...Item,
           ...updatedItems[itemIndex],
           count: updatedItems[itemIndex].count + 1,
         };
@@ -63,6 +65,11 @@ function RestaurantDetails() {
         return {
           ...prev,
           items: updatedItems,
+          billdetails: {
+            ...prev.billdetails,
+            total: prev.billdetails.total + Item.price,
+            item_total: prev.billdetails.item_total + Item.price,
+          },
         };
       }
     });
