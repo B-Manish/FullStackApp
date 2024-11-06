@@ -41,20 +41,31 @@ function RestaurantDetails() {
     console.log("cartData", cartData);
   }, [cartData]);
 
-  const ClickHandler = (item, isVeg = true) => {
-    setCartData((prev) => ({
-      ...prev,
-      items_count: prev.items_count + 1,
-      billdetails: {
-        ...prev.billdetails,
-        total: prev.billdetails.total + item?.price,
-        item_total: prev.billdetails.item_total + item?.price,
-      },
-      items: [
-        ...prev.items,
-        { ...item, isVeg: isVeg === true ? true : false, count: 1 },
-      ],
-    }));
+  const ClickHandler = (newItem, isVeg = true) => {
+    setCartData((prev) => {
+      const itemIndex = prev.items.findIndex(
+        (item) => item.mid === newItem.mid
+      );
+
+      if (itemIndex === -1) {
+        return {
+          ...prev,
+
+          items: [...prev.items, { mid: newItem.mid, count: 1 }],
+        };
+      } else {
+        const updatedItems = [...prev.items];
+        updatedItems[itemIndex] = {
+          ...updatedItems[itemIndex],
+          count: updatedItems[itemIndex].count + 1,
+        };
+
+        return {
+          ...prev,
+          items: updatedItems,
+        };
+      }
+    });
   };
 
   return (
