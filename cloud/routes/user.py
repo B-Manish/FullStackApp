@@ -179,7 +179,6 @@
 
 from fastapi import APIRouter,Query, HTTPException, Depends,FastAPI, UploadFile, File
 from bson import ObjectId
-from models.user import testuser,restaurants,cart,tobeaddedcartitem
 from beanie import PydanticObjectId
 import boto3
 from pymongo import MongoClient
@@ -189,6 +188,11 @@ from typing import List
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 from .keys import ACCESS_KEY_ID,SECRET_ACCESS_KEY
+from pydantic import BaseModel, Field
+from typing import List
+from models.user import cartitem,cart
+from decimal import Decimal
+import uuid
 
 router = APIRouter() 
 
@@ -260,7 +264,20 @@ async def generate_presigned_url(key):
         'get_object',
         Params={'Bucket': "fullstackapp", 'Key':key})
 
-    return presigned_url      
+    return presigned_url
+
+
+
+@router.post("/addToCart")
+async def submitdata(testItem:cart):
+    table = dynamodb.Table('cart')
+    
+    item = testItem.dict()
+        
+    item['billdetails']["gst"]=Decimal(str(item['billdetails']["gst"])) 
+    
+    table.put_item(Item = item)
+    return "data submitted successfully"      
 
 
 
