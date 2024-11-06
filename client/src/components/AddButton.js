@@ -2,7 +2,7 @@ import { Box, Paper, Grid } from "@mui/material";
 import React, { useState, useEffect, useContext } from "react";
 import { LoginContext } from "../context/LoginContext";
 
-function AddButton({ top = "130px" }) {
+function AddButton({ top = "130px" ,clickHandler}) {
   const [count, setCount] = useState(0);
   const { setCartCount } = useContext(LoginContext);
   const cartData = {
@@ -56,11 +56,13 @@ function AddButton({ top = "130px" }) {
         position: "absolute",
         top: top,
       }}
-      onClick={() => {
-        // setCount(count + 1);
-        // setCartCount((prev) => prev + 1);
-        // localStorage.setItem("cartData", JSON.stringify(cartData));
-      }}
+      // onClick={() => {
+      //   // setCount(count + 1);
+      //   // setCartCount((prev) => prev + 1);
+      //   // localStorage.setItem("cartData", JSON.stringify(cartData));
+        
+      // }}
+      onClick={clickHandler}
     >
       ADD
     </Paper>

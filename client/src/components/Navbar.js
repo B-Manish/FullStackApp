@@ -33,9 +33,9 @@ function Navbar() {
       .catch(() => {});
   }, []);
 
-  useEffect(() => {
-    console.log("cartData", cartData);
-  }, [cartData]);
+  // useEffect(() => {
+  //   console.log("cartData", cartData);
+  // }, [cartData]);
 
   const openSigninModal = () => {
     if (!isLoggedIn) {
