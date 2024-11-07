@@ -6,36 +6,29 @@ import Icon from "./Icon";
 import NavbarCards from "./NavbarCards";
 import CustomModal from "./CustomModal";
 import SignIn from "../containers/signin";
-import { useDispatch, useSelector } from "react-redux";
+// import { useDispatch, useSelector } from "react-redux";
 import { LoginContext } from "../context/LoginContext";
 // import { fetchCartdata } from "../redux/cartSlice";
-import { getCartDetails } from "../api/restaurantApi";
+// import { getCartDetails } from "../api/restaurantApi";
 
 function Navbar() {
   const navigate = useNavigate();
-  const { username, isLoggedIn, cartCount } = useContext(LoginContext);
+  const { username, isLoggedIn, cartCount, cartData } =
+    useContext(LoginContext);
   const [openModal, setOpenModal] = useState(false);
   const ppp = () => {
     console.log("p");
   };
 
+  // const [cartData, setCartData] = useState({});
+
   // useEffect(() => {
-  //   dispatch(fetchCartdata());
+  //   getCartDetails("1")
+  //     .then((res) => {
+  //       setCartData(res?.cart);
+  //     })
+  //     .catch(() => {});
   // }, []);
-
-  const [cartData, setCartData] = useState({});
-
-  useEffect(() => {
-    getCartDetails("1")
-      .then((res) => {
-        setCartData(res?.cart);
-      })
-      .catch(() => {});
-  }, []);
-
-  // useEffect(() => {
-  //   console.log("cartData", cartData);
-  // }, [cartData]);
 
   const openSigninModal = () => {
     if (!isLoggedIn) {
@@ -121,7 +114,7 @@ function Navbar() {
                 clickhandler={item?.clickHandler}
                 type={item?.type || "notsignin"}
                 isLoggedIn={item?.isLoggedIn}
-                cartCount={cartCount}
+                cartCount={cartData?.items_count}
               />
             </Box>
           ))}

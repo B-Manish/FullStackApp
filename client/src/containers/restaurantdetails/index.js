@@ -1,32 +1,16 @@
 import { Box, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { getRestaurantDetails } from "../../api/restaurantApi";
 import DeliveryDetailsCard from "../../components/DeliveryDetailsCard";
 import MenuItemCard from "../../components/MenuItemCard";
+import { LoginContext } from "../../context/LoginContext";
 
 function RestaurantDetails() {
   const { restaurantID } = useParams();
   const [data, setData] = useState({});
-
-  const [cartData, setCartData] = useState({
-    cart_id: "1",
-    billdetails: {
-      deliveryfee: 0,
-      gst: 0,
-      haspremium: false,
-      platformfee: 0,
-      total: 0,
-      item_total: 0,
-    },
-    branch: "branch",
-    items: [],
-    items_count: 0,
-    restaurant_id: "",
-    restaurant_name: "",
-    username: "default",
-  });
+  const { cartData, setCartData } = useContext(LoginContext);
 
   useEffect(() => {
     getRestaurantDetails(restaurantID)
