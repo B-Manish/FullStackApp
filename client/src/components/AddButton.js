@@ -2,7 +2,7 @@ import { Box, Paper, Grid } from "@mui/material";
 import React, { useContext } from "react";
 import { LoginContext } from "../context/LoginContext";
 
-function AddButton({ top = "130px", clickHandler, count, setCount }) {
+function AddButton({ top = "130px", clickHandler, count, setCount, Item }) {
   const { setCartData } = useContext(LoginContext);
   const increaseCount = () => {
     setCount((prev) => prev + 1);
@@ -53,7 +53,40 @@ function AddButton({ top = "130px", clickHandler, count, setCount }) {
           onClick={() => {
             setCount((prev) => prev - 1);
             setCartData((prev) => {
-              return { ...prev, items_count: prev.items_count - 1 };
+              const itemIndex = prev.items.findIndex(
+                (item) => item.mid === Item.mid
+              );
+
+              if (itemIndex === -1) {
+                return {
+                  ...prev,
+                  items: [...prev.items, { ...Item, mid: Item.mid, count: 1 }],
+                  billdetails: {
+                    ...prev.billdetails,
+                    total: prev.billdetails.total - Item.price,
+                    item_total: prev.billdetails.item_total - Item.price,
+                  },
+                  items_count: prev.items_count - 1,
+                };
+              } else {
+                const updatedItems = [...prev.items];
+                updatedItems[itemIndex] = {
+                  ...Item,
+                  ...updatedItems[itemIndex],
+                  count: updatedItems[itemIndex].count - 1,
+                };
+
+                return {
+                  ...prev,
+                  items: updatedItems,
+                  billdetails: {
+                    ...prev.billdetails,
+                    total: prev.billdetails.total - Item.price,
+                    item_total: prev.billdetails.item_total - Item.price,
+                  },
+                  items_count: prev.items_count - 1,
+                };
+              }
             });
           }}
         >
@@ -82,7 +115,40 @@ function AddButton({ top = "130px", clickHandler, count, setCount }) {
           onClick={() => {
             setCount((prev) => prev + 1);
             setCartData((prev) => {
-              return { ...prev, items_count: prev.items_count + 1 };
+              const itemIndex = prev.items.findIndex(
+                (item) => item.mid === Item.mid
+              );
+
+              if (itemIndex === -1) {
+                return {
+                  ...prev,
+                  items: [...prev.items, { ...Item, mid: Item.mid, count: 1 }],
+                  billdetails: {
+                    ...prev.billdetails,
+                    total: prev.billdetails.total + Item.price,
+                    item_total: prev.billdetails.item_total + Item.price,
+                  },
+                  items_count: prev.items_count + 1,
+                };
+              } else {
+                const updatedItems = [...prev.items];
+                updatedItems[itemIndex] = {
+                  ...Item,
+                  ...updatedItems[itemIndex],
+                  count: updatedItems[itemIndex].count + 1,
+                };
+
+                return {
+                  ...prev,
+                  items: updatedItems,
+                  billdetails: {
+                    ...prev.billdetails,
+                    total: prev.billdetails.total + Item.price,
+                    item_total: prev.billdetails.item_total + Item.price,
+                  },
+                  items_count: prev.items_count + 1,
+                };
+              }
             });
           }}
           sx={{ display: "grid", placeItems: "center" }}

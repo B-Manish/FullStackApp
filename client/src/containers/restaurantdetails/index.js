@@ -81,6 +81,7 @@ function RestaurantDetails() {
           cost={item?.price}
           rating={item?.rating}
           clickHandler={() => ClickHandler(item, true)}
+          item={item}
         />
       ))}
       {data?.restaurant?.menu?.nonveg?.map((item) => (
@@ -91,6 +92,7 @@ function RestaurantDetails() {
           cost={item?.price}
           rating={item?.rating}
           clickHandler={() => ClickHandler(item, false)}
+          item={item}
         />
       ))}
     </Box>

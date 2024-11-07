@@ -9,7 +9,7 @@ import Star from "../assets/greenstar.png";
 import AddButton from "./AddButton";
 import Icon from "./Icon";
 
-function MenuItemCard({ img, isVeg, name, cost, rating, clickHandler }) {
+function MenuItemCard({ img, isVeg, name, cost, rating, clickHandler, item }) {
   const [count, setCount] = useState(0);
   return (
     <Grid
@@ -60,6 +60,7 @@ function MenuItemCard({ img, isVeg, name, cost, rating, clickHandler }) {
           clickHandler={clickHandler}
           count={count}
           setCount={setCount}
+          Item={item}
         />
         {!img ? (
           <Icon
