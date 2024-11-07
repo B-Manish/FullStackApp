@@ -44,7 +44,7 @@ function RestaurantDetails() {
         updatedItems[itemIndex] = {
           ...Item,
           ...updatedItems[itemIndex],
-          count: updatedItems[itemIndex].count + 1,
+          count: updatedItems[itemIndex]?.count + 1,
         };
 
         return {

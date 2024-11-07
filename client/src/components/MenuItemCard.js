@@ -15,9 +15,13 @@ function MenuItemCard({ img, isVeg, name, cost, rating, clickHandler, item }) {
 
   useEffect(() => {
     setCount(
-      cartData?.items[
-        cartData?.items.findIndex((dish) => item?.mid === dish.mid)
-      ].count
+      !cartData?.items[
+        cartData?.items.findIndex((dish) => item?.mid === dish?.mid)
+      ]?.count
+        ? 0
+        : cartData?.items[
+            cartData?.items.findIndex((dish) => item?.mid === dish?.mid)
+          ]?.count
     );
   }, []);
 
