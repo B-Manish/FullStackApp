@@ -21,3 +21,11 @@ export const getCartDetails = (cart_id) => {
       return payload;
     });
 };
+
+export const getLambdaapi = () => {
+  return api
+    .get(`https://csq3luyxzc.execute-api.us-east-1.amazonaws.com/prod/testapi`)
+    .then((payload) => {
+      return payload;
+    });
+};
