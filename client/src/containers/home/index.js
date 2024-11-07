@@ -46,7 +46,7 @@ function Home() {
           <Grid
             item
             xs={3}
-            key={item?._id}
+            key={item?.name}
             sx={{
               border: "1px solid yellow",
               display: "grid",

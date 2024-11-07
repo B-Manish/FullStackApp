@@ -1,6 +1,5 @@
 import { Box, InputBase, Grid, Typography } from "@mui/material";
-import React, { useState, useEffect } from "react";
-// import Swiggy from "../assets/swiggy.svg";
+import React, { useState, useEffect, useContext } from "react";
 import Veg from "../assets/veg.png";
 import NonVeg from "../assets/nonveg.png";
 import Saravana from "../assets/saravanabhavan.png";
@@ -8,9 +7,20 @@ import PlaceHolder from "../assets/placeholder.png";
 import Star from "../assets/greenstar.png";
 import AddButton from "./AddButton";
 import Icon from "./Icon";
+import { LoginContext } from "../context/LoginContext";
 
 function MenuItemCard({ img, isVeg, name, cost, rating, clickHandler, item }) {
   const [count, setCount] = useState(0);
+  const { cartData } = useContext(LoginContext);
+
+  useEffect(() => {
+    setCount(
+      cartData?.items[
+        cartData?.items.findIndex((dish) => item?.mid === dish.mid)
+      ].count
+    );
+  }, []);
+
   return (
     <Grid
       container

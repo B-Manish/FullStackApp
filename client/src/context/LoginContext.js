@@ -25,7 +25,6 @@ const LoginProvider = ({ children }) => {
     username: "default",
   };
   const [cartData, setCartData] = useState(() => {
-    // Check if cartData exists in localStorage
     const storedCartData = localStorage.getItem("cartData");
     return storedCartData ? JSON.parse(storedCartData) : defaultCartData;
   });
