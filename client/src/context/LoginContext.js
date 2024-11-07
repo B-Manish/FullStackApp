@@ -7,7 +7,7 @@ export const LoginContext = createContext();
 const LoginProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState("");
-  const [cartData, setCartData] = useState({
+  const defaultCartData = {
     cart_id: "1",
     billdetails: {
       deliveryfee: 0,
@@ -23,10 +23,12 @@ const LoginProvider = ({ children }) => {
     restaurant_id: "",
     restaurant_name: "",
     username: "default",
+  };
+  const [cartData, setCartData] = useState(() => {
+    // Check if cartData exists in localStorage
+    const storedCartData = localStorage.getItem("cartData");
+    return storedCartData ? JSON.parse(storedCartData) : defaultCartData;
   });
-  // const [cartCount, setCartCount] = useState(
-  //   JSON.parse(localStorage.getItem("cartData"))?.items_count
-  // );
 
   const getSession = async () => {
     return await new Promise((resolve, reject) => {
