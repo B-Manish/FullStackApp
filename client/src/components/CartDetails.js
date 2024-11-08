@@ -4,15 +4,11 @@ import { LoginContext } from "../context/LoginContext";
 import CartItem from "./CartItem";
 
 const CartDetails = ({ isLoggedIn = false }) => {
-  const { cartData, setCartData } = useContext(LoginContext);
-  const [itemTotal, setItemTotal] = useState(
-    JSON.parse(localStorage.getItem("cartData"))?.billdetails?.item_total
-  );
-
-  const [total, setTotal] = useState(
-    JSON.parse(localStorage.getItem("cartData"))?.billdetails?.total
-  );
-
+  const { cartData } = useContext(LoginContext);
+  const itemTotal = JSON.parse(localStorage.getItem("cartData"))?.billdetails
+    ?.item_total;
+  const total = JSON.parse(localStorage.getItem("cartData"))?.billdetails
+    ?.total;
   useEffect(() => {
     const updatedData = {
       ...cartData,
@@ -44,7 +40,9 @@ const CartDetails = ({ isLoggedIn = false }) => {
             </Box>
           ))}
           <Box> Bill Details</Box>
-          <Box sx={{ display: "flex" }}>Item Total : {itemTotal}</Box>
+          <Box sx={{ display: "flex" }}>
+            Item Total : {cartData?.billdetails?.item_total}
+          </Box>
           <Box sx={{ display: "flex" }}>
             Delivery Fee: {cartData?.billdetails?.deliveryfee}
           </Box>
@@ -53,7 +51,9 @@ const CartDetails = ({ isLoggedIn = false }) => {
           </Box>
           <Box sx={{ display: "flex" }}>GST: {cartData?.billdetails?.gst}</Box>
           <Box sx={{ height: "1px", background: "black", width: "100%" }} />
-          <Box sx={{ display: "flex" }}>To Pay:{total}</Box>
+          <Box sx={{ display: "flex" }}>
+            To Pay:{cartData?.billdetails?.total}
+          </Box>
         </Box>
       )}
     </Box>
