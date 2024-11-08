@@ -31,7 +31,15 @@ function RestaurantDetails() {
       if (itemIndex === -1) {
         return {
           ...prev,
-          items: [...prev.items, { ...Item, mid: Item.mid, count: 1 }],
+          items: [
+            ...prev.items,
+            {
+              ...Item,
+              mid: Item.mid,
+              count: 1,
+              isVeg: isVeg === true ? true : false,
+            },
+          ],
           billdetails: {
             ...prev.billdetails,
             total: prev.billdetails.total + Item.price,
@@ -45,6 +53,7 @@ function RestaurantDetails() {
           ...Item,
           ...updatedItems[itemIndex],
           count: updatedItems[itemIndex]?.count + 1,
+          isVeg: isVeg === true ? true : false,
         };
 
         return {
