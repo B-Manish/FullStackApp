@@ -20,7 +20,6 @@ class billdetails(BaseModel):
     total: int
 
 class cart(BaseModel):
-    cart_id: str
     billdetails: billdetails
     branch: str
     items: List[cartitem]
