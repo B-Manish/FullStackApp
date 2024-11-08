@@ -240,18 +240,18 @@ async def get_restaurant(restaurant_id: str):
         raise HTTPException(status_code=500, detail=str(e))
     
     
-@router.get("/getCartDetails/{cart_id}")
-async def get_cart(cart_id: str):
+@router.get("/getCartDetails/{username}")
+async def get_cart(username: str):
     table = dynamodb.Table('cart')
     
     try:
-        response = table.get_item(Key={'cart_id': cart_id})
+        response = table.get_item(Key={'username': username})
         cart = response.get('Item')
         
         if cart:
             return {"cart":cart}
         else:
-            raise HTTPException(status_code=404, detail="Restaurant not found")
+            raise HTTPException(status_code=404, detail="Cart not found")
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))  
     
