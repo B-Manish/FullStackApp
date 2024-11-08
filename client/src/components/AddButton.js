@@ -1,12 +1,24 @@
 import { Box, Paper, Grid } from "@mui/material";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { LoginContext } from "../context/LoginContext";
 
-function AddButton({ top = "130px", clickHandler, count, setCount, Item }) {
-  const { setCartData } = useContext(LoginContext);
+function AddButton({
+  top = "130px",
+  clickHandler,
+  count,
+  setCount,
+  Item,
+  absolute = false,
+}) {
+  const { cartData, setCartData } = useContext(LoginContext);
   const increaseCount = () => {
     setCount((prev) => prev + 1);
   };
+
+  useEffect(() => {
+    localStorage.setItem("cartData", JSON.stringify(cartData));
+  }, [cartData]);
+
   return count === 0 ? (
     <Paper
       sx={{
@@ -21,7 +33,7 @@ function AddButton({ top = "130px", clickHandler, count, setCount, Item }) {
         "&:hover": {
           background: "rgb(226, 226, 231)",
         },
-        position: "absolute",
+        position: absolute === true && "absolute",
         top: top,
       }}
       onClick={() => {
@@ -42,7 +54,7 @@ function AddButton({ top = "130px", clickHandler, count, setCount, Item }) {
         color: "#1BA672",
         fontSize: "18px",
         fontWeight: "800",
-        position: "absolute",
+        position: absolute === true && "absolute",
         top: top,
       }}
     >

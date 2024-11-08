@@ -1,12 +1,10 @@
-// RightModal.js
-import React, { useEffect, useState } from "react";
-import { Box, Grid ,Paper} from "@mui/material";
-import Icon from "./Icon";
-import Veg from "../assets/veg.png";
-import NonVeg from "../assets/nonveg.png";
+import React, { useEffect, useState, useContext } from "react";
+import { Box } from "@mui/material";
+import { LoginContext } from "../context/LoginContext";
+import CartItem from "./CartItem";
 
 const CartDetails = ({ isLoggedIn = false }) => {
-  const cartData = JSON.parse(localStorage.getItem("cartData"));
+  const { cartData, setCartData } = useContext(LoginContext);
   const [itemTotal, setItemTotal] = useState(
     JSON.parse(localStorage.getItem("cartData"))?.billdetails?.item_total
   );
@@ -40,86 +38,9 @@ const CartDetails = ({ isLoggedIn = false }) => {
               <Box>{cartData?.branch}</Box>
             </Box>
           </Box>
-          {cartData?.items.map((item, index) => (
-            <Box key={item?.name} sx={{ display: "flex" }}>
-              {item?.isVeg === true ? (
-                <Icon src={Veg} />
-              ) : (
-                <Icon src={NonVeg} />
-              )}
-              {item?.name}{" "}
-              <Paper
-                sx={{
-                  height: "38px",
-                  width: "120px",
-                  cursor: "pointer",
-                  display: "grid",
-                  placeItems: "center",
-                  color: "#1BA672",
-                  fontSize: "18px",
-                  fontWeight: "800",
-                }}
-              >
-                <Grid container sx={{ height: "100%" }}>
-                  <Grid
-                    item
-                    xs={4}
-                    onClick={() => {
-                      setItemTotal((prev) => prev - item?.price);
-                      setTotal((prev) => prev - item?.price);
-                    }}
-                  >
-                    <Box
-                      sx={{
-                        width: "100%",
-                        height: "100%",
-                        display: "grid",
-                        placeItems: "center",
-                        borderTopLeftRadius: "4px",
-                        borderBottomLeftRadius: "4px",
-                        "&:hover": {
-                          background: "rgb(226, 226, 231)",
-                        },
-                      }}
-                    >
-                      -
-                    </Box>
-                  </Grid>
-                  <Grid
-                    item
-                    xs={4}
-                    sx={{ display: "grid", placeItems: "center" }}
-                  >
-                    {item?.count}
-                  </Grid>
-                  <Grid
-                    item
-                    xs={4}
-                    onClick={() => {
-                      setItemTotal((prev) => prev + item?.price);
-                      setTotal((prev) => prev + item?.price);
-                    }}
-                    sx={{ display: "grid", placeItems: "center" }}
-                  >
-                    <Box
-                      sx={{
-                        width: "100%",
-                        height: "100%",
-                        display: "grid",
-                        placeItems: "center",
-                        borderTopRightRadius: "4px",
-                        borderBottomRightRadius: "4px",
-                        "&:hover": {
-                          background: "rgb(226, 226, 231)",
-                        },
-                      }}
-                    >
-                      +
-                    </Box>
-                  </Grid>
-                </Grid>
-              </Paper>
-              {item?.price}
+          {cartData?.items.map((item) => (
+            <Box key={item?.name}>
+              <CartItem cartitem={item} />
             </Box>
           ))}
           <Box> Bill Details</Box>

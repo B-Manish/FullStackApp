@@ -75,6 +75,7 @@ function MenuItemCard({ img, isVeg, name, cost, rating, clickHandler, item }) {
           count={count}
           setCount={setCount}
           Item={item}
+          absolute
         />
         {!img ? (
           <Icon
