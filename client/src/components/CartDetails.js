@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { Box } from "@mui/material";
 import { LoginContext } from "../context/LoginContext";
 import CartItem from "./CartItem";
+import { updateCart, addToCart } from "../api/restaurantApi";
 
 const CartDetails = ({ isLoggedIn = false }) => {
   const { cartData } = useContext(LoginContext);
@@ -9,6 +10,8 @@ const CartDetails = ({ isLoggedIn = false }) => {
     ?.item_total;
   const total = JSON.parse(localStorage.getItem("cartData"))?.billdetails
     ?.total;
+  const [notInitialrender, setNotInitialRender] = useState(false);
+
   useEffect(() => {
     const updatedData = {
       ...cartData,
@@ -20,6 +23,31 @@ const CartDetails = ({ isLoggedIn = false }) => {
     };
     localStorage.setItem("cartData", JSON.stringify(updatedData));
   }, [total, itemTotal]);
+
+  useEffect(() => {
+    setNotInitialRender(true);
+  }, []);
+
+  useEffect(() => {
+    if (cartData?.items_count > 1 && notInitialrender) {
+      updateCart("gg", cartData)
+        .then((res) => {
+          console.log("updated cart");
+        })
+        .catch(() => {
+          console.log("error");
+        });
+    }
+    if (cartData?.items_count === 1 && notInitialrender) {
+      addToCart(cartData)
+        .then((res) => {
+          console.log("added to cart");
+        })
+        .catch(() => {
+          console.log("error");
+        });
+    }
+  }, [cartData]);
 
   return (
     <Box>

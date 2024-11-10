@@ -8,7 +8,6 @@ const LoginProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState("");
   const defaultCartData = {
-    cart_id: "1",
     billdetails: {
       deliveryfee: 0,
       gst: 0,
@@ -22,7 +21,7 @@ const LoginProvider = ({ children }) => {
     items_count: 0,
     restaurant_id: "",
     restaurant_name: "",
-    username: "default",
+    username: "gg",
   };
   const [cartData, setCartData] = useState(() => {
     const storedCartData = localStorage.getItem("cartData");

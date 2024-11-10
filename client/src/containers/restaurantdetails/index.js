@@ -2,7 +2,11 @@ import { Box, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import React, { useEffect, useState, useContext } from "react";
-import { getRestaurantDetails } from "../../api/restaurantApi";
+import {
+  getRestaurantDetails,
+  updateCart,
+  addToCart,
+} from "../../api/restaurantApi";
 import DeliveryDetailsCard from "../../components/DeliveryDetailsCard";
 import MenuItemCard from "../../components/MenuItemCard";
 import { LoginContext } from "../../context/LoginContext";
@@ -11,6 +15,7 @@ function RestaurantDetails() {
   const { restaurantID } = useParams();
   const [data, setData] = useState({});
   const { cartData, setCartData } = useContext(LoginContext);
+  const [notInitialrender, setNotInitialRender] = useState(false);
 
   useEffect(() => {
     getRestaurantDetails(restaurantID)
@@ -18,7 +23,29 @@ function RestaurantDetails() {
         setData(res);
       })
       .catch(() => {});
+    setNotInitialRender(true);
   }, []);
+
+  useEffect(() => {
+    if (cartData?.items_count > 1 && notInitialrender) {
+      updateCart("gg", cartData)
+        .then((res) => {
+          console.log("updated cart");
+        })
+        .catch(() => {
+          console.log("error");
+        });
+    }
+    if (cartData?.items_count === 1 && notInitialrender) {
+      addToCart(cartData)
+        .then((res) => {
+          console.log("added to cart");
+        })
+        .catch(() => {
+          console.log("error");
+        });
+    }
+  }, [cartData]);
 
   useEffect(() => {
     localStorage.setItem("cartData", JSON.stringify(cartData));
@@ -46,6 +73,8 @@ function RestaurantDetails() {
             item_total: prev.billdetails.item_total + Item.price,
           },
           items_count: prev.items_count + 1,
+          restaurant_id: data?.restaurant.restaurant_id,
+          restaurant_name: data?.restaurant.name,
         };
       } else {
         const updatedItems = [...prev.items];
@@ -65,6 +94,8 @@ function RestaurantDetails() {
             item_total: prev.billdetails.item_total + Item.price,
           },
           items_count: prev.items_count + 1,
+          restaurant_id: data?.restaurant.restaurant_id,
+          restaurant_name: data?.restaurant.name,
         };
       }
     });

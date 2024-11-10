@@ -29,3 +29,19 @@ export const getLambdaapi = () => {
       return payload;
     });
 };
+
+export const updateCart = (username, bodyParams) => {
+  return api
+    .put(`http://localhost:8000/cart/${username}`, bodyParams)
+    .then((payload) => {
+      return payload;
+    });
+};
+
+export const addToCart = (bodyParams) => {
+  return api
+    .post(`http://localhost:8000/addToCart`, bodyParams)
+    .then((payload) => {
+      return payload;
+    });
+};
