@@ -190,7 +190,7 @@ from pydantic import BaseModel, Field
 from .keys import ACCESS_KEY_ID,SECRET_ACCESS_KEY
 from pydantic import BaseModel, Field
 from typing import List
-from models.user import cartitem,cart
+from models.user import cartitem,cart,updatecart
 from decimal import Decimal
 import uuid
 
@@ -277,7 +277,31 @@ async def submitdata(testItem:cart):
     item['billdetails']["gst"]=Decimal(str(item['billdetails']["gst"])) 
     
     table.put_item(Item = item)
-    return "data submitted successfully"      
+    return "data submitted successfully"    
+
+
+@router.put("/cart/{username}")
+async def update_item(username:str,cartitem:updatecart):
+    table = dynamodb.Table('cart')
+    response = table.update_item(
+        Key={'username': username},
+        UpdateExpression="SET items_count = :items_count,  billdetails = :billdetails,#items = :items,branch=:branch,restaurant_id=:restaurant_id,restaurant_name=:restaurant_name",
+          ExpressionAttributeNames={
+            '#items': 'items'  # since 'items' is a reserved keyword 
+        },
+        ExpressionAttributeValues={
+            ':items_count': cartitem.items_count,
+            ':items': cartitem.items,
+            ':billdetails': cartitem.billdetails,
+            ':branch': cartitem.branch,
+            ':restaurant_id': cartitem.restaurant_id,
+            ':restaurant_name': cartitem.restaurant_name
+
+
+        },
+        ReturnValues="UPDATED_NEW"  
+    )
+    return {"message": "Item updated successfully", "updated_attributes": response['Attributes']}
 
 
 

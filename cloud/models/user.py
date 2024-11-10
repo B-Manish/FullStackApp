@@ -28,6 +28,16 @@ class cart(BaseModel):
     restaurant_name: str
     username: str
 
+
+class updatecart(BaseModel):
+    billdetails: dict
+    branch: str
+    items: List[dict]
+    items_count: int
+    restaurant_id: str
+    restaurant_name: str
+
+
 # class testuser(Document): 
 #     name:str
 #     age:int 
