@@ -62,11 +62,14 @@ const CartDetails = ({ isLoggedIn = false }) => {
               <Box>{cartData?.branch}</Box>
             </Box>
           </Box>
-          {cartData?.items.map((item) => (
-            <Box key={item?.name}>
-              <CartItem cartitem={item} />
-            </Box>
-          ))}
+          {cartData?.items.map(
+            (item) =>
+              item?.count > 0 && (
+                <Box key={item?.name}>
+                  <CartItem cartitem={item} />
+                </Box>
+              )
+          )}
           <Box> Bill Details</Box>
           <Box sx={{ display: "flex" }}>
             Item Total : {cartData?.billdetails?.item_total}

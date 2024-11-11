@@ -291,7 +291,7 @@ async def update_item(username:str,cartitem:updatecart):
         },
         ExpressionAttributeValues={
             ':items_count': cartitem.items_count,
-            ':items': cartitem.items,
+            ':items': list(filter(lambda item: item['count'] != 0, cartitem.items)),  
             ':billdetails': cartitem.billdetails,
             ':branch': cartitem.branch,
             ':restaurant_id': cartitem.restaurant_id,
