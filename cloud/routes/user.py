@@ -209,7 +209,6 @@ dynamodb = boto3.resource('dynamodb',
 def getall():
     table = dynamodb.Table('restaurants')
     items = table.scan()
-    print(items)
     return items["Items"]
 
 @router.post("/createRestaurant")
@@ -323,6 +322,8 @@ async def get_cart(orderid: str):
 @router.get("/getAllOrders")
 def get_all_orders(page: int = Query(1, ge=1), count: int = Query(10, ge=1)):
     table = dynamodb.Table('orders')
+    total_items_response = table.scan(Select='COUNT')
+    total_items = total_items_response['Count']
 
     limit = count
     start_key = None
@@ -336,7 +337,8 @@ def get_all_orders(page: int = Query(1, ge=1), count: int = Query(10, ge=1)):
     response = table.scan(Limit=limit, ExclusiveStartKey=start_key) if start_key else table.scan(Limit=limit)
     
     return {
-        "orders": response["Items"]
+        "orders": response["Items"],
+        "count":total_items
     }   
 
 # @router.post("/createRestaurant")

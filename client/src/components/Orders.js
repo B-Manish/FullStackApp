@@ -3,8 +3,9 @@ import React, { useEffect, useState, useRef } from "react";
 import { getOrders } from "../api/restaurantApi";
 import OrderCard from "./OrderCard";
 
-function Orders({ totalOrders = 17, itemHeight = 160, itemsPerPage = 3 }) {
+function Orders({ itemHeight, itemsPerPage = 3 }) {
   const [orders, setOrders] = useState([]);
+  const [totalOrders, setTotalOrders] = useState(0);
   const [page, setPage] = useState(1);
 
   const [visibleStart, setVisibleStart] = useState(0);
@@ -32,20 +33,17 @@ function Orders({ totalOrders = 17, itemHeight = 160, itemsPerPage = 3 }) {
   };
 
   useEffect(() => {
-    console.log("containerRef.current.scrollTop", containerRef);
-  }, [containerRef]);
-
-  useEffect(() => {
     setVisibleEnd(visibleStart + visibleItemCount);
   }, [visibleStart, visibleItemCount]);
 
   useEffect(() => {
-    if (orders?.length < totalOrders) {
+    if (orders?.length <= totalOrders) {
       getOrders(page)
         .then((res) => {
           setOrders((prev) => {
             return [...prev, ...res.orders];
           });
+          setTotalOrders(res.count);
         })
         .catch(() => {});
     }

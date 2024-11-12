@@ -29,7 +29,7 @@ function Profile() {
             ORDERS
           </Grid>
           <Grid item xs={10}>
-            <Orders itemsPerPage={11} />
+            <Orders itemsPerPage={5} itemHeight={160} />
           </Grid>
         </Grid>
       </Box>
