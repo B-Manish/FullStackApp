@@ -304,6 +304,22 @@ async def update_item(username:str,cartitem:updatecart):
     return {"message": "Item updated successfully", "updated_attributes": response['Attributes']}
 
 
+@router.get("/getOrder/{orderid}")
+async def get_cart(orderid: str):
+    table = dynamodb.Table('orders')
+    
+    try:
+        response = table.get_item(Key={'order_id': orderid})
+        order = response.get('Item')
+        
+        if cart:
+            return {"order":order}
+        else:
+            raise HTTPException(status_code=404, detail="Order not found")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e)) 
+
+
 
 # @router.post("/createRestaurant")
 # async def submitdata():
