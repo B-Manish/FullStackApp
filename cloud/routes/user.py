@@ -320,6 +320,11 @@ async def get_cart(orderid: str):
         raise HTTPException(status_code=500, detail=str(e)) 
 
 
+@router.get("/getAllOrders")
+def getallOrders():
+    table = dynamodb.Table('orders')
+    orders = table.scan()
+    return {"orders":orders["Items"]}    
 
 # @router.post("/createRestaurant")
 # async def submitdata():
