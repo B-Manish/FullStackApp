@@ -1,20 +1,22 @@
-import { Box } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import React from "react";
-import OrderCard from "../../components/OrderCard";
+import Orders from "../../components/Orders";
 
 function Profile() {
   return (
     <Box
       sx={{
-        width: "99.93vw",
+        width: "100vw",
+        maxWidth: "1300px",
         border: "1px solid red",
         background: "#37718E",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
+        padding: "20px",
       }}
     >
-      <Box sx={{ width: "50%", height: "50vh" }}>
+      <Box sx={{ width: "100%" }}>
         <Box sx={{ background: "#37718E" }}>
           <Box>Manish</Box>
           <Box sx={{ display: "flex" }}>
@@ -22,11 +24,14 @@ function Profile() {
             <Box>batchumanish@gmail.com</Box>
           </Box>
         </Box>
-        <Box
-          sx={{ background: "white", height: "100%", border: "1px solid red" }}
-        >
-          <OrderCard />
-        </Box>
+        <Grid container sx={{ mt: "10px" }}>
+          <Grid item xs={2}>
+            Orders
+          </Grid>
+          <Grid item xs={10}>
+            <Orders />
+          </Grid>
+        </Grid>
       </Box>
     </Box>
   );

@@ -45,3 +45,9 @@ export const addToCart = (bodyParams) => {
       return payload;
     });
 };
+
+export const getOrders = () => {
+  return api.get(`http://localhost:8000/getAllOrders`).then((payload) => {
+    return payload;
+  });
+};
