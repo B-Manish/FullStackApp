@@ -1,8 +1,9 @@
 import { Box, Grid } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import Orders from "../../components/Orders";
 
 function Profile() {
+  const [page, setPage] = useState(1);
   return (
     <Box
       sx={{
@@ -26,10 +27,10 @@ function Profile() {
         </Box>
         <Grid container sx={{ mt: "10px" }}>
           <Grid item xs={2}>
-            Orders
+            Orders page:{page}
           </Grid>
           <Grid item xs={10}>
-            <Orders />
+            <Orders page={page} setPage={setPage} />
           </Grid>
         </Grid>
       </Box>
