@@ -17,7 +17,7 @@ function Orders() {
   return (
     <Box>
       {orders.map((order) => (
-        <OrderCard order={order} />
+        <OrderCard key={order?.order_id} order={order} />
       ))}
     </Box>
   );
