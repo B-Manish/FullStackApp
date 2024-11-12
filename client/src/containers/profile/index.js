@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import Orders from "../../components/Orders";
 
 function Profile() {
-  const [page, setPage] = useState(1);
   return (
     <Box
       sx={{
@@ -27,10 +26,10 @@ function Profile() {
         </Box>
         <Grid container sx={{ mt: "10px" }}>
           <Grid item xs={2}>
-            Orders page:{page}
+            ORDERS
           </Grid>
           <Grid item xs={10}>
-            <Orders page={page} setPage={setPage} />
+            <Orders itemsPerPage={11} />
           </Grid>
         </Grid>
       </Box>
