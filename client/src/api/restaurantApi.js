@@ -46,8 +46,10 @@ export const addToCart = (bodyParams) => {
     });
 };
 
-export const getOrders = () => {
-  return api.get(`http://localhost:8000/getAllOrders`).then((payload) => {
-    return payload;
-  });
+export const getOrders = (page = 1, count = 10) => {
+  return api
+    .get(`http://localhost:8000/getAllOrders?page=${page}&count=${count}`)
+    .then((payload) => {
+      return payload;
+    });
 };

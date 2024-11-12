@@ -321,10 +321,23 @@ async def get_cart(orderid: str):
 
 
 @router.get("/getAllOrders")
-def getallOrders():
+def get_all_orders(page: int = Query(1, ge=1), count: int = Query(10, ge=1)):
     table = dynamodb.Table('orders')
-    orders = table.scan()
-    return {"orders":orders["Items"]}    
+
+    limit = count
+    start_key = None
+    
+    for _ in range(page - 1):
+        response = table.scan(Limit=limit, ExclusiveStartKey=start_key) if start_key else table.scan(Limit=limit)
+        start_key = response.get('LastEvaluatedKey')
+        if not start_key:
+            return {"orders": []}
+    
+    response = table.scan(Limit=limit, ExclusiveStartKey=start_key) if start_key else table.scan(Limit=limit)
+    
+    return {
+        "orders": response["Items"]
+    }   
 
 # @router.post("/createRestaurant")
 # async def submitdata():
