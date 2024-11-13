@@ -25,6 +25,44 @@ function MenuItemCard({ img, isVeg, name, cost, rating, clickHandler, item }) {
     );
   }, []);
 
+  function isWithinTimeRange(timing) {
+    // Get the current time from Date object
+    const now = new Date();
+    const currentHours = now.getHours();
+    const currentMinutes = now.getMinutes();
+    const currentTotalMinutes = currentHours * 60 + currentMinutes;
+
+    console.log("now",now);
+
+    // Extract the start and end times from the timing string (assumed in HH:mm format)
+    const [startTime, endTime] = timing.split("-");
+
+    // Convert start and end times to minutes
+    const [startHours, startMinutes] = startTime.split(":").map(Number);
+    const [endHours, endMinutes] = endTime.split(":").map(Number);
+    const startTotalMinutes = startHours * 60 + startMinutes;
+    const endTotalMinutes = endHours * 60 + endMinutes;
+
+    if (startTotalMinutes <= endTotalMinutes) {
+      // If start and end are on the same day
+      return (
+        currentTotalMinutes >= startTotalMinutes &&
+        currentTotalMinutes <= endTotalMinutes
+      );
+    } else {
+      // If the time range crosses midnight
+      return (
+        currentTotalMinutes >= startTotalMinutes ||
+        currentTotalMinutes <= endTotalMinutes
+      );
+    }
+  }
+
+  useEffect(() => {
+    console.log("isWithinTimeRange",isWithinTimeRange(item?.availabletiming));
+    console.log("item?.availabletiming",item?.availabletiming)
+  }, []);
+
   return (
     <Grid
       container
@@ -70,13 +108,19 @@ function MenuItemCard({ img, isVeg, name, cost, rating, clickHandler, item }) {
         xs={4}
         sx={{ display: "grid", placeItems: "center", position: "relative" }}
       >
-        <AddButton
-          clickHandler={clickHandler}
-          count={count}
-          setCount={setCount}
-          Item={item}
-          absolute
-        />
+        gg
+        {isWithinTimeRange(item?.availabletiming) ? (
+          <>item not available</>
+        ) : (
+          <AddButton
+            clickHandler={clickHandler}
+            count={count}
+            setCount={setCount}
+            Item={item}
+            absolute
+          />
+        )}
+
         {!img ? (
           <Icon
             src={PlaceHolder}
