@@ -337,8 +337,9 @@ def get_all_orders(page: int = Query(1, ge=1), count: int = Query(10, ge=1)):
     response = table.scan(Limit=limit, ExclusiveStartKey=start_key) if start_key else table.scan(Limit=limit)
     
     return {
-        "orders": response["Items"],
-        "count":total_items
+        "count":total_items,
+        "orders": response["Items"]
+        
     }   
 
 # @router.post("/createRestaurant")

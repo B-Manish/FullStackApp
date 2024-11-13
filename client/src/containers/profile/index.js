@@ -4,7 +4,8 @@ import Orders from "../../components/Orders";
 
 function Profile() {
   return (
-    <Box
+    <Grid
+      container
       sx={{
         width: "100vw",
         maxWidth: "1300px",
@@ -14,6 +15,8 @@ function Profile() {
         flexDirection: "column",
         alignItems: "center",
         padding: "20px",
+        height: "calc(100vh - 80px)",
+        overflow: "hidden",
       }}
     >
       <Box sx={{ width: "100%" }}>
@@ -29,11 +32,14 @@ function Profile() {
             ORDERS
           </Grid>
           <Grid item xs={10}>
-            <Orders itemsPerPage={5} itemHeight={160} />
+            <Orders
+              itemsPerPage={Math.floor((window.innerHeight - 100) / 160) + 1}
+              itemHeight={160}
+            />
           </Grid>
         </Grid>
       </Box>
-    </Box>
+    </Grid>
   );
 }
 

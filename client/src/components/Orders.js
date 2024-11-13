@@ -3,7 +3,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { getOrders } from "../api/restaurantApi";
 import OrderCard from "./OrderCard";
 
-function Orders({ itemHeight, itemsPerPage = 3 }) {
+function Orders({ itemHeight, itemsPerPage }) {
   const [orders, setOrders] = useState([]);
   const [totalOrders, setTotalOrders] = useState(0);
   const [page, setPage] = useState(1);
@@ -63,6 +63,8 @@ function Orders({ itemHeight, itemsPerPage = 3 }) {
               position: "absolute",
               top: `${(index + visibleStart) * itemHeight}px`,
               width: "100%",
+              height: `${itemHeight}px`,
+              overflow: "hidden",
             }}
           >
             <OrderCard key={order?.order_id} order={order} />
