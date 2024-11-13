@@ -1,9 +1,13 @@
-import { Box, Grid } from "@mui/material";
+import { Box } from "@mui/material";
 import React, { useEffect, useState, useRef } from "react";
 import { getOrders } from "../api/restaurantApi";
 import OrderCard from "./OrderCard";
 
-function Orders({ itemHeight, itemsPerPage }) {
+function Orders({
+  itemHeight,
+  occupied,
+  itemsPerPage = Math.floor((window.innerHeight - occupied) / itemHeight) + 1,
+}) {
   const [orders, setOrders] = useState([]);
   const [totalOrders, setTotalOrders] = useState(0);
   const [page, setPage] = useState(1);
@@ -51,7 +55,10 @@ function Orders({ itemHeight, itemsPerPage }) {
 
   return (
     <Box
-      sx={{ height: `${itemHeight * itemsPerPage}px`, overflowY: "scroll" }}
+      sx={{
+        height: `${window.innerHeight - occupied}px`,
+        overflowY: "scroll",
+      }}
       onScroll={handleScroll}
       ref={containerRef}
     >

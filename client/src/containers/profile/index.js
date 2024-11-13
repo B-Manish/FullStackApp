@@ -32,10 +32,7 @@ function Profile() {
             ORDERS
           </Grid>
           <Grid item xs={10}>
-            <Orders
-              itemsPerPage={Math.floor((window.innerHeight - 100) / 160) + 1}
-              itemHeight={160}
-            />
+            <Orders itemHeight={150} occupied={145}  />
           </Grid>
         </Grid>
       </Box>
