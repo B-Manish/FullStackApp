@@ -25,43 +25,31 @@ function MenuItemCard({ img, isVeg, name, cost, rating, clickHandler, item }) {
     );
   }, []);
 
-  function isWithinTimeRange(timing) {
-    // Get the current time from Date object
+  function isWithinTimeRange(starttiming, endtiming) {
     const now = new Date();
-    const currentHours = now.getHours();
-    const currentMinutes = now.getMinutes();
-    const currentTotalMinutes = currentHours * 60 + currentMinutes;
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+    const currentTime = `${hours}:${minutes < 10 ? "0" + minutes : minutes}`;
 
-    console.log("now",now);
+    const [hours1, minutes1] = currentTime?.split(":").map(Number);
+    const [hours2, minutes2] = starttiming?.split(":").map(Number);
+    const [hours3, minutes3] = endtiming?.split(":").map(Number);
 
-    // Extract the start and end times from the timing string (assumed in HH:mm format)
-    const [startTime, endTime] = timing.split("-");
+    const currentdate = new Date();
+    currentdate.setHours(hours1, minutes1, 0, 0);
 
-    // Convert start and end times to minutes
-    const [startHours, startMinutes] = startTime.split(":").map(Number);
-    const [endHours, endMinutes] = endTime.split(":").map(Number);
-    const startTotalMinutes = startHours * 60 + startMinutes;
-    const endTotalMinutes = endHours * 60 + endMinutes;
+    const date2 = new Date();
+    date2.setHours(hours2, minutes2, 0, 0);
 
-    if (startTotalMinutes <= endTotalMinutes) {
-      // If start and end are on the same day
-      return (
-        currentTotalMinutes >= startTotalMinutes &&
-        currentTotalMinutes <= endTotalMinutes
-      );
+    const date3 = new Date();
+    date3.setHours(hours3, minutes3, 0, 0);
+
+    if (currentdate > date2 && currentdate < date3) {
+      return true;
     } else {
-      // If the time range crosses midnight
-      return (
-        currentTotalMinutes >= startTotalMinutes ||
-        currentTotalMinutes <= endTotalMinutes
-      );
+      return false;
     }
   }
-
-  useEffect(() => {
-    console.log("isWithinTimeRange",isWithinTimeRange(item?.availabletiming));
-    console.log("item?.availabletiming",item?.availabletiming)
-  }, []);
 
   return (
     <Grid
@@ -108,8 +96,10 @@ function MenuItemCard({ img, isVeg, name, cost, rating, clickHandler, item }) {
         xs={4}
         sx={{ display: "grid", placeItems: "center", position: "relative" }}
       >
-        gg
-        {isWithinTimeRange(item?.availabletiming) ? (
+        {!isWithinTimeRange(
+          item?.availabletiming.starttime,
+          item?.availabletiming.endtime
+        ) ? (
           <>item not available</>
         ) : (
           <AddButton
