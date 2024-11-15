@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from routes import user
-from config.db import init
+# from config.db import init
 from contextlib import asynccontextmanager
 
  
@@ -9,7 +9,7 @@ app = FastAPI()
  
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-     await init()
+    #  await init()
  
      yield
 app = FastAPI(lifespan=lifespan)
