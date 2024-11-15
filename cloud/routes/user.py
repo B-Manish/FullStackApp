@@ -185,6 +185,11 @@ def get_all_orders(page: int = Query(1, ge=1), count: int = Query(10, ge=1)):
         "count":total_items,
         "orders": response["Items"]
         
-    }   
-
-
+    } 
+    
+    
+@router.get("/getCategories")
+def getall():
+    table = dynamodb.Table('categories')
+    items = table.scan()
+    return {"categories":items["Items"]}      

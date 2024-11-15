@@ -53,3 +53,11 @@ export const getOrders = (page = 1, count = 10) => {
       return payload;
     });
 };
+
+export const getCategories = () => {
+  return api
+    .get(`http://localhost:8000/getCategories`)
+    .then((payload) => {
+      return payload;
+    });
+};
