@@ -20,20 +20,22 @@ dynamodb = boto3.resource('dynamodb',
 
 @router.get("/getAllRestaurants")
 def get_all_restaurants(
-    category: str = Query(None, description="Category to filter restaurants"),
-    search: str = Query(None, description="Search term to filter restaurants by name, type, or locations"),
-    ispureveg: bool = Query(None, description="Filter for pure vegetarian restaurants")
+    category: str = Query(None, description="Category to filter restaurants (case-insensitive)"),
+    search: str = Query(None, description="Search term to filter restaurants by name, type, or locations (case-insensitive)"),
+    ispureveg: bool = Query(None, description="Filter for pure vegetarian restaurants (True for veg only, False for all)")
 ):
     table = dynamodb.Table('restaurants')
     
-    if category:
-        response = table.scan(
-            FilterExpression=Attr('type').contains(category)
-        )
-    else:
-        response = table.scan()
-    
+    response = table.scan()
     items = response.get("Items", [])
+
+    if category:
+        category_lower = category.lower()
+        
+        items = [
+            item for item in items
+            if any(category_lower in typ.lower() for typ in item.get("type", []))
+        ]
     
     if search:
         search_lower = search.lower()
@@ -46,11 +48,11 @@ def get_all_restaurants(
         ]
     
     if ispureveg is not None:
-        items = [
-            item for item in items
-            if item.get("ispureveg", False) == ispureveg
-        ]
-    
+        if ispureveg:
+            items = [
+                item for item in items
+                if item.get("ispureveg", False) == True
+            ]
     return items
 
 
