@@ -5,6 +5,7 @@ from .keys import ACCESS_KEY_ID,SECRET_ACCESS_KEY
 from models.user import cart,updatecart
 from decimal import Decimal
 import uuid
+from boto3.dynamodb.conditions import Attr
 
 router = APIRouter() 
 
@@ -18,10 +19,22 @@ dynamodb = boto3.resource('dynamodb',
 
 
 @router.get("/getAllRestaurants")
-def getall():
+def get_all_restaurants(category: str = Query(None, description="Category to filter restaurants")):
     table = dynamodb.Table('restaurants')
-    items = table.scan()
-    return items["Items"]
+    
+    response = table.scan()
+    items = response.get("Items", [])
+    
+    if category:
+        category_lower = category.lower()
+        filtered_items = [
+            item for item in items
+            if any(cat.lower() == category_lower for cat in item.get("type", []))
+        ]
+        return filtered_items
+    
+    return items
+
 
 @router.post("/createRestaurant")
 async def submitdata(data:dict):
