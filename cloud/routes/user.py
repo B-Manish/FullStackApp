@@ -19,17 +19,29 @@ dynamodb = boto3.resource('dynamodb',
 
 
 @router.get("/getAllRestaurants")
-def get_all_restaurants(category: str = Query(None, description="Category to filter restaurants")):
+def get_all_restaurants(
+    category: str = Query(None, description="Category to filter restaurants"),
+    search: str = Query(None, description="Search term to filter restaurants by name, type, or locations")
+):
     table = dynamodb.Table('restaurants')
     
-    response = table.scan()
+    if category:
+        response = table.scan(
+            FilterExpression=Attr('type').contains(category)
+        )
+    else:
+        response = table.scan()
+    
     items = response.get("Items", [])
     
-    if category:
-        category_lower = category.lower()
+    if search:
+        search_lower = search.lower()
+        
         filtered_items = [
             item for item in items
-            if any(cat.lower() == category_lower for cat in item.get("type", []))
+            if search_lower in item.get("name", "").lower()  
+            or any(search_lower in loc.lower() for loc in item.get("locations", [])) 
+            or any(search_lower in typ.lower() for typ in item.get("type", []))  
         ]
         return filtered_items
     
