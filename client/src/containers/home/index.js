@@ -9,6 +9,7 @@ import {
 } from "../../api/restaurantApi";
 import RestaurantCard from "../../components/RestaurantCard";
 import Icon from "../../components/Icon";
+import Pizza from "../../assets/categories/idli.png";
 
 function Home() {
   const navigate = useNavigate();
@@ -49,23 +50,26 @@ function Home() {
   return (
     <Box>
       {/* ldata:{ldata} */}
-      <Box>What's on your mind?</Box>
-      <Grid container sx={{ border: "1px solid blue", width: "80vw" }}>
+      <Box sx={{ fontFamily: '"GilroyHeavy", sans-serif', fontSize: "24px" }}>
+        What's on your mind?
+      </Box>
+      <Box sx={{ border: "1px solid blue", width: "80vw", display: "flex" }}>
         {categories?.map((item) => (
-          <Grid
-            item
-            xs={2}
+          <Box
+            sx={{
+              width: "145px",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              cursor: "pointer",
+            }}
             key={item?.category}
           >
-            <Box sx={{ border: "1px solid red" }}>
-              <Box>
-                <Icon src={item?.src} margin="0 0 20px 0"/>
-              </Box>
-              <Box>{item?.category}</Box>
-            </Box>
-          </Grid>
+            <Icon src={Pizza} imgHeight="110px" imgWidth="110px" />
+            <Box>{item?.category}</Box>
+          </Box>
         ))}
-      </Grid>
+      </Box>
       <Grid container sx={{ border: "1px solid blue", width: "80vw" }}>
         {data?.map((item) => (
           <Grid
