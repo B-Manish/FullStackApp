@@ -64,11 +64,15 @@ function MenuItemCard({ img, isVeg, name, cost, rating, clickHandler, item }) {
     >
       <Grid item xs={8}>
         {isVeg === true ? <Icon src={Veg} /> : <Icon src={NonVeg} />}
-        <Typography sx={{ color: "#02060CBF", fontSize: "18px" }}>
+        <Typography
+          sx={{ color: "#02060CBF", fontSize: "18px", fontWeight: "bold" }}
+        >
           {name}
         </Typography>
-        <Typography sx={{ color: "#02060CEB", fontSize: "16px" }}>
-          {cost}
+        <Typography
+          sx={{ color: "#02060CEB", fontSize: "16px", fontWeight: "bold" }}
+        >
+          ₹{cost}
         </Typography>
 
         <Box sx={{ display: "flex", alignItems: "center" }}>

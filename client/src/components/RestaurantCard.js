@@ -38,7 +38,11 @@ function RestaurantCard({
           imgHeight="100%"
         />
       </Box>
-      <Typography>{name}</Typography>
+      <Typography
+        sx={{ fontFamily: '"GilroyMedium", sans-serif', fontSize: "18px" }}
+      >
+        {name}
+      </Typography>
       <Box sx={{ display: "flex" }}>
         <Icon src={SwiggyRating} />
 
