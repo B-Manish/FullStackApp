@@ -66,7 +66,13 @@ function Home() {
             key={item?.category}
           >
             <Icon src={Pizza} imgHeight="110px" imgWidth="110px" />
-            <Box>{item?.category}</Box>
+            <Box
+              sx={{
+                fontSize: "18px",
+              }}
+            >
+              {item?.category}
+            </Box>
           </Box>
         ))}
       </Box>

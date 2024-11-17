@@ -21,9 +21,16 @@ body {
   font-style: normal;
 }
 
-/* body {
+@font-face {
+  font-family: "GilroyMedium";
+  src: url("./assets/fonts/Gilroy-Medium.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
   font-family: "Gilroy", sans-serif;
-} */
+}
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
