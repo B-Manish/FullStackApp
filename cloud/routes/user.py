@@ -31,28 +31,28 @@ def get_all_restaurants(
 
     if category:
         category_lower = category.lower()
-        
+
         items = [
             item for item in items
             if any(category_lower in typ.lower() for typ in item.get("type", []))
         ]
     
     if search:
-        search_lower = search.lower()
+        if len(search) < 2:
+            return []
         
+        search_lower = search.lower()
+
         items = [
             item for item in items
-            if search_lower in item.get("name", "").lower()  
-            or any(search_lower in loc.lower() for loc in item.get("locations", [])) 
-            or any(search_lower in typ.lower() for typ in item.get("type", []))  
+            if search_lower in item.get("name", "").lower()
+            or any(search_lower in loc.lower() for loc in item.get("locations", []))
+            or any(search_lower in typ.lower() for typ in item.get("type", []))
         ]
     
     if ispureveg is not None:
         if ispureveg:
-            items = [
-                item for item in items
-                if item.get("ispureveg", False) == True
-            ]
+            items = [item for item in items if item.get("ispureveg", False) == True]
     return items
 
 

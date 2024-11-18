@@ -1,12 +1,14 @@
 import api from "./customAxios";
 
-export const getAllRestaurants = (category, search) => {
+export const getAllRestaurants = (bodyParameters) => {
   return api
-    .get(
-      `http://localhost:8000/getAllRestaurants${
-        category ? `?category=${category}` : ""
-      }${search ? `&search=${search}` : ""}`
-    )
+    .get(`http://localhost:8000/getAllRestaurants`, {
+      params: {
+        category: bodyParameters?.category,
+        search: bodyParameters?.search,
+        isVeg: bodyParameters?.isVeg,
+      },
+    })
     .then((payload) => {
       return payload;
     });

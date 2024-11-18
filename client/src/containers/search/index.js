@@ -1,16 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box } from "@mui/material";
 import Inputfields from "../../components/Inputfields";
 // import { useDebounce } from "use-debounce";
+import { getAllRestaurants } from "../../api/restaurantApi";
 
 const Search = () => {
   const [data, setData] = useState([]);
-  const [val, setVal] = useState("");
+
   //   const [searchValue] = useDebounce(val, 2000);
+  const [val, setVal] = useState("");
 
   const cancelSearch = () => {
     setVal("");
   };
+
+  useEffect(() => {
+    getAllRestaurants({ search: val })
+      .then((res) => {
+        setData(res);
+      })
+      .catch((err) => {
+        console.log("err", err);
+      });
+  }, [val]);
 
   return (
     <Box sx={{ width: "80vw", maxWidth: "860px" }}>
@@ -20,7 +32,7 @@ const Search = () => {
         onChange={(e) => setVal(e?.target?.value)}
         cancelSearch={cancelSearch}
       />
-      {val !== "" && data?.map((item) => <>gg</>)}
+      {val !== "" && data?.map((item) => <>{item?.name}</>)}
     </Box>
   );
 };
