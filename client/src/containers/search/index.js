@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Box } from "@mui/material";
 import Inputfields from "../../components/Inputfields";
-import { useDebounce } from "use-debounce";
+// import { useDebounce } from "use-debounce";
 
 const Search = () => {
   const [data, setData] = useState([]);

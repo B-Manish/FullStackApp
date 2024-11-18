@@ -3,6 +3,6 @@
     "@aws-amplify/cli": "^12.13.0",
     "@react-google-maps/api": "^2.20.3",
     "axios": "^1.7.7",
-    "use-debounce": "^9.0.4"
+    "use-debounce": "^10.0.4"
   }
 }
