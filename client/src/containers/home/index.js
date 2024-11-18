@@ -17,7 +17,6 @@ function Home() {
   const restData = useSelector((state) => state);
   const [data, setData] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [val, setVal] = useState("");
   // const [ldata, setLdata] = useState("");
 
   const goTo = (restaurantId) => {
@@ -50,17 +49,9 @@ function Home() {
     //   });
   }, []);
 
-  const cancelSearch = () => {
-    setVal("");
-  };
+
   return (
     <Box>
-      <Inputfields
-        variant="search"
-        value={val || ''}
-        onChange={(e) => setVal(e?.target?.value)}
-        cancelSearch={cancelSearch}
-      />
       {/* ldata:{ldata} */}
       <Box sx={{ fontFamily: '"GilroyHeavy", sans-serif', fontSize: "24px" }}>
         What's on your mind?

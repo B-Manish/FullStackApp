@@ -1,9 +1,15 @@
 import api from "./customAxios";
 
-export const getAllRestaurants = () => {
-  return api.get(`http://localhost:8000/getAllRestaurants`).then((payload) => {
-    return payload;
-  });
+export const getAllRestaurants = (category, search) => {
+  return api
+    .get(
+      `http://localhost:8000/getAllRestaurants${
+        category ? `?category=${category}` : ""
+      }${search ? `&search=${search}` : ""}`
+    )
+    .then((payload) => {
+      return payload;
+    });
 };
 
 export const getRestaurantDetails = (restaurant_id) => {
@@ -55,9 +61,7 @@ export const getOrders = (page = 1, count = 10) => {
 };
 
 export const getCategories = () => {
-  return api
-    .get(`http://localhost:8000/getCategories`)
-    .then((payload) => {
-      return payload;
-    });
+  return api.get(`http://localhost:8000/getCategories`).then((payload) => {
+    return payload;
+  });
 };

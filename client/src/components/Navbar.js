@@ -13,22 +13,8 @@ import { LoginContext } from "../context/LoginContext";
 
 function Navbar() {
   const navigate = useNavigate();
-  const { username, isLoggedIn, cartCount, cartData } =
-    useContext(LoginContext);
+  const { username, isLoggedIn, cartData } = useContext(LoginContext);
   const [openModal, setOpenModal] = useState(false);
-  const ppp = () => {
-    console.log("p");
-  };
-
-  // const [cartData, setCartData] = useState({});
-
-  // useEffect(() => {
-  //   getCartDetails("1")
-  //     .then((res) => {
-  //       setCartData(res?.cart);
-  //     })
-  //     .catch(() => {});
-  // }, []);
 
   const openSigninModal = () => {
     if (!isLoggedIn) {
@@ -44,7 +30,7 @@ function Navbar() {
       heading: "Search",
       hasSearch: true,
       hasSignin: false,
-      clickHandler: ppp,
+      clickHandler: () => navigate("/search"),
       isLoggedIn: isLoggedIn,
     },
     {
