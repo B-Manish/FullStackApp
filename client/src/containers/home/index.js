@@ -1,5 +1,5 @@
 import { Box, Grid } from "@mui/material";
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
@@ -10,12 +10,14 @@ import {
 import RestaurantCard from "../../components/RestaurantCard";
 import Icon from "../../components/Icon";
 import Pizza from "../../assets/categories/idli.png";
+import Inputfields from "../../components/Inputfields";
 
 function Home() {
   const navigate = useNavigate();
   const restData = useSelector((state) => state);
   const [data, setData] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [val, setVal] = useState("");
   // const [ldata, setLdata] = useState("");
 
   const goTo = (restaurantId) => {
@@ -47,8 +49,18 @@ function Home() {
     //     console.log("err", err);
     //   });
   }, []);
+
+  const cancelSearch = () => {
+    setVal("");
+  };
   return (
     <Box>
+      <Inputfields
+        variant="search"
+        value={val || ''}
+        onChange={(e) => setVal(e?.target?.value)}
+        cancelSearch={cancelSearch}
+      />
       {/* ldata:{ldata} */}
       <Box sx={{ fontFamily: '"GilroyHeavy", sans-serif', fontSize: "24px" }}>
         What's on your mind?
@@ -95,6 +107,7 @@ function Home() {
               rating={item?.rating}
               type={item?.type[0]}
               clickHandler={() => goTo(item?.restaurant_id)}
+              location={item?.locations[0]}
             />
           </Grid>
         ))}

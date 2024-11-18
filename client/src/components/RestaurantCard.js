@@ -12,6 +12,7 @@ function RestaurantCard({
   rating,
   type,
   clickHandler,
+  location,
 }) {
   return (
     <Box
@@ -64,6 +65,7 @@ function RestaurantCard({
       >
         {type}
       </Typography>
+      <Typography>{location}</Typography>
     </Box>
   );
 }
