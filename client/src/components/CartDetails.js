@@ -80,7 +80,7 @@ const CartDetails = ({ isLoggedIn = false }) => {
               <Box
                 sx={{
                   fontSize: "13px",
-                  fontFamily: '"GilroyHeavy", sans-serif',
+                  fontFamily: '"GilroyBold", sans-serif',
                   mb: "5px ",
                   color: "#68687B",
                 }}
@@ -147,7 +147,7 @@ const CartDetails = ({ isLoggedIn = false }) => {
                   justifyContent: "space-between",
                   mb: "5px ",
                   color: "black",
-                  fontFamily: '"GilroyHeavy", sans-serif',
+                  fontFamily: '"GilroyBold", sans-serif',
                 }}
               >
                 <Box>To Pay:</Box> ₹{cartData?.billdetails?.total}

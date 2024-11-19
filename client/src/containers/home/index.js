@@ -54,7 +54,13 @@ function Home() {
   return (
     <Box>
       {/* ldata:{ldata} */}
-      <Box sx={{ fontFamily: '"GilroyHeavy", sans-serif', fontSize: "24px" ,mt:'15px'}}>
+      <Box
+        sx={{
+          fontFamily: '"GilroyBold", sans-serif',
+          fontSize: "24px",
+          mt: "15px",
+        }}
+      >
         What's on your mind?
       </Box>
       <Box sx={{ width: "80vw", display: "flex", mt: "20px" }}>
@@ -92,11 +98,7 @@ function Home() {
       </Box>
       <Grid container sx={{ width: "80vw" }}>
         {data?.map((item) => (
-          <Grid
-            item
-            xs={3}
-            key={item?.name}
-          >
+          <Grid item xs={3} key={item?.name}>
             <RestaurantCard
               // imgSrc={item?.img}
               imgSrc={Sv}
