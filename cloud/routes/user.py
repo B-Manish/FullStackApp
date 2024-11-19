@@ -24,6 +24,9 @@ def get_all_restaurants(
     search: str = Query(None, description="Search term to filter restaurants by name, type, or locations (case-insensitive)"),
     ispureveg: bool = Query(None, description="Filter for pure vegetarian restaurants (True for veg only, False for all)")
 ):
+    if search == "":
+        return []
+
     table = dynamodb.Table('restaurants')
     
     response = table.scan()
