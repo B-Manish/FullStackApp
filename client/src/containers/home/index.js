@@ -98,7 +98,7 @@ function Home() {
       </Box>
       <Grid container sx={{ width: "80vw" }}>
         {data?.map((item) => (
-          <Grid item xs={3} key={item?.name}>
+          <Grid item xs={6} md={3} key={item?.name}>
             <RestaurantCard
               // imgSrc={item?.img}
               imgSrc={Sv}

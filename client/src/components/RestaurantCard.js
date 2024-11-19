@@ -34,7 +34,6 @@ function RestaurantCard({
       >
         <Box
           sx={{
-            background: "green",
             width: "100%",
             aspectRatio: "188 / 125",
             borderRadius: "20px",

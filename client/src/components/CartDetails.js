@@ -51,111 +51,119 @@ const CartDetails = ({ isLoggedIn = false }) => {
 
   return (
     <Grid container sx={{ maxWidth: "1200px", width: "100vw" }}>
-      <Grid item xs={9}>
-        l
-      </Grid>
-      <Grid item xs={3}>
-        <Box>
-          {isLoggedIn ? (
-            <Box>Logged In</Box>
-          ) : (
-            <Box sx={{ padding: "10px" }}>
-              <Box sx={{ display: "flex" }}>
-                <Box>img</Box>
-                <Box>
-                  <Box sx={{ fontSize: "16px" }}>
-                    {cartData?.restaurant_name}
-                  </Box>
-                  <Box sx={{ fontSize: "13px" }}>{cartData?.branch}</Box>
-                </Box>
-              </Box>
-              {cartData?.items.map(
-                (item) =>
-                  item?.count > 0 && (
-                    <Box key={item?.name}>
-                      <CartItem cartitem={item} />
+      {cartData?.items_count === 0 ? (
+        <>Browse restaurants</>
+      ) : (
+        <>
+          <Grid item xs={9}>
+            l
+          </Grid>
+          <Grid item xs={3}>
+            <Box>
+              {isLoggedIn ? (
+                <Box>Logged In</Box>
+              ) : (
+                <Box sx={{ padding: "10px" }}>
+                  <Box sx={{ display: "flex" }}>
+                    <Box>img</Box>
+                    <Box>
+                      <Box sx={{ fontSize: "16px" }}>
+                        {cartData?.restaurant_name}
+                      </Box>
+                      <Box sx={{ fontSize: "13px" }}>{cartData?.branch}</Box>
                     </Box>
-                  )
+                  </Box>
+                  {cartData?.items.map(
+                    (item) =>
+                      item?.count > 0 && (
+                        <Box key={item?.name}>
+                          <CartItem cartitem={item} />
+                        </Box>
+                      )
+                  )}
+                  <Box
+                    sx={{
+                      fontSize: "13px",
+                      fontFamily: '"GilroyBold", sans-serif',
+                      m: "10px 0 5px 0",
+                      color: "#68687B",
+                    }}
+                  >
+                    Bill Details
+                  </Box>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      fontSize: "13px",
+                      justifyContent: "space-between",
+                      mb: "5px ",
+                      color: "#68687B",
+                    }}
+                  >
+                    <Box>Item Total : </Box>
+                    {cartData?.billdetails?.item_total}
+                  </Box>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      fontSize: "13px",
+                      justifyContent: "space-between",
+                      mb: "5px ",
+                      color: "#68687B",
+                    }}
+                  >
+                    <Box>Delivery Fee:</Box>{" "}
+                    {cartData?.billdetails?.deliveryfee}
+                  </Box>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      fontSize: "13px",
+                      justifyContent: "space-between",
+                      mb: "5px ",
+                      color: "#68687B",
+                    }}
+                  >
+                    <Box>Platform fee:</Box>{" "}
+                    {cartData?.billdetails?.platformfee}
+                  </Box>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      fontSize: "13px",
+                      justifyContent: "space-between",
+                      mb: "2px ",
+                      color: "#68687B",
+                    }}
+                  >
+                    <Box> GST:</Box> {cartData?.billdetails?.gst}
+                  </Box>
+                  <Box
+                    sx={{
+                      height: "1px",
+                      background: "#68687B",
+                      width: "100%",
+                      mb: "5px ",
+                    }}
+                  />
+                  <Box
+                    sx={{
+                      display: "flex",
+                      fontSize: "14px",
+                      justifyContent: "space-between",
+                      mb: "5px ",
+                      color: "black",
+                      fontFamily: '"GilroyBold", sans-serif',
+                    }}
+                  >
+                    <Box>To Pay:</Box> ₹{cartData?.billdetails?.total}
+                  </Box>
+                </Box>
               )}
-              <Box
-                sx={{
-                  fontSize: "13px",
-                  fontFamily: '"GilroyBold", sans-serif',
-                  mb: "5px ",
-                  color: "#68687B",
-                }}
-              >
-                Bill Details
-              </Box>
-              <Box
-                sx={{
-                  display: "flex",
-                  fontSize: "13px",
-                  justifyContent: "space-between",
-                  mb: "5px ",
-                  color: "#68687B",
-                }}
-              >
-                <Box>Item Total : </Box>
-                {cartData?.billdetails?.item_total}
-              </Box>
-              <Box
-                sx={{
-                  display: "flex",
-                  fontSize: "13px",
-                  justifyContent: "space-between",
-                  mb: "5px ",
-                  color: "#68687B",
-                }}
-              >
-                <Box>Delivery Fee:</Box> {cartData?.billdetails?.deliveryfee}
-              </Box>
-              <Box
-                sx={{
-                  display: "flex",
-                  fontSize: "13px",
-                  justifyContent: "space-between",
-                  mb: "5px ",
-                  color: "#68687B",
-                }}
-              >
-                <Box>Platform fee:</Box> {cartData?.billdetails?.platformfee}
-              </Box>
-              <Box
-                sx={{
-                  display: "flex",
-                  fontSize: "13px",
-                  justifyContent: "space-between",
-                  mb: "2px ",
-                  color: "#68687B",
-                }}
-              >
-                <Box> GST:</Box> {cartData?.billdetails?.gst}
-              </Box>
-              <Box
-                sx={{
-                  height: "1px",
-                  background: "#68687B",
-                  width: "100%",
-                  mb: "5px ",
-                }}
-              />
-              <Box
-                sx={{
-                  display: "flex",
-                  fontSize: "14px",
-                  justifyContent: "space-between",
-                  mb: "5px ",
-                  color: "black",
-                  fontFamily: '"GilroyBold", sans-serif',
-                }}
-              >
-                <Box>To Pay:</Box> ₹{cartData?.billdetails?.total}
-              </Box>
             </Box>
-          )}
-        </Box>
-      </Grid>
+          </Grid>
+        </>
+      )}
     </Grid>
   );
 };
