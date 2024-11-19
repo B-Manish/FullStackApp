@@ -3,8 +3,12 @@ import { Box, Grid } from "@mui/material";
 import { LoginContext } from "../context/LoginContext";
 import CartItem from "./CartItem";
 import { updateCart, addToCart } from "../api/restaurantApi";
+import Empty from "../assets/empty.png";
+import Icon from "./Icon";
+import { useNavigate } from "react-router-dom";
 
 const CartDetails = ({ isLoggedIn = false }) => {
+  const navigate = useNavigate();
   const { cartData } = useContext(LoginContext);
   const itemTotal = JSON.parse(localStorage.getItem("cartData"))?.billdetails
     ?.item_total;
@@ -52,7 +56,41 @@ const CartDetails = ({ isLoggedIn = false }) => {
   return (
     <Grid container sx={{ maxWidth: "1200px", width: "100vw" }}>
       {cartData?.items_count === 0 ? (
-        <>Browse restaurants</>
+        <Grid
+          item
+          xs={12}
+          sx={{
+            height: "90vh",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Icon src={Empty} imgHeight="250px" imgWidth="250px" />
+          <Box sx={{ fontSize: "22px", m: "23px 0 7px 0" }}>
+            Your cart is empty
+          </Box>
+          <Box sx={{ fontSize: "14px", mb: "30px" }}>
+            You can go to home page to view more restaurants
+          </Box>
+
+          <Box
+            onClick={() => navigate("/")}
+            sx={{
+              background: "#FC8019",
+              height: "40px",
+              color: "white",
+              fontWeight: "700",
+              display: "grid",
+              placeItems: "center",
+              cursor: "pointer",
+              padding: "0 10px",
+            }}
+          >
+            SEE RESTAURANTS NEAR YOU
+          </Box>
+        </Grid>
       ) : (
         <>
           <Grid item xs={9}>
