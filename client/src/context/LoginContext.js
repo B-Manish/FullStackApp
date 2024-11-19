@@ -7,6 +7,7 @@ export const LoginContext = createContext();
 const LoginProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState("");
+  const [cartRestaurant, setCartRestaurant] = useState("");
   const defaultCartData = {
     billdetails: {
       deliveryfee: 0,
@@ -67,6 +68,8 @@ const LoginProvider = ({ children }) => {
         // setCartCount,
         cartData,
         setCartData,
+        cartRestaurant,
+        setCartRestaurant,
       }}
     >
       {children}

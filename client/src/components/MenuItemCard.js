@@ -9,7 +9,16 @@ import AddButton from "./AddButton";
 import Icon from "./Icon";
 import { LoginContext } from "../context/LoginContext";
 
-function MenuItemCard({ img, isVeg, name, cost, rating, clickHandler, item }) {
+function MenuItemCard({
+  img,
+  isVeg,
+  name,
+  cost,
+  rating,
+  clickHandler,
+  item,
+  updateCount,
+}) {
   const [count, setCount] = useState(0);
   const { cartData } = useContext(LoginContext);
 
@@ -112,6 +121,7 @@ function MenuItemCard({ img, isVeg, name, cost, rating, clickHandler, item }) {
             setCount={setCount}
             Item={item}
             absolute
+            updateCount={updateCount}
           />
         )}
 

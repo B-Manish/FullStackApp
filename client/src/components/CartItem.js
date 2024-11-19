@@ -82,6 +82,7 @@ const CartItem = ({ cartitem }) => {
         count={count}
         setCount={setCount}
         Item={cartitem}
+        updateCount={true}
       />
       <Box
         sx={{

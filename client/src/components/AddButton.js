@@ -9,6 +9,7 @@ function AddButton({
   setCount,
   Item,
   absolute = false,
+  updateCount,
 }) {
   const { cartData, setCartData } = useContext(LoginContext);
   const increaseCount = () => {
@@ -37,8 +38,10 @@ function AddButton({
         top: top,
       }}
       onClick={() => {
-        clickHandler();
-        increaseCount();
+        if (updateCount === true) {
+          clickHandler();
+          increaseCount();
+        }
       }}
     >
       ADD
@@ -63,43 +66,48 @@ function AddButton({
           item
           xs={4}
           onClick={() => {
-            setCount((prev) => prev - 1);
-            setCartData((prev) => {
-              const itemIndex = prev.items.findIndex(
-                (item) => item.mid === Item.mid
-              );
+            if (updateCount === true) {
+              setCount((prev) => prev - 1);
+              setCartData((prev) => {
+                const itemIndex = prev.items.findIndex(
+                  (item) => item.mid === Item.mid
+                );
 
-              if (itemIndex === -1) {
-                return {
-                  ...prev,
-                  items: [...prev.items, { ...Item, mid: Item.mid, count: 1 }],
-                  billdetails: {
-                    ...prev.billdetails,
-                    total: prev.billdetails.total - Item.price,
-                    item_total: prev.billdetails.item_total - Item.price,
-                  },
-                  items_count: prev.items_count - 1,
-                };
-              } else {
-                const updatedItems = [...prev.items];
-                updatedItems[itemIndex] = {
-                  ...Item,
-                  ...updatedItems[itemIndex],
-                  count: updatedItems[itemIndex]?.count - 1,
-                };
+                if (itemIndex === -1) {
+                  return {
+                    ...prev,
+                    items: [
+                      ...prev.items,
+                      { ...Item, mid: Item.mid, count: 1 },
+                    ],
+                    billdetails: {
+                      ...prev.billdetails,
+                      total: prev.billdetails.total - Item.price,
+                      item_total: prev.billdetails.item_total - Item.price,
+                    },
+                    items_count: prev.items_count - 1,
+                  };
+                } else {
+                  const updatedItems = [...prev.items];
+                  updatedItems[itemIndex] = {
+                    ...Item,
+                    ...updatedItems[itemIndex],
+                    count: updatedItems[itemIndex]?.count - 1,
+                  };
 
-                return {
-                  ...prev,
-                  items: updatedItems,
-                  billdetails: {
-                    ...prev.billdetails,
-                    total: prev.billdetails.total - Item.price,
-                    item_total: prev.billdetails.item_total - Item.price,
-                  },
-                  items_count: prev.items_count - 1,
-                };
-              }
-            });
+                  return {
+                    ...prev,
+                    items: updatedItems,
+                    billdetails: {
+                      ...prev.billdetails,
+                      total: prev.billdetails.total - Item.price,
+                      item_total: prev.billdetails.item_total - Item.price,
+                    },
+                    items_count: prev.items_count - 1,
+                  };
+                }
+              });
+            }
           }}
         >
           <Box
@@ -125,43 +133,48 @@ function AddButton({
           item
           xs={4}
           onClick={() => {
-            setCount((prev) => prev + 1);
-            setCartData((prev) => {
-              const itemIndex = prev.items.findIndex(
-                (item) => item.mid === Item.mid
-              );
+            if (updateCount === true) {
+              setCount((prev) => prev + 1);
+              setCartData((prev) => {
+                const itemIndex = prev.items.findIndex(
+                  (item) => item.mid === Item.mid
+                );
 
-              if (itemIndex === -1) {
-                return {
-                  ...prev,
-                  items: [...prev.items, { ...Item, mid: Item.mid, count: 1 }],
-                  billdetails: {
-                    ...prev.billdetails,
-                    total: prev.billdetails.total + Item.price,
-                    item_total: prev.billdetails.item_total + Item.price,
-                  },
-                  items_count: prev.items_count + 1,
-                };
-              } else {
-                const updatedItems = [...prev.items];
-                updatedItems[itemIndex] = {
-                  ...Item,
-                  ...updatedItems[itemIndex],
-                  count: updatedItems[itemIndex]?.count + 1,
-                };
+                if (itemIndex === -1) {
+                  return {
+                    ...prev,
+                    items: [
+                      ...prev.items,
+                      { ...Item, mid: Item.mid, count: 1 },
+                    ],
+                    billdetails: {
+                      ...prev.billdetails,
+                      total: prev.billdetails.total + Item.price,
+                      item_total: prev.billdetails.item_total + Item.price,
+                    },
+                    items_count: prev.items_count + 1,
+                  };
+                } else {
+                  const updatedItems = [...prev.items];
+                  updatedItems[itemIndex] = {
+                    ...Item,
+                    ...updatedItems[itemIndex],
+                    count: updatedItems[itemIndex]?.count + 1,
+                  };
 
-                return {
-                  ...prev,
-                  items: updatedItems,
-                  billdetails: {
-                    ...prev.billdetails,
-                    total: prev.billdetails.total + Item.price,
-                    item_total: prev.billdetails.item_total + Item.price,
-                  },
-                  items_count: prev.items_count + 1,
-                };
-              }
-            });
+                  return {
+                    ...prev,
+                    items: updatedItems,
+                    billdetails: {
+                      ...prev.billdetails,
+                      total: prev.billdetails.total + Item.price,
+                      item_total: prev.billdetails.item_total + Item.price,
+                    },
+                    items_count: prev.items_count + 1,
+                  };
+                }
+              });
+            }
           }}
           sx={{ display: "grid", placeItems: "center" }}
         >

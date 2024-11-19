@@ -14,8 +14,10 @@ import { LoginContext } from "../../context/LoginContext";
 function RestaurantDetails() {
   const { restaurantID } = useParams();
   const [data, setData] = useState({});
-  const { cartData, setCartData } = useContext(LoginContext);
+  const { cartData, setCartData, setCartRestaurant, cartRestaurant } =
+    useContext(LoginContext);
   const [notInitialrender, setNotInitialRender] = useState(false);
+  const [updateCount, setUpdateCount] = useState(false);
 
   useEffect(() => {
     getRestaurantDetails(restaurantID)
@@ -24,26 +26,37 @@ function RestaurantDetails() {
       })
       .catch(() => {});
     setNotInitialRender(true);
+    if (
+      cartRestaurant === "" ||
+      cartRestaurant === data?.restaurant?.restaurant_id
+    ) {
+      setUpdateCount(true);
+    }
   }, []);
 
   useEffect(() => {
-    if (cartData?.items_count > 1 && notInitialrender) {
-      updateCart("gg", cartData)
-        .then((res) => {
-          console.log("updated cart");
-        })
-        .catch(() => {
-          console.log("error");
-        });
-    }
-    if (cartData?.items_count === 1 && notInitialrender) {
-      addToCart(cartData)
-        .then((res) => {
-          console.log("added to cart");
-        })
-        .catch(() => {
-          console.log("error");
-        });
+    if (
+      cartRestaurant === "" ||
+      cartRestaurant === data?.restaurant?.restaurant_id
+    ) {
+      if (cartData?.items_count > 1 && notInitialrender) {
+        updateCart("gg", cartData)
+          .then((res) => {
+            console.log("updated cart");
+          })
+          .catch(() => {
+            console.log("error");
+          });
+      }
+      if (cartData?.items_count === 1 && notInitialrender) {
+        addToCart(cartData)
+          .then((res) => {
+            console.log("added to cart");
+          })
+          .catch(() => {
+            console.log("error");
+          });
+      }
     }
   }, [cartData]);
 
@@ -52,53 +65,59 @@ function RestaurantDetails() {
   }, [cartData]);
 
   const ClickHandler = (Item, isVeg = true) => {
-    setCartData((prev) => {
-      const itemIndex = prev.items.findIndex((item) => item.mid === Item.mid);
+    if (
+      cartRestaurant === "" ||
+      cartRestaurant === data?.restaurant?.restaurant_id
+    ) {
+      setCartRestaurant(data?.restaurant?.restaurant_id);
+      setCartData((prev) => {
+        const itemIndex = prev.items.findIndex((item) => item.mid === Item.mid);
 
-      if (itemIndex === -1) {
-        return {
-          ...prev,
-          items: [
-            ...prev.items,
-            {
-              ...Item,
-              mid: Item.mid,
-              count: 1,
-              isVeg: isVeg === true ? true : false,
+        if (itemIndex === -1) {
+          return {
+            ...prev,
+            items: [
+              ...prev.items,
+              {
+                ...Item,
+                mid: Item.mid,
+                count: 1,
+                isVeg: isVeg === true ? true : false,
+              },
+            ],
+            billdetails: {
+              ...prev.billdetails,
+              total: prev.billdetails.total + Item.price,
+              item_total: prev.billdetails.item_total + Item.price,
             },
-          ],
-          billdetails: {
-            ...prev.billdetails,
-            total: prev.billdetails.total + Item.price,
-            item_total: prev.billdetails.item_total + Item.price,
-          },
-          items_count: prev.items_count + 1,
-          restaurant_id: data?.restaurant.restaurant_id,
-          restaurant_name: data?.restaurant.name,
-        };
-      } else {
-        const updatedItems = [...prev.items];
-        updatedItems[itemIndex] = {
-          ...Item,
-          ...updatedItems[itemIndex],
-          count: updatedItems[itemIndex]?.count + 1,
-          isVeg: isVeg === true ? true : false,
-        };
+            items_count: prev.items_count + 1,
+            restaurant_id: data?.restaurant.restaurant_id,
+            restaurant_name: data?.restaurant.name,
+          };
+        } else {
+          const updatedItems = [...prev.items];
+          updatedItems[itemIndex] = {
+            ...Item,
+            ...updatedItems[itemIndex],
+            count: updatedItems[itemIndex]?.count + 1,
+            isVeg: isVeg === true ? true : false,
+          };
 
-        return {
-          ...prev,
-          items: updatedItems,
-          billdetails: {
-            ...prev.billdetails,
-            total: prev.billdetails.total + Item.price,
-            item_total: prev.billdetails.item_total + Item.price,
-          },
-          items_count: prev.items_count + 1,
-          restaurant_id: data?.restaurant.restaurant_id,
-          restaurant_name: data?.restaurant.name,
-        };
-      }
-    });
+          return {
+            ...prev,
+            items: updatedItems,
+            billdetails: {
+              ...prev.billdetails,
+              total: prev.billdetails.total + Item.price,
+              item_total: prev.billdetails.item_total + Item.price,
+            },
+            items_count: prev.items_count + 1,
+            restaurant_id: data?.restaurant.restaurant_id,
+            restaurant_name: data?.restaurant.name,
+          };
+        }
+      });
+    }
   };
 
   return (
@@ -122,6 +141,7 @@ function RestaurantDetails() {
           rating={item?.rating}
           clickHandler={() => ClickHandler(item, true)}
           item={item}
+          updateCount={updateCount}
         />
       ))}
       {data?.restaurant?.menu?.nonveg?.map((item) => (
@@ -133,6 +153,7 @@ function RestaurantDetails() {
           rating={item?.rating}
           clickHandler={() => ClickHandler(item, false)}
           item={item}
+          updateCount={updateCount}
         />
       ))}
     </Box>
