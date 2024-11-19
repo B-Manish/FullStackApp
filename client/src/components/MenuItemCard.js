@@ -9,18 +9,9 @@ import AddButton from "./AddButton";
 import Icon from "./Icon";
 import { LoginContext } from "../context/LoginContext";
 
-function MenuItemCard({
-  img,
-  isVeg,
-  name,
-  cost,
-  rating,
-  clickHandler,
-  item,
-  updateCount,
-}) {
+function MenuItemCard({ img, isVeg, name, cost, rating, clickHandler, item }) {
   const [count, setCount] = useState(0);
-  const { cartData } = useContext(LoginContext);
+  const { cartData, updateCount } = useContext(LoginContext);
 
   useEffect(() => {
     setCount(
@@ -117,7 +108,7 @@ function MenuItemCard({
         ) : (
           <AddButton
             clickHandler={clickHandler}
-            count={count}
+            count={updateCount ? count : 0}
             setCount={setCount}
             Item={item}
             absolute

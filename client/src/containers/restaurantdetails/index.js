@@ -14,10 +14,15 @@ import { LoginContext } from "../../context/LoginContext";
 function RestaurantDetails() {
   const { restaurantID } = useParams();
   const [data, setData] = useState({});
-  const { cartData, setCartData, setCartRestaurant, cartRestaurant } =
-    useContext(LoginContext);
+  const {
+    cartData,
+    setCartData,
+    setCartRestaurant,
+    cartRestaurant,
+    updateCount,
+    setUpdateCount,
+  } = useContext(LoginContext);
   const [notInitialrender, setNotInitialRender] = useState(false);
-  const [updateCount, setUpdateCount] = useState(false);
 
   useEffect(() => {
     getRestaurantDetails(restaurantID)
@@ -26,13 +31,18 @@ function RestaurantDetails() {
       })
       .catch(() => {});
     setNotInitialRender(true);
+  }, []);
+
+  useEffect(() => {
     if (
       cartRestaurant === "" ||
       cartRestaurant === data?.restaurant?.restaurant_id
     ) {
       setUpdateCount(true);
+    } else {
+      setUpdateCount(false);
     }
-  }, []);
+  }, [data]);
 
   useEffect(() => {
     if (
@@ -134,7 +144,7 @@ function RestaurantDetails() {
 
       {data?.restaurant?.menu?.veg?.map((item) => (
         <MenuItemCard
-          key={item.name}
+          key={item.mid}
           isVeg
           name={item?.name}
           cost={item?.price}
@@ -146,7 +156,7 @@ function RestaurantDetails() {
       ))}
       {data?.restaurant?.menu?.nonveg?.map((item) => (
         <MenuItemCard
-          key={item.name}
+          key={item.midPADd}
           isVeg={false}
           name={item?.name}
           cost={item?.price}

@@ -11,7 +11,7 @@ function AddButton({
   absolute = false,
   updateCount,
 }) {
-  const { cartData, setCartData } = useContext(LoginContext);
+  const { cartData, setCartData, setCartRestaurant } = useContext(LoginContext);
   const increaseCount = () => {
     setCount((prev) => prev + 1);
   };
@@ -67,6 +67,7 @@ function AddButton({
           xs={4}
           onClick={() => {
             if (updateCount === true) {
+              if (cartData?.items_count === 1) setCartRestaurant("");
               setCount((prev) => prev - 1);
               setCartData((prev) => {
                 const itemIndex = prev.items.findIndex(
