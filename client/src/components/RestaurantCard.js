@@ -19,7 +19,6 @@ function RestaurantCard({
       onClick={clickHandler}
       sx={{
         cursor: "pointer",
-        border: "1px solid red",
         width: "90%",
         "&:hover": {
           transform: "scale(0.9)",
@@ -30,42 +29,52 @@ function RestaurantCard({
       <Box
         sx={{
           borderRadius: "20px",
+          position: "relative",
         }}
       >
-        <Icon
-          src={imgSrc || PlaceHolder}
-          isRounded
-          imgWidth="100%"
-          imgHeight="100%"
-        />
-      </Box>
-      <Typography
-        sx={{ fontFamily: '"GilroyMedium", sans-serif', fontSize: "18px" }}
-      >
-        {name}
-      </Typography>
-      <Box sx={{ display: "flex" }}>
-        <Icon src={SwiggyRating} />
-
         <Box
           sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
+            background: "green",
+            width: "100%",
+            aspectRatio: "188 / 125",
+            borderRadius: "20px",
+            backgroundImage: `url(${imgSrc})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+          }}
+        ></Box>
+      </Box>
+      <Box sx={{padding:'10px 0 0 10px'}}>
+        <Typography
+          sx={{ fontFamily: '"GilroyMedium", sans-serif', fontSize: "18px" }}
+        >
+          {name}
+        </Typography>
+        <Box sx={{ display: "flex" }}>
+          <Icon src={SwiggyRating} />
+
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              ml:'3px'
+            }}
+          >
+            {rating}
+          </Box>
+        </Box>
+        <Typography
+          sx={{
+            color: "#02060c99",
+            fontSize: "16px",
           }}
         >
-          {rating}
-        </Box>
+          {type}
+        </Typography>
+        <Typography>{location}</Typography>
       </Box>
-      <Typography
-        sx={{
-          color: "#02060c99",
-          fontSize: "16px",
-        }}
-      >
-        {type}
-      </Typography>
-      <Typography>{location}</Typography>
     </Box>
   );
 }

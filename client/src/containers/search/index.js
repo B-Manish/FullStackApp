@@ -25,14 +25,14 @@ const Search = () => {
   }, [val]);
 
   return (
-    <Box sx={{ width: "80vw", maxWidth: "860px" }}>
+    <Box sx={{ width: "80vw", maxWidth: "860px", paddingTop: "30px" }}>
       <Inputfields
         variant="search"
         value={val || ""}
         onChange={(e) => setVal(e?.target?.value)}
         cancelSearch={cancelSearch}
       />
-      {val !== "" && data?.map((item) => <>{item?.name}</>)}
+      <Box sx={{mt:'20px'}}>{val !== "" && data?.map((item) => <>{item?.name}</>)}</Box>
     </Box>
   );
 };

@@ -10,6 +10,8 @@ import {
 import RestaurantCard from "../../components/RestaurantCard";
 import Icon from "../../components/Icon";
 import Pizza from "../../assets/categories/idli.png";
+import Sv from "../../assets/kfc.png";
+
 import Inputfields from "../../components/Inputfields";
 
 function Home() {
@@ -49,14 +51,13 @@ function Home() {
     //   });
   }, []);
 
-
   return (
     <Box>
       {/* ldata:{ldata} */}
-      <Box sx={{ fontFamily: '"GilroyHeavy", sans-serif', fontSize: "24px" }}>
+      <Box sx={{ fontFamily: '"GilroyHeavy", sans-serif', fontSize: "24px" ,mt:'15px'}}>
         What's on your mind?
       </Box>
-      <Box sx={{ border: "1px solid blue", width: "80vw", display: "flex" }}>
+      <Box sx={{ width: "80vw", display: "flex", mt: "20px" }}>
         {categories?.map((item) => (
           <Box
             sx={{
@@ -79,21 +80,30 @@ function Home() {
           </Box>
         ))}
       </Box>
-      <Grid container sx={{ border: "1px solid blue", width: "80vw" }}>
+      <Box
+        sx={{
+          fontFamily: '"GilroyMedium", sans-serif',
+          fontSize: "24px",
+          fontWeight: "600",
+          m: "50px 0 10px 0",
+        }}
+      >
+        Top restaurant chains in Chennai
+      </Box>
+      <Grid container sx={{ width: "80vw" }}>
         {data?.map((item) => (
           <Grid
             item
             xs={3}
             key={item?.name}
             sx={{
-              border: "1px solid yellow",
               display: "grid",
               placeItems: "center",
-              padding: "20px",
             }}
           >
             <RestaurantCard
-              imgSrc={item?.img}
+              // imgSrc={item?.img}
+              imgSrc={Sv}
               name={item?.name}
               rating={item?.rating}
               type={item?.type[0]}

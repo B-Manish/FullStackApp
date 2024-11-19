@@ -43,6 +43,7 @@ function Inputfields({
         border: "1px solid grey",
         padding: "10px",
         color: "#282c3f",
+        fontFamily: '"GilroyMedium", sans-serif',
       }}
       //   sx={{
       //     borderRadius: "20px",
