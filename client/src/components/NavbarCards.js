@@ -70,6 +70,7 @@ function NavbarCards({
           marginLeft: "5px",
           color: isHovered ? "#FC8019" : "#3D4152",
           fontSize: "16px",
+          whiteSpace: "nowrap",
         }}
       >
         {heading}

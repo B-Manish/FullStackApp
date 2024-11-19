@@ -53,7 +53,7 @@ function Navbar() {
     <Paper
       sx={{
         height: "80px",
-        width: "99.93vw",
+        width: "100%",
         display: "grid",
         justifyContent: "center",
         boxShadow:
