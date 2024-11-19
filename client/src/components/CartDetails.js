@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { Box } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import { LoginContext } from "../context/LoginContext";
 import CartItem from "./CartItem";
 import { updateCart, addToCart } from "../api/restaurantApi";
@@ -50,44 +50,113 @@ const CartDetails = ({ isLoggedIn = false }) => {
   }, [cartData]);
 
   return (
-    <Box>
-      {isLoggedIn ? (
-        <Box>Logged In</Box>
-      ) : (
-        <Box sx={{ border: "1px solid red", padding: "10px" }}>
-          <Box sx={{ display: "flex" }}>
-            <Box>img</Box>
-            <Box>
-              <Box>{cartData?.restaurant_name}</Box>
-              <Box>{cartData?.branch}</Box>
-            </Box>
-          </Box>
-          {cartData?.items.map(
-            (item) =>
-              item?.count > 0 && (
-                <Box key={item?.name}>
-                  <CartItem cartitem={item} />
+    <Grid container sx={{ maxWidth: "1200px", width: "100vw" }}>
+      <Grid item xs={9}>
+        l
+      </Grid>
+      <Grid item xs={3}>
+        <Box>
+          {isLoggedIn ? (
+            <Box>Logged In</Box>
+          ) : (
+            <Box sx={{ padding: "10px" }}>
+              <Box sx={{ display: "flex" }}>
+                <Box>img</Box>
+                <Box>
+                  <Box sx={{ fontSize: "16px" }}>
+                    {cartData?.restaurant_name}
+                  </Box>
+                  <Box sx={{ fontSize: "13px" }}>{cartData?.branch}</Box>
                 </Box>
-              )
+              </Box>
+              {cartData?.items.map(
+                (item) =>
+                  item?.count > 0 && (
+                    <Box key={item?.name}>
+                      <CartItem cartitem={item} />
+                    </Box>
+                  )
+              )}
+              <Box
+                sx={{
+                  fontSize: "13px",
+                  fontFamily: '"GilroyHeavy", sans-serif',
+                  mb: "5px ",
+                  color: "#68687B",
+                }}
+              >
+                Bill Details
+              </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  fontSize: "13px",
+                  justifyContent: "space-between",
+                  mb: "5px ",
+                  color: "#68687B",
+                }}
+              >
+                <Box>Item Total : </Box>
+                {cartData?.billdetails?.item_total}
+              </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  fontSize: "13px",
+                  justifyContent: "space-between",
+                  mb: "5px ",
+                  color: "#68687B",
+                }}
+              >
+                <Box>Delivery Fee:</Box> {cartData?.billdetails?.deliveryfee}
+              </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  fontSize: "13px",
+                  justifyContent: "space-between",
+                  mb: "5px ",
+                  color: "#68687B",
+                }}
+              >
+                <Box>Platform fee:</Box> {cartData?.billdetails?.platformfee}
+              </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  fontSize: "13px",
+                  justifyContent: "space-between",
+                  mb: "2px ",
+                  color: "#68687B",
+                }}
+              >
+                <Box> GST:</Box> {cartData?.billdetails?.gst}
+              </Box>
+              <Box
+                sx={{
+                  height: "1px",
+                  background: "#68687B",
+                  width: "100%",
+                  mb: "5px ",
+                }}
+              />
+              <Box
+                sx={{
+                  display: "flex",
+                  fontSize: "14px",
+                  justifyContent: "space-between",
+                  mb: "5px ",
+                  color: "black",
+                  fontFamily: '"GilroyHeavy", sans-serif',
+                }}
+              >
+                <Box>To Pay:</Box> ₹{cartData?.billdetails?.total}
+              </Box>
+            </Box>
           )}
-          <Box> Bill Details</Box>
-          <Box sx={{ display: "flex" }}>
-            Item Total : {cartData?.billdetails?.item_total}
-          </Box>
-          <Box sx={{ display: "flex" }}>
-            Delivery Fee: {cartData?.billdetails?.deliveryfee}
-          </Box>
-          <Box sx={{ display: "flex" }}>
-            Platform fee: {cartData?.billdetails?.platformfee}
-          </Box>
-          <Box sx={{ display: "flex" }}>GST: {cartData?.billdetails?.gst}</Box>
-          <Box sx={{ height: "1px", background: "black", width: "100%" }} />
-          <Box sx={{ display: "flex" }}>
-            To Pay:{cartData?.billdetails?.total}
-          </Box>
         </Box>
-      )}
-    </Box>
+      </Grid>
+    </Grid>
   );
 };
 

@@ -96,10 +96,6 @@ function Home() {
             item
             xs={3}
             key={item?.name}
-            sx={{
-              display: "grid",
-              placeItems: "center",
-            }}
           >
             <RestaurantCard
               // imgSrc={item?.img}

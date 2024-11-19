@@ -21,7 +21,7 @@ function RestaurantCard({
         cursor: "pointer",
         width: "90%",
         "&:hover": {
-          transform: "scale(0.9)",
+          transform: "scale(0.965)",
           transition: "transform 0.2s ease",
         },
       }}
@@ -45,7 +45,7 @@ function RestaurantCard({
           }}
         ></Box>
       </Box>
-      <Box sx={{padding:'10px 0 0 10px'}}>
+      <Box sx={{ padding: "10px 0 0 10px" }}>
         <Typography
           sx={{ fontFamily: '"GilroyMedium", sans-serif', fontSize: "18px" }}
         >
@@ -59,7 +59,7 @@ function RestaurantCard({
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              ml:'3px'
+              ml: "3px",
             }}
           >
             {rating}

@@ -63,16 +63,36 @@ const CartItem = ({ cartitem }) => {
     });
   };
   return (
-    <Box sx={{ display: "flex" }}>
-      {cartitem.isVeg === true ? <Icon src={Veg} /> : <Icon src={NonVeg} />}
-      {cartitem?.name}
+    <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+      <Box sx={{ display: "flex", alignItems: "center" }}>
+        {cartitem.isVeg === true ? <Icon src={Veg} /> : <Icon src={NonVeg} />}
+      </Box>
+      <Box
+        sx={{
+          fontSize: "14px",
+          fontWeight: "700",
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
+        {cartitem?.name}
+      </Box>
       <AddButton
         clickHandler={() => ClickHandler(cartitem)}
         count={count}
         setCount={setCount}
         Item={cartitem}
       />
-      {cartitem?.price * cartitem?.count}
+      <Box
+        sx={{
+          fontSize: "13px",
+          display: "flex",
+          alignItems: "center",
+          color: "#55665",
+        }}
+      >
+        ₹{cartitem?.price * cartitem?.count}
+      </Box>
     </Box>
   );
 };
