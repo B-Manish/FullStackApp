@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import SwiggyRating from "../assets/swiggyrating.png";
 import Icon from "./Icon";
 
-function DeliveryDetailsCard({ rating, type, margin }) {
+function DeliveryDetailsCard({ rating, type, margin, ratingCount }) {
   return (
     <Box
       sx={{
@@ -20,6 +20,12 @@ function DeliveryDetailsCard({ rating, type, margin }) {
           sx={{ paddingLeft: "5px", fontSize: "16px", color: "02060CEB" }}
         >
           {rating}
+        </Typography>
+
+        <Typography
+          sx={{ paddingLeft: "5px", fontSize: "16px", color: "02060CEB" }}
+        >
+          ( {ratingCount} ratings)
         </Typography>
       </Box>
 

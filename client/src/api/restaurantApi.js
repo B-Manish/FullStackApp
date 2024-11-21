@@ -1,26 +1,36 @@
 import api from "./customAxios";
 
-export const getAllRestaurants = (bodyParameters) => {
+export const getAllRestaurants = (city) => {
   return api
-    .get(`http://localhost:8000/getAllRestaurants`, {
-      params: {
-        category: bodyParameters?.category,
-        search: bodyParameters?.search,
-        isVeg: bodyParameters?.isVeg,
-      },
-    })
+    .get(`http://localhost:8000/v2/getAllRestaurants?city=${city}`)
     .then((payload) => {
       return payload;
     });
 };
 
-export const getRestaurantDetails = (restaurant_id) => {
+export const getRestaurantDetails = (bodyParameters) => {
   return api
-    .get(`http://localhost:8000/getRestaurant/${restaurant_id}`)
+    .get(
+      `http://localhost:8000/v2/getRestaurant/${bodyParameters?.id}?city=${bodyParameters?.city}`
+    )
     .then((payload) => {
       return payload;
     });
 };
+
+// export const getAllRestaurants = (bodyParameters) => {
+//   return api
+//     .get(`http://localhost:8000/getAllRestaurants`, {
+//       params: {
+//         category: bodyParameters?.category,
+//         search: bodyParameters?.search,
+//         isVeg: bodyParameters?.isVeg,
+//       },
+//     })
+//     .then((payload) => {
+//       return payload;
+//     });
+// };
 
 export const getCartDetails = (cart_id) => {
   return api
