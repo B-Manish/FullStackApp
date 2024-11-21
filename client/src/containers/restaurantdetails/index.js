@@ -22,11 +22,13 @@ function RestaurantDetails() {
     setUpdateCount,
   } = useContext(LoginContext);
   const [notInitialrender, setNotInitialRender] = useState(false);
+  const [menu, setMenu] = useState({});
 
   useEffect(() => {
     getRestaurantDetails({ city: "Hyderabad", id: restaurantID })
       .then((res) => {
         setData(res);
+        setMenu(res?.restaurant_data?.menu);
       })
       .catch(() => {});
     setNotInitialRender(true);
@@ -131,7 +133,7 @@ function RestaurantDetails() {
 
   return (
     <Box sx={{ width: "800px" }}>
-      <Typography sx={{ fontSize: "24px", fontWeight: "800" }}>
+      <Typography sx={{ fontSize: "24px", fontWeight: "800", m: "15px 0" }}>
         {data?.restaurant_data?.name}
       </Typography>
 
@@ -142,36 +144,45 @@ function RestaurantDetails() {
         margin="0 0 50px 0"
       />
 
-      {/* <Box sx={{ width: "100%", height: "1px", background: "grey" }} />
-
-        {data?.restaurant_data?.menu.map((item) => (
-
-      ))} */}
-
-      {/* {data?.restaurant?.menu?.veg?.map((item) => (
-        <MenuItemCard
-          key={item.mid}
-          isVeg
-          name={item?.name}
-          cost={item?.price}
-          rating={item?.rating}
-          clickHandler={() => ClickHandler(item, true)}
-          item={item}
-          updateCount={updateCount}
-        />
-      ))}
-      {data?.restaurant?.menu?.nonveg?.map((item) => (
-        <MenuItemCard
-          key={item.mid}
-          isVeg={false}
-          name={item?.name}
-          cost={item?.price}
-          rating={item?.rating}
-          clickHandler={() => ClickHandler(item, false)}
-          item={item}
-          updateCount={updateCount}
-        />
-      ))} */}
+      {Object.entries(menu)
+        .map(([category, items]) => {
+          return {
+            category,
+            items: Object.entries(items).map(([name, details]) => ({
+              name,
+              ...details,
+            })),
+          };
+        })
+        .map((item) => (
+          <Box>
+            <Box
+              sx={{
+                fontSize: "22px",
+                fontFamily: '"GilroyMedium", sans-serif',
+                m: "15px 0",
+                // borderBottom: ".5px solid #d3d3d3",
+              }}
+            >
+              {item?.category}({item?.items?.length})
+            </Box>
+            {item?.items.map((item) => (
+              <MenuItemCard
+                key={item.name}
+                isVeg={item?.veg_or_non_veg}
+                name={item?.name}
+                cost={item?.price}
+                rating={item?.rating}
+                ratingCount={item?.rating_count}
+                description={item?.description}
+                clickHandler={() => ClickHandler(item, true)}
+                img={item?.img}
+                item={item}
+                updateCount={updateCount}
+              />
+            ))}
+          </Box>
+        ))}
     </Box>
   );
 }

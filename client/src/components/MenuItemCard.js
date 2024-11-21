@@ -9,7 +9,19 @@ import AddButton from "./AddButton";
 import Icon from "./Icon";
 import { LoginContext } from "../context/LoginContext";
 
-function MenuItemCard({ img, isVeg, name, cost, rating, clickHandler, item }) {
+function MenuItemCard({
+  img,
+  isVeg,
+  name,
+  cost,
+  rating,
+  ratingCount,
+  clickHandler,
+  item,
+  description,
+  haveTopBorder = true,
+  haveBottomBorder = true,
+}) {
   const [count, setCount] = useState(0);
   const { cartData, updateCount } = useContext(LoginContext);
 
@@ -56,26 +68,29 @@ function MenuItemCard({ img, isVeg, name, cost, rating, clickHandler, item }) {
       container
       sx={{
         minHeight: "100px",
-        borderTop: ".5px solid #d3d3d3",
-        borderBottom: ".5px solid #d3d3d3",
+        borderBottom: haveBottomBorder && ".5px solid #d3d3d3",
         display: "flex",
-        padding: "20px 0",
+        padding: "20px 10px",
       }}
     >
-      <Grid item xs={8}>
-        {isVeg === true ? <Icon src={Veg} /> : <Icon src={NonVeg} />}
+      <Grid item xs={8.5}>
+        {isVeg === "Veg" ? <Icon src={Veg} /> : <Icon src={NonVeg} />}
         <Typography
           sx={{ color: "#02060CBF", fontSize: "18px", fontWeight: "bold" }}
         >
           {name}
         </Typography>
         <Typography
-          sx={{ color: "#02060CEB", fontSize: "16px", fontWeight: "bold" }}
+          sx={{
+            color: "#02060CEB",
+            fontSize: "16px",
+            fontWeight: "bold",
+          }}
         >
           ₹{cost}
         </Typography>
 
-        <Box sx={{ display: "flex", alignItems: "center" }}>
+        <Box sx={{ display: "flex", alignItems: "center", m: "5px 0 7px 0" }}>
           <Icon
             src={Star}
             imgHeight="14px"
@@ -92,13 +107,24 @@ function MenuItemCard({ img, isVeg, name, cost, rating, clickHandler, item }) {
           >
             {rating}
           </Typography>
+          <Typography
+            sx={{
+              color: "#116649",
+              fontSize: "13px",
+              fontWeight: "700",
+              lineHeight: "16px",
+            }}
+          >
+            ({ratingCount})
+          </Typography>
         </Box>
+        <Box sx={{ mt: "5px" }}>{description}</Box>
       </Grid>
 
       <Grid
         item
-        xs={4}
-        sx={{ display: "grid", placeItems: "center", position: "relative" }}
+        xs={3.5}
+        sx={{ display: "grid", placeItems: "end", position: "relative" }}
       >
         {!isWithinTimeRange(
           item?.availabletiming.starttime,
@@ -124,7 +150,7 @@ function MenuItemCard({ img, isVeg, name, cost, rating, clickHandler, item }) {
             isRounded
           />
         ) : (
-          <Icon src={Saravana} imgHeight="155px" imgWidth="155px" isRounded />
+          <Icon src={img} imgHeight="155px" imgWidth="155px" isRounded />
         )}
       </Grid>
     </Grid>
