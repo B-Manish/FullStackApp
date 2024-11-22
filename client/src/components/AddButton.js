@@ -83,8 +83,9 @@ function AddButton({
                     ],
                     billdetails: {
                       ...prev.billdetails,
-                      total: prev.billdetails.total - Item.price,
-                      item_total: prev.billdetails.item_total - Item.price,
+                      total: prev.billdetails.total - Number(Item.price),
+                      item_total:
+                        prev.billdetails.item_total - Number(Item.price),
                     },
                     items_count: prev.items_count - 1,
                   };
@@ -101,8 +102,9 @@ function AddButton({
                     items: updatedItems,
                     billdetails: {
                       ...prev.billdetails,
-                      total: prev.billdetails.total - Item.price,
-                      item_total: prev.billdetails.item_total - Item.price,
+                      total: prev.billdetails.total - Number(Item.price),
+                      item_total:
+                        prev.billdetails.item_total - Number(Item.price),
                     },
                     items_count: prev.items_count - 1,
                   };
@@ -150,8 +152,9 @@ function AddButton({
                     ],
                     billdetails: {
                       ...prev.billdetails,
-                      total: prev.billdetails.total + Item.price,
-                      item_total: prev.billdetails.item_total + Item.price,
+                      total: prev.billdetails.total + Number(Item.price),
+                      item_total:
+                        prev.billdetails.item_total + Number(Item.price),
                     },
                     items_count: prev.items_count + 1,
                   };
@@ -168,8 +171,9 @@ function AddButton({
                     items: updatedItems,
                     billdetails: {
                       ...prev.billdetails,
-                      total: prev.billdetails.total + Item.price,
-                      item_total: prev.billdetails.item_total + Item.price,
+                      total: prev.billdetails.total + Number(Item.price),
+                      item_total:
+                        prev.billdetails.item_total + Number(Item.price),
                     },
                     items_count: prev.items_count + 1,
                   };
