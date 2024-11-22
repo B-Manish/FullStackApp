@@ -121,37 +121,50 @@ function MenuItemCard({
         <Box sx={{ mt: "5px" }}>{description}</Box>
       </Grid>
 
-      <Grid
-        item
-        xs={3.5}
-        sx={{ display: "grid", placeItems: "end", position: "relative" }}
-      >
-        {!isWithinTimeRange(
-          item?.availabletiming.starttime,
-          item?.availabletiming.endtime
-        ) ? (
-          <>item not available</>
-        ) : (
-          <AddButton
-            clickHandler={clickHandler}
-            count={updateCount ? count : 0}
-            setCount={setCount}
-            Item={item}
-            absolute
-            updateCount={updateCount}
-          />
-        )}
-
-        {!img ? (
-          <Icon
-            src={PlaceHolder}
-            imgHeight="155px"
-            imgWidth="155px"
-            isRounded
-          />
-        ) : (
-          <Icon src={img} imgHeight="155px" imgWidth="155px" isRounded />
-        )}
+      <Grid item xs={3.5} sx={{ display: "grid", placeItems: "end" }}>
+        <Box
+          sx={{
+            position: "relative",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+          }}
+        >
+          {!img ? (
+            <Icon
+              src={PlaceHolder}
+              imgHeight="155px"
+              imgWidth="155px"
+              isRounded
+            />
+          ) : (
+            <Icon src={img} imgHeight="155px" imgWidth="155px" isRounded />
+          )}
+          <Box
+            sx={{
+              position: "absolute",
+              top: "93%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+            }}
+          >
+            {!isWithinTimeRange(
+              item?.availabletiming.starttime,
+              item?.availabletiming.endtime
+            ) ? (
+              <>item not available</>
+            ) : (
+              <AddButton
+                clickHandler={clickHandler}
+                count={updateCount ? count : 0}
+                setCount={setCount}
+                Item={item}
+                // absolute
+                updateCount={updateCount}
+              />
+            )}
+          </Box>
+        </Box>
       </Grid>
     </Grid>
   );
