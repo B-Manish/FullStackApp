@@ -9,6 +9,8 @@ import {
 import DeliveryDetailsCard from "../../components/DeliveryDetailsCard";
 import MenuItemCard from "../../components/MenuItemCard";
 import { LoginContext } from "../../context/LoginContext";
+import Inputfields from "../../components/Inputfields";
+import VegNonVegSwitch from "../../components/VegNonVegSwitch";
 
 function RestaurantDetails() {
   const { restaurantID } = useParams();
@@ -23,6 +25,11 @@ function RestaurantDetails() {
   } = useContext(LoginContext);
   const [notInitialrender, setNotInitialRender] = useState(false);
   const [menu, setMenu] = useState({});
+  const [val, setVal] = useState("");
+
+  const cancelSearch = () => {
+    setVal("");
+  };
 
   useEffect(() => {
     getRestaurantDetails({ city: "Hyderabad", id: restaurantID })
@@ -142,6 +149,16 @@ function RestaurantDetails() {
         ratingCount={data?.restaurant_data?.rating_count}
         margin="0 0 50px 0"
       />
+
+      <Inputfields
+        value={val || ""}
+        onChange={(e) => setVal(e?.target?.value)}
+        cancelSearch={cancelSearch}
+        placeholder="Search for Dishes"
+        searchDishes
+      />
+
+      <VegNonVegSwitch  />
 
       {Object.entries(menu)
         .map(([category, items]) => {

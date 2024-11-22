@@ -25,6 +25,8 @@ function Inputfields({
   inputRef,
   page,
   endadornment,
+  placeholder = "Search for restaurants and food",
+  searchDishes = false,
   ...props
 }) {
   return (
@@ -33,17 +35,19 @@ function Inputfields({
       data-testid="searchInputBase"
       name="noAutoFill"
       id="search-jha"
-      placeholder="Search for restaurants or food"
+      placeholder={placeholder}
       fullWidth
       value={value || ""}
       inputProps={{
         autoComplete: "off",
       }}
       sx={{
-        border: "1px solid grey",
+        border: !searchDishes && "1px solid grey",
         padding: "10px",
         color: "#282c3f",
         fontFamily: '"GilroyMedium", sans-serif',
+        borderRadius: searchDishes && "12px",
+        background: searchDishes && "rgba(2,6,12,0.05)",
       }}
       //   sx={{
       //     borderRadius: "20px",
