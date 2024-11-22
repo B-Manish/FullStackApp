@@ -79,7 +79,9 @@ function RestaurantDetails() {
     if (cartRestaurant === "" || cartRestaurant === data?.restaurant_id) {
       setCartRestaurant(data?.restaurant_id);
       setCartData((prev) => {
-        const itemIndex = prev.items.findIndex((item) => item.mid === Item.mid);
+        const itemIndex = prev.items.findIndex(
+          (item) => item.name === Item.name
+        );
 
         if (itemIndex === -1) {
           return {
@@ -88,9 +90,9 @@ function RestaurantDetails() {
               ...prev.items,
               {
                 ...Item,
-                mid: Item.mid,
+                // mid: Item.mid,
                 count: 1,
-                isVeg: isVeg === true ? true : false,
+                // isVeg: isVeg === true ? true : false,
               },
             ],
             billdetails: {
