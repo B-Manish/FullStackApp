@@ -64,14 +64,20 @@ function RestaurantCard({
             {rating}
           </Box>
         </Box>
-        <Typography
-          sx={{
-            color: "#02060c99",
-            fontSize: "16px",
-          }}
-        >
-          {type}
-        </Typography>
+        <Box sx={{ display: "flex" }}>
+          {type.map((item, index) => (
+            <Typography
+              sx={{
+                color: "#02060c99",
+                fontSize: "16px",
+              }}
+            >
+              {item}
+              {index !== type.length - 1 && ","}
+            </Typography>
+          ))}
+        </Box>
+
         <Typography>{location}</Typography>
       </Box>
     </Box>
