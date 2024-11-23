@@ -226,14 +226,29 @@ def getallRestaurants(city:str):
 
 
 @router.get("/v2/getRestaurant/{restaurant_id}")
-async def get_restaurant(city:str,restaurant_id: str):
+async def get_restaurant(city: str, restaurant_id: str, isVeg: bool = False, isNonVeg: bool = False):
     table = dynamodb.Table(city)
     items = table.scan()
-    
+
     for area_info in items["Items"]:
         for restaurant in area_info['restaurants']:
             if restaurant['restaurant_id'] == restaurant_id:
+                # Filter the menu based on isVeg and isNonVeg
+                filtered_menu = {}
+                for category, dishes in restaurant["restaurant_data"]["menu"].items():
+                    filtered_dishes = {
+                        dish_name: details for dish_name, details in dishes.items()
+                        if ((isVeg and details["veg_or_non_veg"] == "Veg") or
+                            (isNonVeg and details["veg_or_non_veg"] == "Non-veg") or
+                            (not isVeg and not isNonVeg))  # If neither filter is applied, include all items
+                    }
+                    if filtered_dishes:
+                        filtered_menu[category] = filtered_dishes
+
+                # Update the restaurant data with the filtered menu
+                restaurant["restaurant_data"]["menu"] = filtered_menu
                 return restaurant
+
     return None
 
 
