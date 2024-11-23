@@ -11,7 +11,7 @@ export const getAllRestaurants = (city) => {
 export const getRestaurantDetails = (bodyParameters) => {
   return api
     .get(
-      `http://localhost:8000/v2/getRestaurant/${bodyParameters?.id}?city=${bodyParameters?.city}`
+      `http://localhost:8000/v2/getRestaurant/${bodyParameters?.id}?city=${bodyParameters?.city}&food_type=${bodyParameters?.foodType}`
     )
     .then((payload) => {
       return payload;

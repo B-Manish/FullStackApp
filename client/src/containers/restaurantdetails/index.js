@@ -16,6 +16,7 @@ import VegToggle from "../../components/VegToggle";
 function RestaurantDetails() {
   const { restaurantID } = useParams();
   const [data, setData] = useState({});
+  const [foodType, setFoodType] = useState("All");
   const {
     cartData,
     setCartData,
@@ -33,14 +34,18 @@ function RestaurantDetails() {
   };
 
   useEffect(() => {
-    getRestaurantDetails({ city: "Hyderabad", id: restaurantID })
+    getRestaurantDetails({
+      city: "Hyderabad",
+      id: restaurantID,
+      foodType: foodType,
+    })
       .then((res) => {
         setData(res);
         setMenu(res?.restaurant_data?.menu);
       })
       .catch(() => {});
     setNotInitialRender(true);
-  }, []);
+  }, [foodType]);
 
   useEffect(() => {
     if (
@@ -159,7 +164,22 @@ function RestaurantDetails() {
         searchDishes
       />
 
-      <VegToggle />
+      <Box sx={{ display: "flex", mt: "15px" }}>
+        <VegToggle
+          veg
+          clickHandler={() => {
+            if (foodType !== "Veg") setFoodType("Veg");
+            else setFoodType("All");
+          }}
+          margin="0 10px 0 0"
+        />
+        <VegToggle
+          clickHandler={() => {
+            if (foodType !== "Non-veg") setFoodType("Non-veg");
+            else setFoodType("All");
+          }}
+        />
+      </Box>
 
       {Object.entries(menu)
         .map(([category, items]) => {
