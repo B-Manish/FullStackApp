@@ -192,13 +192,12 @@ function RestaurantDetails() {
           };
         })
         .map((item) => (
-          <Box>
+          <Box key={item?.category}>
             <Box
               sx={{
                 fontSize: "22px",
                 fontFamily: '"GilroyMedium", sans-serif',
                 m: "15px 0",
-                // borderBottom: ".5px solid #d3d3d3",
               }}
             >
               {item?.category}({item?.items?.length})

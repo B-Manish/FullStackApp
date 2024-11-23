@@ -67,6 +67,7 @@ function RestaurantCard({
         <Box sx={{ display: "flex" }}>
           {type.map((item, index) => (
             <Typography
+              key={item}
               sx={{
                 color: "#02060c99",
                 fontSize: "16px",

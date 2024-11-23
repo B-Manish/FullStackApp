@@ -81,7 +81,7 @@ function Home() {
       </Box>
       <Grid container sx={{ width: "80vw" }} rowSpacing={5}>
         {data?.map((item) => (
-          <Grid item xs={6} md={3} key={item?.name}>
+          <Grid item xs={6} md={3} key={item?.restaurant_data?.name}>
             <RestaurantCard
               imgSrc={item?.restaurant_data?.img}
               name={item?.restaurant_data?.name}
