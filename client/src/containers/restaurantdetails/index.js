@@ -11,6 +11,7 @@ import MenuItemCard from "../../components/MenuItemCard";
 import { LoginContext } from "../../context/LoginContext";
 import Inputfields from "../../components/Inputfields";
 import VegNonVegSwitch from "../../components/VegNonVegSwitch";
+import VegToggle from "../../components/VegToggle";
 
 function RestaurantDetails() {
   const { restaurantID } = useParams();
@@ -158,7 +159,7 @@ function RestaurantDetails() {
         searchDishes
       />
 
-      <VegNonVegSwitch  />
+      <VegToggle />
 
       {Object.entries(menu)
         .map(([category, items]) => {
