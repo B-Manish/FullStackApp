@@ -206,6 +206,7 @@ from models.user import cart,updatecart
 from decimal import Decimal
 import uuid
 from boto3.dynamodb.conditions import Attr
+from enum import Enum
 
 router = APIRouter() 
 
@@ -225,30 +226,37 @@ def getallRestaurants(city:str):
     return {"categories":items["Items"]}
 
 
+class FoodType(str, Enum):
+    all = "All"
+    veg = "Veg"
+    non_veg = "Non-veg"
+
 @router.get("/v2/getRestaurant/{restaurant_id}")
-async def get_restaurant(city: str, restaurant_id: str, isVeg: bool = None, isNonVeg: bool = None):
+async def get_restaurant(
+    city: str, 
+    restaurant_id: str, 
+    food_type: FoodType = Query(FoodType.all, description="Choose Veg, Non-Veg, or All")
+):
     table = dynamodb.Table(city)
     items = table.scan()
 
     for area_info in items["Items"]:
         for restaurant in area_info['restaurants']:
             if restaurant['restaurant_id'] == restaurant_id:
-                # Return all items if both isVeg and isNonVeg are None or if either is False
-                if (isVeg is None and isNonVeg is None) or isVeg is False or isNonVeg is False:
+                
+                if food_type == FoodType.all:
                     return restaurant  # Return the full menu without filtering
 
-                # Filter the menu if isVeg or isNonVeg is True
                 filtered_menu = {}
                 for category, dishes in restaurant["restaurant_data"]["menu"].items():
                     filtered_dishes = {
                         dish_name: details for dish_name, details in dishes.items()
-                        if ((isVeg is True and details["veg_or_non_veg"] == "Veg") or
-                            (isNonVeg is True and details["veg_or_non_veg"] == "Non-veg"))
+                        if (food_type == FoodType.veg and details["veg_or_non_veg"] == "Veg") or
+                           (food_type == FoodType.non_veg and details["veg_or_non_veg"] == "Non-veg")
                     }
                     if filtered_dishes:
                         filtered_menu[category] = filtered_dishes
 
-                # Update the restaurant data with the filtered menu
                 restaurant["restaurant_data"]["menu"] = filtered_menu
                 return restaurant
 
