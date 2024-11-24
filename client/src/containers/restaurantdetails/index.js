@@ -10,7 +10,8 @@ import DeliveryDetailsCard from "../../components/DeliveryDetailsCard";
 import MenuItemCard from "../../components/MenuItemCard";
 import { LoginContext } from "../../context/LoginContext";
 import Inputfields from "../../components/Inputfields";
-import VegNonVegSwitch from "../../components/VegNonVegSwitch";
+import Icon from "../../components/Icon";
+import NoItems from "../../assets/noitems.png";
 import VegToggle from "../../components/VegToggle";
 
 function RestaurantDetails() {
@@ -180,45 +181,71 @@ function RestaurantDetails() {
           }}
         />
       </Box>
-
-      {Object.entries(menu)
-        .map(([category, items]) => {
-          return {
-            category,
-            items: Object.entries(items).map(([name, details]) => ({
-              name,
-              ...details,
-            })),
-          };
-        })
-        .map((item) => (
-          <Box key={item?.category}>
-            <Box
-              sx={{
-                fontSize: "22px",
-                fontFamily: '"GilroyMedium", sans-serif',
-                m: "15px 0",
-              }}
-            >
-              {item?.category}({item?.items?.length})
-            </Box>
-            {item?.items.map((item) => (
-              <MenuItemCard
-                key={item.name}
-                isVeg={item?.veg_or_non_veg}
-                name={item?.name}
-                cost={Number(item?.price)}
-                rating={item?.rating}
-                ratingCount={item?.rating_count}
-                description={item?.description}
-                clickHandler={() => ClickHandler(item, true)}
-                img={item?.img}
-                item={item}
-                updateCount={updateCount}
-              />
-            ))}
+      {Object.keys(menu).length === 0 ? (
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <Box
+            sx={{
+              width: "100%",
+              height: "400px",
+              backgroundImage: `url(${NoItems})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+            }}
+          />
+          <Box
+            sx={{ fontFamily: '"GilroyBold", sans-serif', m: "15px 0 10px 0" }}
+          >
+            Uh Oh! No items with applied filters are available at the moment
           </Box>
-        ))}
+          <Box>Remove filters to see items</Box>
+        </Box>
+      ) : (
+        Object.entries(menu)
+          .map(([category, items]) => {
+            return {
+              category,
+              items: Object.entries(items).map(([name, details]) => ({
+                name,
+                ...details,
+              })),
+            };
+          })
+          .map((item) => (
+            <Box key={item?.category}>
+              <Box
+                sx={{
+                  fontSize: "22px",
+                  fontFamily: '"GilroyMedium", sans-serif',
+                  m: "15px 0",
+                }}
+              >
+                {item?.category}({item?.items?.length})
+              </Box>
+              {item?.items.map((item) => (
+                <MenuItemCard
+                  key={item.name}
+                  isVeg={item?.veg_or_non_veg}
+                  name={item?.name}
+                  cost={Number(item?.price)}
+                  rating={item?.rating}
+                  ratingCount={item?.rating_count}
+                  description={item?.description}
+                  clickHandler={() => ClickHandler(item, true)}
+                  img={item?.img}
+                  item={item}
+                  updateCount={updateCount}
+                />
+              ))}
+            </Box>
+          ))
+      )}
     </Box>
   );
 }
