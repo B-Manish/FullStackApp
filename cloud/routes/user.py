@@ -270,5 +270,30 @@ def getall():
     return {"categories":items["Items"]}    
 
 
+
+@router.get("/getAllOrders")
+def get_all_orders(page: int = Query(1, ge=1), count: int = Query(10, ge=1)):
+    table = dynamodb.Table('orders')
+    total_items_response = table.scan(Select='COUNT')
+    total_items = total_items_response['Count']
+
+    limit = count
+    start_key = None
+    
+    for _ in range(page - 1):
+        response = table.scan(Limit=limit, ExclusiveStartKey=start_key) if start_key else table.scan(Limit=limit)
+        start_key = response.get('LastEvaluatedKey')
+        if not start_key:
+            return {"orders": []}
+    
+    response = table.scan(Limit=limit, ExclusiveStartKey=start_key) if start_key else table.scan(Limit=limit)
+    
+    return {
+        "count":total_items,
+        "orders": response["Items"]
+        
+    } 
+
+
    
 

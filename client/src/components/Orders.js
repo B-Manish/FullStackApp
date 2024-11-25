@@ -2,6 +2,7 @@ import { Box } from "@mui/material";
 import React, { useEffect, useState, useRef } from "react";
 import { getOrders } from "../api/restaurantApi";
 import OrderCard from "./OrderCard";
+import Package from "./Package";
 
 function Orders({
   itemHeight,
@@ -53,32 +54,18 @@ function Orders({
     }
   }, [page]);
 
+  const item = ({ item }) => {
+    return <OrderCard order={item} />;
+  };
+
   return (
-    <Box
-      sx={{
-        height: `${window.innerHeight - occupied}px`,
-        overflowY: "scroll",
-      }}
-      onScroll={handleScroll}
-      ref={containerRef}
-    >
-      <Box sx={{ position: "relative" }}>
-        {orders.slice(visibleStart, visibleEnd).map((order, index) => (
-          <Box
-            key={index}
-            sx={{
-              position: "absolute",
-              top: `${(index + visibleStart) * itemHeight}px`,
-              width: "100%",
-              height: `${itemHeight}px`,
-              overflow: "hidden",
-            }}
-          >
-            <OrderCard key={order?.order_id} order={order} />
-          </Box>
-        ))}
-      </Box>
-    </Box>
+    <Package
+      itemHeight={itemHeight}
+      occupied={occupied}
+      ItemComponent={item}
+      data={orders}
+      endReached={() => console.log("End reached")}
+    />
   );
 }
 
