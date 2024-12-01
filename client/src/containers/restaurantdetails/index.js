@@ -49,7 +49,17 @@ function RestaurantDetails() {
   }, [foodType]);
 
   useEffect(() => {
-    if (cartRestaurant === "" || cartRestaurant === data?.restaurant_id) {
+    console.log("cartRestaurant === emptystring", cartRestaurant === "");
+    console.log(
+      "cartRestaurant === data?.restaurant_id",
+      cartRestaurant === data?.restaurant_id
+    );
+    if (cartData?.items_count === 0) {
+      setUpdateCount(true);
+    } else if (
+      cartRestaurant === "" ||
+      cartRestaurant === data?.restaurant_id
+    ) {
       setUpdateCount(true);
     } else {
       setUpdateCount(false);

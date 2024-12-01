@@ -71,7 +71,7 @@ function AddButton({
               setCount((prev) => prev - 1);
               setCartData((prev) => {
                 const itemIndex = prev.items.findIndex(
-                  (item) => item.mid === Item.mid
+                  (item) => item.name === Item.name
                 );
 
                 if (itemIndex === -1) {
@@ -79,7 +79,7 @@ function AddButton({
                     ...prev,
                     items: [
                       ...prev.items,
-                      { ...Item, mid: Item.mid, count: 1 },
+                      { ...Item, name: Item.name, count: 1 },
                     ],
                     billdetails: {
                       ...prev.billdetails,
@@ -140,7 +140,7 @@ function AddButton({
               setCount((prev) => prev + 1);
               setCartData((prev) => {
                 const itemIndex = prev.items.findIndex(
-                  (item) => item.mid === Item.mid
+                  (item) => item.name === Item.name
                 );
 
                 if (itemIndex === -1) {
@@ -148,7 +148,7 @@ function AddButton({
                     ...prev,
                     items: [
                       ...prev.items,
-                      { ...Item, mid: Item.mid, count: 1 },
+                      { ...Item, name: Item.name, count: 1 },
                     ],
                     billdetails: {
                       ...prev.billdetails,

@@ -28,12 +28,12 @@ const CartItem = ({ cartitem }) => {
 
   const ClickHandler = (Item, isVeg = true) => {
     setCartData((prev) => {
-      const itemIndex = prev.items.findIndex((item) => item.mid === Item.mid);
+      const itemIndex = prev.items.findIndex((item) => item.name === Item.name);
 
       if (itemIndex === -1) {
         return {
           ...prev,
-          items: [...prev.items, { ...Item, mid: Item.mid, count: 1 }],
+          items: [...prev.items, { ...Item, name: Item.name, count: 1 }],
           billdetails: {
             ...prev.billdetails,
             total: prev.billdetails.total + Item.price,
