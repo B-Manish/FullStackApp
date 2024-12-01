@@ -13,6 +13,7 @@ import Inputfields from "../../components/Inputfields";
 import Icon from "../../components/Icon";
 import NoItems from "../../assets/noitems.png";
 import VegToggle from "../../components/VegToggle";
+import CustomDialogBox from "../../components/CustomDialogBox";
 
 function RestaurantDetails() {
   const { restaurantID } = useParams();
@@ -25,6 +26,8 @@ function RestaurantDetails() {
     cartRestaurant,
     updateCount,
     setUpdateCount,
+    openDialogBox,
+    setOpenDialogBox,
   } = useContext(LoginContext);
   const [notInitialrender, setNotInitialRender] = useState(false);
   const [menu, setMenu] = useState({});
@@ -49,11 +52,6 @@ function RestaurantDetails() {
   }, [foodType]);
 
   useEffect(() => {
-    console.log("cartRestaurant === emptystring", cartRestaurant === "");
-    console.log(
-      "cartRestaurant === data?.restaurant_id",
-      cartRestaurant === data?.restaurant_id
-    );
     if (cartData?.items_count === 0) {
       setUpdateCount(true);
     } else if (
@@ -150,6 +148,14 @@ function RestaurantDetails() {
 
   return (
     <Box sx={{ width: "800px" }}>
+      <Box sx={{ border: "10px solid black" }}>
+        <CustomDialogBox
+          title="Items already in cart"
+          subtitle="Your cart contains items from other restaurant. Would you like to reset your cart for adding items from this restaurant?"
+          openDialogBox={openDialogBox}
+          setOpenDialogBox={setOpenDialogBox}
+        />
+      </Box>
       <Typography sx={{ fontSize: "24px", fontWeight: "800", m: "15px 0" }}>
         {data?.restaurant_data?.name}
       </Typography>
