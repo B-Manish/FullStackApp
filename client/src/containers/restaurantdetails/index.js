@@ -49,10 +49,7 @@ function RestaurantDetails() {
   }, [foodType]);
 
   useEffect(() => {
-    if (
-      cartRestaurant === "" ||
-      cartRestaurant === data?.restaurant?.restaurant_id
-    ) {
+    if (cartRestaurant === "" || cartRestaurant === data?.restaurant_id) {
       setUpdateCount(true);
     } else {
       setUpdateCount(false);
@@ -60,10 +57,7 @@ function RestaurantDetails() {
   }, [data]);
 
   useEffect(() => {
-    if (
-      cartRestaurant === "" ||
-      cartRestaurant === data?.restaurant?.restaurant_id
-    ) {
+    if (cartRestaurant === "" || cartRestaurant === data?.restaurant_id) {
       if (cartData?.items_count > 1 && notInitialrender) {
         updateCart("gg", cartData)
           .then((res) => {
@@ -115,7 +109,7 @@ function RestaurantDetails() {
               item_total: prev.billdetails.item_total + Number(Item.price),
             },
             items_count: prev.items_count + 1,
-            restaurant_id: data?.restaurant_data?.restaurant_id,
+            restaurant_id: data?.restaurant_id,
             restaurant_name: data?.restaurant_data?.name,
           };
         } else {
@@ -240,7 +234,7 @@ function RestaurantDetails() {
                   clickHandler={() => ClickHandler(item, true)}
                   img={item?.img}
                   item={item}
-                  updateCount={updateCount}
+                  // updateCount={updateCount}
                 />
               ))}
             </Box>
