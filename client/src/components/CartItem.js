@@ -13,11 +13,11 @@ const CartItem = ({ cartitem }) => {
   useEffect(() => {
     setCount(
       !cartData?.items[
-        cartData?.items.findIndex((dish) => cartitem?.mid === dish?.mid)
+        cartData?.items.findIndex((dish) => cartitem?.name === dish?.name)
       ]?.count
         ? 0
         : cartData?.items[
-            cartData?.items.findIndex((dish) => cartitem?.mid === dish?.mid)
+            cartData?.items.findIndex((dish) => cartitem?.name === dish?.name)
           ]?.count
     );
   }, []);
@@ -65,7 +65,11 @@ const CartItem = ({ cartitem }) => {
   return (
     <Box sx={{ display: "flex", justifyContent: "space-between" }}>
       <Box sx={{ display: "flex", alignItems: "center" }}>
-        {cartitem.isVeg === true ? <Icon src={Veg} /> : <Icon src={NonVeg} />}
+        {cartitem.veg_or_non_veg === "Veg" ? (
+          <Icon src={Veg} />
+        ) : (
+          <Icon src={NonVeg} />
+        )}
       </Box>
       <Box
         sx={{

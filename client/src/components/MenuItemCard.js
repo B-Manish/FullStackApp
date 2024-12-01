@@ -28,11 +28,11 @@ function MenuItemCard({
   useEffect(() => {
     setCount(
       !cartData?.items[
-        cartData?.items.findIndex((dish) => item?.mid === dish?.mid)
+        cartData?.items.findIndex((dish) => item?.name === dish?.name)
       ]?.count
         ? 0
         : cartData?.items[
-            cartData?.items.findIndex((dish) => item?.mid === dish?.mid)
+            cartData?.items.findIndex((dish) => item?.name === dish?.name)
           ]?.count
     );
   }, []);
