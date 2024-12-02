@@ -55,8 +55,7 @@ function RestaurantDetails() {
     if (cartData?.items_count === 0) {
       setUpdateCount(true);
     } else if (
-      cartRestaurant === "" ||
-      cartRestaurant === data?.restaurant_id
+      cartData?.restaurant_name === "" || cartData?.restaurant_name  === data?.restaurant_data?.name
     ) {
       setUpdateCount(true);
     } else {
@@ -92,7 +91,7 @@ function RestaurantDetails() {
   }, [cartData]);
 
   const ClickHandler = (Item, isVeg = true) => {
-    if (cartRestaurant === "" || cartRestaurant === data?.restaurant_id) {
+    if (cartData?.restaurant_name === "" || cartData?.restaurant_name  === data?.restaurant_data.name) {
       setCartRestaurant(data?.restaurant_id);
       setCartData((prev) => {
         const itemIndex = prev.items.findIndex(
