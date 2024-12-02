@@ -148,14 +148,12 @@ function RestaurantDetails() {
 
   return (
     <Box sx={{ width: "800px" }}>
-      <Box sx={{ border: "10px solid black" }}>
-        <CustomDialogBox
-          title="Items already in cart"
-          subtitle="Your cart contains items from other restaurant. Would you like to reset your cart for adding items from this restaurant?"
-          openDialogBox={openDialogBox}
-          setOpenDialogBox={setOpenDialogBox}
-        />
-      </Box>
+      <CustomDialogBox
+        title="Items already in cart"
+        subtitle="Your cart contains items from other restaurant. Would you like to reset your cart for adding items from this restaurant?"
+        openDialogBox={openDialogBox}
+        setOpenDialogBox={setOpenDialogBox}
+      />
       <Typography sx={{ fontSize: "24px", fontWeight: "800", m: "15px 0" }}>
         {data?.restaurant_data?.name}
       </Typography>
