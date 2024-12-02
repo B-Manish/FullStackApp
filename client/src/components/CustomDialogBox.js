@@ -32,6 +32,7 @@ export default function CustomDialogBox({
           maxWidth: 500,
           bgcolor: "background.paper",
           boxShadow: 24,
+          outline: "none", // removes the default black border
           p: 2,
         }}
         onClick={(e) => e.stopPropagation()}
