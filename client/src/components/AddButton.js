@@ -11,7 +11,7 @@ function AddButton({
   absolute = false,
   updateCount,
 }) {
-  const { cartData, setCartData, setCartRestaurant } = useContext(LoginContext);
+  const { cartData, setCartData, setCartRestaurant,setOpenDialogBox } = useContext(LoginContext);
   const increaseCount = () => {
     setCount((prev) => prev + 1);
   };
@@ -41,6 +41,8 @@ function AddButton({
         if (updateCount === true) {
           clickHandler();
           increaseCount();
+        } else {
+          setOpenDialogBox(true);
         }
       }}
     >
