@@ -2,7 +2,9 @@ import api from "./customAxios";
 
 export const getAllRestaurants = (city) => {
   return api
-    .get(`http://localhost:8000/v2/getAllRestaurants?city=${city}`)
+    .get(
+      `https://csq3luyxzc.execute-api.us-east-1.amazonaws.com/prod/getAllRestaurants`
+    )
     .then((payload) => {
       return payload;
     });

@@ -198,14 +198,9 @@
 #     return {"categories":items["Items"]}      
 
 
-from fastapi import APIRouter,Query, HTTPException, Depends,FastAPI, UploadFile, File
+from fastapi import APIRouter,Query
 import boto3
-import uuid
 from .keys import ACCESS_KEY_ID,SECRET_ACCESS_KEY
-from models.user import cart,updatecart
-from decimal import Decimal
-import uuid
-from boto3.dynamodb.conditions import Attr
 from enum import Enum
 
 router = APIRouter() 
