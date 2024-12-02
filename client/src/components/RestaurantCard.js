@@ -12,16 +12,16 @@ function RestaurantCard({
   rating,
   type,
   clickHandler,
+  location,
 }) {
   return (
     <Box
       onClick={clickHandler}
       sx={{
         cursor: "pointer",
-        border: "1px solid red",
         width: "90%",
         "&:hover": {
-          transform: "scale(0.9)",
+          transform: "scale(0.965)",
           transition: "transform 0.2s ease",
         },
       }}
@@ -29,37 +29,58 @@ function RestaurantCard({
       <Box
         sx={{
           borderRadius: "20px",
+          position: "relative",
         }}
       >
-        <Icon
-          src={imgSrc || PlaceHolder}
-          isRounded
-          imgWidth="100%"
-          imgHeight="100%"
-        />
-      </Box>
-      <Typography>{name}</Typography>
-      <Box sx={{ display: "flex" }}>
-        <Icon src={SwiggyRating} />
-
         <Box
           sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
+            width: "100%",
+            aspectRatio: "188 / 125",
+            borderRadius: "20px",
+            backgroundImage: `url(${imgSrc})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
           }}
-        >
-          {rating}
-        </Box>
+        ></Box>
       </Box>
-      <Typography
-        sx={{
-          color: "#02060c99",
-          fontSize: "16px",
-        }}
-      >
-        {type}
-      </Typography>
+      <Box sx={{ padding: "10px 0 0 10px" }}>
+        <Typography
+          sx={{ fontFamily: '"GilroyMedium", sans-serif', fontSize: "18px" }}
+        >
+          {name}
+        </Typography>
+        <Box sx={{ display: "flex" }}>
+          <Icon src={SwiggyRating} />
+
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              ml: "3px",
+            }}
+          >
+            {rating}
+          </Box>
+        </Box>
+        <Box sx={{ display: "flex" }}>
+          {type.map((item, index) => (
+            <Typography
+              key={item}
+              sx={{
+                color: "#02060c99",
+                fontSize: "16px",
+              }}
+            >
+              {item}
+              {index !== type.length - 1 && ","}
+            </Typography>
+          ))}
+        </Box>
+
+        <Typography>{location}</Typography>
+      </Box>
     </Box>
   );
 }

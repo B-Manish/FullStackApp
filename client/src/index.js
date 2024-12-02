@@ -7,10 +7,31 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import { store } from "./redux/store";
 import LoginProvider from "./context/LoginContext";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+
+const theme = createTheme({
+  components: {
+    MuiBox: {
+      styleOverrides: {
+        root: {
+          fontFamily: '"GilroyMedium", sans-serif',
+        },
+      },
+    },
+    MuiTypography: {
+      styleOverrides: {
+        root: {
+          fontFamily: '"GilroyMedium", sans-serif',
+        },
+      },
+    },
+  },
+});
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
+  // <React.StrictMode>
+  <ThemeProvider theme={theme}>
     <Provider store={store}>
       <LoginProvider>
         <BrowserRouter>
@@ -18,7 +39,7 @@ root.render(
         </BrowserRouter>
       </LoginProvider>
     </Provider>
-  </React.StrictMode>
+  </ThemeProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

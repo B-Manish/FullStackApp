@@ -12,6 +12,7 @@ function NavbarCards({
   hasSearch,
   hasSignin = false,
   isLoggedIn,
+  cartCount,
 }) {
   const [isHovered, setIsHovered] = useState(false);
   const [openSigninDropdown, setOpenSigninDropdown] = useState(false);
@@ -61,7 +62,7 @@ function NavbarCards({
         <Box
           sx={{ fontSize: "16px", color: isHovered ? "#FC8019" : "#3D4152" }}
         >
-          0
+          {cartCount}
         </Box>
       )}
       <Typography
@@ -69,6 +70,7 @@ function NavbarCards({
           marginLeft: "5px",
           color: isHovered ? "#FC8019" : "#3D4152",
           fontSize: "16px",
+          whiteSpace: "nowrap",
         }}
       >
         {heading}

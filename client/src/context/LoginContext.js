@@ -7,6 +7,29 @@ export const LoginContext = createContext();
 const LoginProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState("");
+  const [cartRestaurant, setCartRestaurant] = useState("");
+  const [updateCount, setUpdateCount] = useState(false);
+  const [openDialogBox, setOpenDialogBox] = useState(false);
+  const defaultCartData = {
+    billdetails: {
+      deliveryfee: 0,
+      gst: 0,
+      haspremium: false,
+      platformfee: 0,
+      total: 0,
+      item_total: 0,
+    },
+    branch: "branch",
+    items: [],
+    items_count: 0,
+    restaurant_id: "",
+    restaurant_name: "",
+    username: "gg",
+  };
+  const [cartData, setCartData] = useState(() => {
+    const storedCartData = localStorage.getItem("cartData");
+    return storedCartData ? JSON.parse(storedCartData) : defaultCartData;
+  });
 
   const getSession = async () => {
     return await new Promise((resolve, reject) => {
@@ -43,6 +66,16 @@ const LoginProvider = ({ children }) => {
         logOut,
         setIsLoggedIn,
         setUsername,
+        // cartCount,
+        // setCartCount,
+        cartData,
+        setCartData,
+        cartRestaurant,
+        setCartRestaurant,
+        updateCount,
+        setUpdateCount,
+        openDialogBox,
+        setOpenDialogBox,
       }}
     >
       {children}

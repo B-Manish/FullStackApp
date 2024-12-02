@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import SwiggyRating from "../assets/swiggyrating.png";
 import Icon from "./Icon";
 
-function DeliveryDetailsCard({ rating, type, margin }) {
+function DeliveryDetailsCard({ rating, type, margin, ratingCount }) {
   return (
     <Box
       sx={{
@@ -21,10 +21,16 @@ function DeliveryDetailsCard({ rating, type, margin }) {
         >
           {rating}
         </Typography>
+
+        <Typography
+          sx={{ paddingLeft: "5px", fontSize: "16px", color: "02060CEB" }}
+        >
+          ( {ratingCount} ratings)
+        </Typography>
       </Box>
 
       <Box sx={{ display: "flex" }}>
-        {type.map((item, index) => (
+        {type?.map((item, index) => (
           <Box
             key={item}
             sx={{
@@ -36,7 +42,7 @@ function DeliveryDetailsCard({ rating, type, margin }) {
             }}
           >
             <Box>{item}</Box>
-            {index !== type.length - 1 && <Box>,</Box>}
+            {index !== type?.length - 1 && <Box>,</Box>}
           </Box>
         ))}
       </Box>

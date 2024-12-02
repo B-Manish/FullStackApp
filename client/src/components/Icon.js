@@ -1,5 +1,5 @@
-import { Box, InputBase, Grid, Typography } from "@mui/material";
-import React, { useState, useEffect } from "react";
+import { Box } from "@mui/material";
+import React from "react";
 
 function Icon({
   src,
@@ -7,6 +7,7 @@ function Icon({
   imgHeight = "17px",
   isRounded,
   margin,
+  clickHandler,
 }) {
   return (
     <Box
@@ -17,6 +18,7 @@ function Icon({
         height: imgHeight,
         margin: margin,
       }}
+      onClick={clickHandler}
     >
       <img
         src={src}

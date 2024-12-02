@@ -6,28 +6,15 @@ import Icon from "./Icon";
 import NavbarCards from "./NavbarCards";
 import CustomModal from "./CustomModal";
 import SignIn from "../containers/signin";
-import { useDispatch, useSelector } from "react-redux";
+// import { useDispatch, useSelector } from "react-redux";
 import { LoginContext } from "../context/LoginContext";
-import { fetchCartdata } from "../redux/cartSlice";
+// import { fetchCartdata } from "../redux/cartSlice";
+// import { getCartDetails } from "../api/restaurantApi";
 
 function Navbar() {
   const navigate = useNavigate();
-  const { username, isLoggedIn } = useContext(LoginContext);
+  const { username, isLoggedIn, cartData } = useContext(LoginContext);
   const [openModal, setOpenModal] = useState(false);
-  const ppp = () => {
-    console.log("p");
-  };
-
-  useEffect(() => {
-    dispatch(fetchCartdata());
-  }, []);
-
-  const dispatch = useDispatch();
-  const cartData = useSelector((state) => state);
-
-  useEffect(() => {
-    console.log("cartData", cartData);
-  }, [cartData]);
 
   const openSigninModal = () => {
     if (!isLoggedIn) {
@@ -43,7 +30,7 @@ function Navbar() {
       heading: "Search",
       hasSearch: true,
       hasSignin: false,
-      clickHandler: ppp,
+      clickHandler: () => navigate("/search"),
       isLoggedIn: isLoggedIn,
     },
     {
@@ -58,7 +45,7 @@ function Navbar() {
       heading: "Cart",
       hasSearch: false,
       hasSignin: false,
-      clickHandler: ppp,
+      clickHandler: () => navigate("/cart"),
       isLoggedIn: isLoggedIn,
     },
   ];
@@ -66,7 +53,7 @@ function Navbar() {
     <Paper
       sx={{
         height: "80px",
-        width: "99.93vw",
+        width: "100%",
         display: "grid",
         justifyContent: "center",
         boxShadow:
@@ -113,6 +100,7 @@ function Navbar() {
                 clickhandler={item?.clickHandler}
                 type={item?.type || "notsignin"}
                 isLoggedIn={item?.isLoggedIn}
+                cartCount={cartData?.items_count}
               />
             </Box>
           ))}

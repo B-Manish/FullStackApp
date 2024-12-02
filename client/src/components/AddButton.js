@@ -1,8 +1,25 @@
 import { Box, Paper, Grid } from "@mui/material";
-import React, { useState, useEffect, useContext } from "react";
+import React, { useContext, useEffect } from "react";
+import { LoginContext } from "../context/LoginContext";
 
-function AddButton({ top = "130px" }) {
-  const [count, setCount] = useState(0);
+function AddButton({
+  top = "130px",
+  clickHandler,
+  count,
+  setCount,
+  Item,
+  absolute = false,
+  updateCount,
+}) {
+  const { cartData, setCartData, setCartRestaurant,setOpenDialogBox } = useContext(LoginContext);
+  const increaseCount = () => {
+    setCount((prev) => prev + 1);
+  };
+
+  useEffect(() => {
+    localStorage.setItem("cartData", JSON.stringify(cartData));
+  }, [cartData]);
+
   return count === 0 ? (
     <Paper
       sx={{
@@ -17,10 +34,17 @@ function AddButton({ top = "130px" }) {
         "&:hover": {
           background: "rgb(226, 226, 231)",
         },
-        position: "absolute",
+        position: absolute === true && "absolute",
         top: top,
       }}
-      onClick={() => setCount(count + 1)}
+      onClick={() => {
+        if (updateCount === true) {
+          clickHandler();
+          increaseCount();
+        } else {
+          setOpenDialogBox(true);
+        }
+      }}
     >
       ADD
     </Paper>
@@ -35,12 +59,62 @@ function AddButton({ top = "130px" }) {
         color: "#1BA672",
         fontSize: "18px",
         fontWeight: "800",
-        position: "absolute",
+        position: absolute === true && "absolute",
         top: top,
       }}
     >
       <Grid container sx={{ height: "100%" }}>
-        <Grid item xs={4} onClick={() => setCount(count - 1)}>
+        <Grid
+          item
+          xs={4}
+          onClick={() => {
+            if (updateCount === true) {
+              if (cartData?.items_count === 1) setCartRestaurant("");
+              setCount((prev) => prev - 1);
+              setCartData((prev) => {
+                const itemIndex = prev.items.findIndex(
+                  (item) => item.name === Item.name
+                );
+
+                if (itemIndex === -1) {
+                  return {
+                    ...prev,
+                    items: [
+                      ...prev.items,
+                      { ...Item, name: Item.name, count: 1 },
+                    ],
+                    billdetails: {
+                      ...prev.billdetails,
+                      total: prev.billdetails.total - Number(Item.price),
+                      item_total:
+                        prev.billdetails.item_total - Number(Item.price),
+                    },
+                    items_count: prev.items_count - 1,
+                  };
+                } else {
+                  const updatedItems = [...prev.items];
+                  updatedItems[itemIndex] = {
+                    ...Item,
+                    ...updatedItems[itemIndex],
+                    count: updatedItems[itemIndex]?.count - 1,
+                  };
+
+                  return {
+                    ...prev,
+                    items: updatedItems,
+                    billdetails: {
+                      ...prev.billdetails,
+                      total: prev.billdetails.total - Number(Item.price),
+                      item_total:
+                        prev.billdetails.item_total - Number(Item.price),
+                    },
+                    items_count: prev.items_count - 1,
+                  };
+                }
+              });
+            }
+          }}
+        >
           <Box
             sx={{
               width: "100%",
@@ -63,7 +137,52 @@ function AddButton({ top = "130px" }) {
         <Grid
           item
           xs={4}
-          onClick={() => setCount(count + 1)}
+          onClick={() => {
+            if (updateCount === true) {
+              setCount((prev) => prev + 1);
+              setCartData((prev) => {
+                const itemIndex = prev.items.findIndex(
+                  (item) => item.name === Item.name
+                );
+
+                if (itemIndex === -1) {
+                  return {
+                    ...prev,
+                    items: [
+                      ...prev.items,
+                      { ...Item, name: Item.name, count: 1 },
+                    ],
+                    billdetails: {
+                      ...prev.billdetails,
+                      total: prev.billdetails.total + Number(Item.price),
+                      item_total:
+                        prev.billdetails.item_total + Number(Item.price),
+                    },
+                    items_count: prev.items_count + 1,
+                  };
+                } else {
+                  const updatedItems = [...prev.items];
+                  updatedItems[itemIndex] = {
+                    ...Item,
+                    ...updatedItems[itemIndex],
+                    count: updatedItems[itemIndex]?.count + 1,
+                  };
+
+                  return {
+                    ...prev,
+                    items: updatedItems,
+                    billdetails: {
+                      ...prev.billdetails,
+                      total: prev.billdetails.total + Number(Item.price),
+                      item_total:
+                        prev.billdetails.item_total + Number(Item.price),
+                    },
+                    items_count: prev.items_count + 1,
+                  };
+                }
+              });
+            }
+          }}
           sx={{ display: "grid", placeItems: "center" }}
         >
           <Box

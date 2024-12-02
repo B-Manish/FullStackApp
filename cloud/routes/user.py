@@ -1,264 +1,294 @@
-from fastapi import APIRouter,Query, HTTPException, Depends
-# from config.db import conn 
-from bson import ObjectId
-from models.user import testuser,restaurants,cart,tobeaddedcartitem
-from beanie import PydanticObjectId
-import boto3
-from pymongo import MongoClient
+# from fastapi import APIRouter,Query, HTTPException, Depends,FastAPI, UploadFile, File
+# import boto3
+# import uuid
+# from .keys import ACCESS_KEY_ID,SECRET_ACCESS_KEY
+# from models.user import cart,updatecart
+# from decimal import Decimal
+# import uuid
+# from boto3.dynamodb.conditions import Attr
 
-client = MongoClient("mongodb+srv://manishbatchu:Q7h5KtERcGZdfJ4E@manishcluster.71tedsw.mongodb.net/")
-db = client["manishclouddb"]
+# router = APIRouter() 
+
+# dynamodb = boto3.resource('dynamodb',
+#                     aws_access_key_id = ACCESS_KEY_ID,
+#                     aws_secret_access_key = SECRET_ACCESS_KEY,
+#                     region_name='ap-south-1'
+#                           )
+
+
+
+
+# @router.get("/getAllRestaurants")
+# def get_all_restaurants(
+#     category: str = Query(None, description="Category to filter restaurants (case-insensitive)"),
+#     search: str = Query(None, description="Search term to filter restaurants by name, type, or locations (case-insensitive)"),
+#     ispureveg: bool = Query(None, description="Filter for pure vegetarian restaurants (True for veg only, False for all)")
+# ):
+#     if search == "":
+#         return []
+
+#     table = dynamodb.Table('restaurants')
+    
+#     response = table.scan()
+#     items = response.get("Items", [])
+
+#     if category:
+#         category_lower = category.lower()
+
+#         items = [
+#             item for item in items
+#             if any(category_lower in typ.lower() for typ in item.get("type", []))
+#         ]
+    
+#     if search:
+#         if len(search) < 2:
+#             return []
+        
+#         search_lower = search.lower()
+
+#         items = [
+#             item for item in items
+#             if search_lower in item.get("name", "").lower()
+#             or any(search_lower in loc.lower() for loc in item.get("locations", []))
+#             or any(search_lower in typ.lower() for typ in item.get("type", []))
+#         ]
+    
+#     if ispureveg is not None:
+#         if ispureveg:
+#             items = [item for item in items if item.get("ispureveg", False) == True]
+#     return items
+
+
+# @router.post("/createRestaurant")
+# async def submitdata(data:dict):
+#     table = dynamodb.Table('restaurants')
+    
+#     item = {
+#        'restaurant_id': str(uuid.uuid4()),
+#         'name': data['name'],
+#     }
+#     table.put_item(Item = item)
+#     return "data submitted successfully"
+
+
+# @router.get("/getRestaurant/{restaurant_id}")
+# async def get_restaurant(restaurant_id: str):
+#     table = dynamodb.Table('restaurants')
+    
+#     try:
+#         response = table.get_item(Key={'restaurant_id': restaurant_id})
+#         item = response.get('Item')
+        
+#         if item:
+#             return {"restaurant":item}
+#         else:
+#             raise HTTPException(status_code=404, detail="Restaurant not found")
+#     except Exception as e:
+#         raise HTTPException(status_code=500, detail=str(e))
+    
+    
+# @router.get("/getCartDetails/{username}")
+# async def get_cart(username: str):
+#     table = dynamodb.Table('cart')
+    
+#     try:
+#         response = table.get_item(Key={'username': username})
+#         cart = response.get('Item')
+        
+#         if cart:
+#             return {"cart":cart}
+#         else:
+#             raise HTTPException(status_code=404, detail="Cart not found")
+#     except Exception as e:
+#         raise HTTPException(status_code=500, detail=str(e))  
+    
+    
+# @router.get('/get_presigned_url')
+# async def generate_presigned_url(key):
+#     # key="ovenstory.png"
+#     s3_client = boto3.client('s3')
+#     presigned_url = s3_client.generate_presigned_url(
+#         'get_object',
+#         Params={'Bucket': "fullstackapp", 'Key':key})
+
+#     return presigned_url
+
+
+
+# @router.post("/addToCart")
+# async def submitdata(testItem:cart):
+#     table = dynamodb.Table('cart')
+    
+#     item = testItem.dict()
+        
+#     item['billdetails']["gst"]=Decimal(str(item['billdetails']["gst"])) 
+    
+#     table.put_item(Item = item)
+#     return "data submitted successfully"    
+
+
+# @router.put("/cart/{username}")
+# async def update_item(username:str,cartitem:updatecart):
+#     table = dynamodb.Table('cart')
+#     response = table.update_item(
+#         Key={'username': username},
+#         UpdateExpression="SET items_count = :items_count,  billdetails = :billdetails,#items = :items,branch=:branch,restaurant_id=:restaurant_id,restaurant_name=:restaurant_name",
+#           ExpressionAttributeNames={
+#             '#items': 'items'  # since 'items' is a reserved keyword 
+#         },
+#         ExpressionAttributeValues={
+#             ':items_count': cartitem.items_count,
+#             ':items': list(filter(lambda item: item['count'] != 0, cartitem.items)),  #removes the items with count=0
+#             ':billdetails': cartitem.billdetails,
+#             ':branch': cartitem.branch,
+#             ':restaurant_id': cartitem.restaurant_id,
+#             ':restaurant_name': cartitem.restaurant_name
+
+
+#         },
+#         ReturnValues="UPDATED_NEW"  
+#     )
+#     return {"message": "Item updated successfully", "updated_attributes": response['Attributes']}
+
+
+# @router.get("/getOrder/{orderid}")
+# async def get_cart(orderid: str):
+#     table = dynamodb.Table('orders')
+    
+#     try:
+#         response = table.get_item(Key={'order_id': orderid})
+#         order = response.get('Item')
+        
+#         if cart:
+#             return {"order":order}
+#         else:
+#             raise HTTPException(status_code=404, detail="Order not found")
+#     except Exception as e:
+#         raise HTTPException(status_code=500, detail=str(e)) 
+
+
+# @router.get("/getAllOrders")
+# def get_all_orders(page: int = Query(1, ge=1), count: int = Query(10, ge=1)):
+#     table = dynamodb.Table('orders')
+#     total_items_response = table.scan(Select='COUNT')
+#     total_items = total_items_response['Count']
+
+#     limit = count
+#     start_key = None
+    
+#     for _ in range(page - 1):
+#         response = table.scan(Limit=limit, ExclusiveStartKey=start_key) if start_key else table.scan(Limit=limit)
+#         start_key = response.get('LastEvaluatedKey')
+#         if not start_key:
+#             return {"orders": []}
+    
+#     response = table.scan(Limit=limit, ExclusiveStartKey=start_key) if start_key else table.scan(Limit=limit)
+    
+#     return {
+#         "count":total_items,
+#         "orders": response["Items"]
+        
+#     } 
+    
+    
+# @router.get("/getCategories")
+# def getall():
+#     table = dynamodb.Table('categories')
+#     items = table.scan()
+#     return {"categories":items["Items"]}      
+
+
+from fastapi import APIRouter,Query
+import boto3
+from .keys import ACCESS_KEY_ID,SECRET_ACCESS_KEY
+from enum import Enum
 
 router = APIRouter() 
 
-async def get_user(user_id: PydanticObjectId) -> testuser:
-    user = await testuser.get(user_id)
-    if user is None:
-        raise HTTPException(status_code=404, detail="Note not found")
-    return user
-
-
-@router.get('/test_get_api')
-async def test_get_api(testuser: testuser = Depends(get_user)):
-    return testuser
-
-@router.get('/gg')
-async def gg(user_id: PydanticObjectId):
-    user = await testuser.get(user_id)
-    if user is None:
-        raise HTTPException(status_code=404, detail="Note not found")
-    return user
-
-@router.post('/add_user')
-async def adduser(name,age):
-    user = testuser(name=name, age=age)
-    await user.insert()
-
-@router.post('/add_users')
-async def addusers(details:testuser):
-    user = testuser(name=details.name, age=details.age)
-    await user.insert()
-
-@router.get('/gg')
-async def test_get_api(testuser: testuser = Depends(get_user)):
-    return testuser
+dynamodb = boto3.resource('dynamodb',
+                    aws_access_key_id = ACCESS_KEY_ID,
+                    aws_secret_access_key = SECRET_ACCESS_KEY,
+                    region_name='ap-south-1'
+                          )
 
 
 
 
-@router.get('/get_restaurants')
-async def get_restaurants():
-    restaurantsdata = await restaurants.find().to_list(None) 
-    if not restaurantsdata:
-        raise HTTPException(status_code=404, detail="No restaurants found")
-
-    modified_restaurants = []
-    for restaurant in restaurantsdata:
-        restaurant_dict = dict(restaurant)
-        restaurant_dict['id'] = str(restaurant_dict['id']) # to preserve autogenerated mongodb id
-        s3_client = boto3.client('s3')
-        presigned_url = s3_client.generate_presigned_url(
-        'get_object',
-        Params={'Bucket': "fullstackapp", 'Key': restaurant_dict['key']})
-        if 'img' in restaurant_dict:
-            restaurant_dict['img'] = presigned_url 
-        modified_restaurants.append(restaurant_dict)
-
-    return {"restaurantdata": modified_restaurants}
-
-@router.get('/get_restaurant_details/{id}')
-async def get_restaurant_data(id: PydanticObjectId):
-    restaurant = await restaurants.get(id)
-    if restaurant is None:
-        raise HTTPException(status_code=404, detail="Note not found")
-    return {"restaurant":restaurant}
+@router.get("/v2/getAllRestaurants")
+def getallRestaurants(city:str):
+    table = dynamodb.Table(city)
+    items = table.scan()
+    return {"categories":items["Items"]}
 
 
-@router.get('/get_cart_details/')
-    # pipeline=[
-    #     {
-    #         "$project": {
-    #             "_id": 0,
-    #             "veg": {
-    #                 "$filter": {
-    #                     "input": "$items.veg",
-    #                     "as": "vegItem",
-    #                     "cond": {"$eq": ["$$vegItem.mid", 6]}
-    #                 }
-    #             },
-    #             "nonveg": {
-    #                 "$filter": {
-    #                     "input": "$items.nonveg",
-    #                     "as": "nonvegItem",
-    #                     "cond": {"$eq": ["$$nonvegItem.mid", 6]}
-    #                 }
-    #             }
-    #         }
-    #     }
-    # ]
-    # cartdetails = await cart.aggregate(pipeline).to_list(None)
-    # return cartdetails
-async def get_cart_details(mail: str = Query(None)):# makes mail optional  
-    if mail is None:
-        cart_id = ObjectId("66238088d6f3ad69e5a024cf")
-        cartdetails = await cart.get(cart_id)
-        return {"cart": cartdetails} 
-    else:
-        cartdetails = await cart.find_one({'username': mail})
-        return {"cart": cartdetails} 
+class FoodType(str, Enum):
+    all = "All"
+    veg = "Veg"
+    non_veg = "Non-veg"
+
+@router.get("/v2/getRestaurant/{restaurant_id}")
+async def get_restaurant(
+    city: str, 
+    restaurant_id: str, 
+    food_type: FoodType = Query(FoodType.all, description="Choose Veg, Non-Veg, or All")
+):
+    table = dynamodb.Table(city)
+    items = table.scan()
+
+    for area_info in items["Items"]:
+        for restaurant in area_info['restaurants']:
+            if restaurant['restaurant_id'] == restaurant_id:
+                
+                if food_type == FoodType.all:
+                    return restaurant  # Return the full menu without filtering
+
+                filtered_menu = {}
+                for category, dishes in restaurant["restaurant_data"]["menu"].items():
+                    filtered_dishes = {
+                        dish_name: details for dish_name, details in dishes.items()
+                        if (food_type == FoodType.veg and details["veg_or_non_veg"] == "Veg") or
+                           (food_type == FoodType.non_veg and details["veg_or_non_veg"] == "Non-veg")
+                    }
+                    if filtered_dishes:
+                        filtered_menu[category] = filtered_dishes
+
+                restaurant["restaurant_data"]["menu"] = filtered_menu
+                return restaurant
+
+    return None
 
 
-def extract_integer(price_string):
-    integer_part = ''.join(filter(str.isdigit, price_string))
-    integer_value = int(integer_part)
-    return integer_value
-
-@router.post('/add_to_cart')
-async def add_to_cart(item:tobeaddedcartitem,mail:str= Query(None)):
-    try:
-        if mail is None:
-            tobeaddedtocartdetails = await cart.find_one({'username': "default"})
-            pipeline = [ #pipeline to return the id of the document when username is passed
-            {"$match": {"username": "default"}},
-            {"$project": {"_id": {"$toString": "$_id"}}}
-        ]
-        # tobeaddedtocartdetails=await cart.distinct('id', {'username': "default"}) #returns unique usernames in cart collection
-        else:
-            tobeaddedtocartdetails = await cart.find_one({'username': mail})
-            pipeline = [
-            {"$match": {"username": mail}},
-            {"$project": {"_id": {"$toString": "$_id"}}}
-        ]
-        
-        
+@router.get("/getCategories")
+def getall():
+    table = dynamodb.Table('categories')
+    items = table.scan()
+    return {"categories":items["Items"]}    
 
 
-        cartdocument = await cart.aggregate(pipeline).to_list()
-        id=cartdocument[0]["_id"]
 
-        # dbcart = db["cart"] to update a mongodb document
+@router.get("/getAllOrders")
+def get_all_orders(page: int = Query(1, ge=1), count: int = Query(10, ge=1)):
+    table = dynamodb.Table('orders')
+    total_items_response = table.scan(Select='COUNT')
+    total_items = total_items_response['Count']
+
+    limit = count
+    start_key = None
     
-        # updated_data = {"$set": {"restaurantname":"Ovenstory3"}}
-        # if id is not None:
-        #     dbcart.update_one({"_id": ObjectId(id)}, updated_data)
-
-        # check if the mid exists
-
-        cartveg=tobeaddedtocartdetails.items.veg
-        cartnonveg=tobeaddedtocartdetails.items.nonveg
-
-        carthasitem=False
-        itemindex=0
+    for _ in range(page - 1):
+        response = table.scan(Limit=limit, ExclusiveStartKey=start_key) if start_key else table.scan(Limit=limit)
+        start_key = response.get('LastEvaluatedKey')
+        if not start_key:
+            return {"orders": []}
+    
+    response = table.scan(Limit=limit, ExclusiveStartKey=start_key) if start_key else table.scan(Limit=limit)
+    
+    return {
+        "count":total_items,
+        "orders": response["Items"]
         
-        if cartveg is not None:
-            for index, vegitem in enumerate(cartveg):
-                if vegitem.mid==item.mid:
-                    carthasitem=True
-                    itemindex=index
-                    
-            if cartnonveg is not None:
-                for index, nonvegitem in enumerate(cartnonveg):
-                    if nonvegitem.mid==item.mid:
-                        carthasitem=True
-                        itemindex=index            
-            
-        
-        dbcart = db["cart"]
-    
-
-        # dbcart.update_one({ "_id": ObjectId(id) }, {"$set": {field: 5}} )
-        # dbcart.update_one({ "_id": ObjectId(id) },{ "$set": { "items.veg.0.quantity": 4 } }) # updates 
-    
-        billdetailsquantityfield=f"billdetails.totalQuantity" # gets the field which is to be updated
-        billdetailstotalfield=f"billdetails.total"
-        if carthasitem==True:
-            if item.vegornonveg=="veg":
-                field = f"items.veg.{itemindex}.quantity" 
-                dbcart.update_one({ "_id": ObjectId(id)},{"$inc": {field: 1,billdetailsquantityfield:1,billdetailstotalfield:extract_integer(item.price)}})
-
-            if item.vegornonveg=="nonveg":
-                field = f"items.nonveg.{itemindex}.quantity"
-                dbcart.update_one({ "_id": ObjectId(id)},{"$inc": {field: 1,billdetailsquantityfield:1,billdetailstotalfield:extract_integer(item.price)}})
-
-        else:
-            if item.vegornonveg=="veg":
-                dbcart.update_one({ "_id": ObjectId(id)},{"$inc":{billdetailsquantityfield:1,billdetailstotalfield:extract_integer(item.price)},"$push": {"items.veg": {"mid": item.mid,"name": item.name,"price": item.price,"rating": item.rating,"quantity": 1}}}) 
-
-            if item.vegornonveg=="nonveg":
-                dbcart.update_one({ "_id": ObjectId(id)},{"$inc":{billdetailsquantityfield:1,billdetailstotalfield:extract_integer(item.price)},"$push": {"items.nonveg": {"mid": item.mid,"name": item.name,"price": item.price,"rating": item.rating,"quantity": 1}}})      
-              
-
-    
-        return "Succesfully updated cart"
-    
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-        
+    } 
 
 
-
-
-
-@router.get('/get_presigned_url')
-async def generate_presigned_url():
-    s3_client = boto3.client('s3')
-    presigned_url = s3_client.generate_presigned_url(
-        'get_object',
-        Params={'Bucket': "fullstackapp", 'Key':"saravanabhavan.png"})
-
-    return presigned_url
-
-
-
-
-       
-
-
-
-
-
-
-
-# @user.get("/search_restaurant")
-# async def search_restaurant(
-#     restaurant_name: str ,
-#     menu_item_name: str
-# ):
-#     query = {}
-#     if restaurant_name:
-#         query["$or"] = [{"name": {"$regex": f".*{restaurant_name}.*", "$options": "i"}}]
-#     if menu_item_name:
-#         query["$or"].append({"menu.name": {"$regex": f".*{menu_item_name}.*", "$options": "i"}}) if "$or" in query else query.update({"menu.name": {"$regex": f".*{menu_item_name}.*", "$options": "i"}})
-
-#     pipeline = [
-#         {"$match": query},
-#         {"$unwind": "$menu"},
-#         {"$match": query}
-#     ]
-
-#     result = serializeList(conn.manishclouddb.testcollection.aggregate(pipeline))
-
-
-#     return {"results":result}
-
-
-
-# @user.get("/get_password")
-# async def search_restaurant(
-# username: str 
-# ):
-#     pipeline = [
-#         {"$match": { "username": username }},
-#         {"$project":  { "_id": 0, "password": 1,"uid":1 }},# hide _id and show password 
-#     ]
-
-#     result =serializeList(conn.manishclouddb.users.aggregate(pipeline))
-
-
-#     return {"uid":result[0]["uid"], "username": username,"password":result[0]["password"]}
-
-
-
-
-
+   
 
