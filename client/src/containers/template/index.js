@@ -22,51 +22,53 @@ function MySvgComponent() {
   );
 }
 
-function Template({ screen }) {
+function Template({ screen, page = "nothome" }) {
   return (
     <Box sx={{ width: "99.93vw", display: "grid", placeItems: "center" }}>
       <Navbar />
-      <Box
-        sx={{
-          width: "100%",
-          display: "flex",
-          justifyContent: "center",
-          borderBottomLeftRadius: "24px",
-          borderBottomRightRadius: "24px",
-          background:
-            "linear-gradient(0deg, rgb(201, 188, 244) 0%, rgb(255, 255, 255) 95.83%)",
-        }}
-      >
+      {page === "home" && (
         <Box
           sx={{
-            width: "80vw",
+            width: "100%",
             display: "flex",
-            justifyContent: "space-between",
+            justifyContent: "center",
+            borderBottomLeftRadius: "24px",
+            borderBottomRightRadius: "24px",
+            background:
+              "linear-gradient(0deg, rgb(201, 188, 244) 0%, rgb(255, 255, 255) 95.83%)",
           }}
         >
-          <Box sx={{ display: "grid", placeItems: "center" }}>
-            <Box>
-              <Box
-                sx={{
-                  fontSize: "48px",
-                  fontFamily: '"GilroyBold", sans-serif',
-                  maxWidth: "350px",
-                  display: "grid",
-                  placeItems: "center",
-                  color: "#3D3F48",
-                }}
-              >
-                Order Food Online in Hyderabad
-              </Box>
-              <Box sx={{ width: "130px", height: "10px" }}>
-                <MySvgComponent />
+          <Box
+            sx={{
+              width: "80vw",
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            <Box sx={{ display: "grid", placeItems: "center" }}>
+              <Box>
+                <Box
+                  sx={{
+                    fontSize: "48px",
+                    fontFamily: '"GilroyBold", sans-serif',
+                    maxWidth: "350px",
+                    display: "grid",
+                    placeItems: "center",
+                    color: "#3D3F48",
+                  }}
+                >
+                  Order Food Online in Hyderabad
+                </Box>
+                <Box sx={{ width: "130px", height: "10px" }}>
+                  <MySvgComponent />
+                </Box>
               </Box>
             </Box>
-          </Box>
 
-          <Icon src={home} imgHeight="300px" imgWidth="500px" />
+            <Icon src={home} imgHeight="300px" imgWidth="500px" />
+          </Box>
         </Box>
-      </Box>
+      )}
       <Box>{screen}</Box>
     </Box>
   );

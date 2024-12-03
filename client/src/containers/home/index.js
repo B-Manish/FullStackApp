@@ -87,9 +87,9 @@ function Home() {
             item
             xs={12}
             sm={6}
-            md={3}
+            lg={3}
             key={item?.restaurant_data?.name}
-            sx={{ padding: " 20px 20px 0" }}
+            sx={{ padding: "20px 20px 0" }}
           >
             <RestaurantCard
               imgSrc={item?.restaurant_data?.img}
