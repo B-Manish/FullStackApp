@@ -42,6 +42,7 @@ function Home() {
           fontFamily: '"GilroyBold", sans-serif',
           fontSize: "24px",
           mt: "15px",
+          pl: "20px",
         }}
       >
         What's on your mind?
@@ -75,13 +76,21 @@ function Home() {
           fontSize: "24px",
           fontWeight: "600",
           m: "50px 0 10px 0",
+          paddingLeft: "20px",
         }}
       >
         Top restaurant chains in Hyderabad
       </Box>
-      <Grid container sx={{ width: "80vw" }} rowSpacing={5}>
+      <Grid container sx={{ width: "80vw" }}>
         {data?.map((item) => (
-          <Grid item xs={6} md={3} key={item?.restaurant_data?.name}>
+          <Grid
+            item
+            xs={12}
+            sm={6}
+            md={3}
+            key={item?.restaurant_data?.name}
+            sx={{ padding: " 20px 20px 0" }}
+          >
             <RestaurantCard
               imgSrc={item?.restaurant_data?.img}
               name={item?.restaurant_data?.name}

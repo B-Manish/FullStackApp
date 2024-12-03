@@ -19,7 +19,6 @@ function RestaurantCard({
       onClick={clickHandler}
       sx={{
         cursor: "pointer",
-        width: "90%",
         "&:hover": {
           transform: "scale(0.965)",
           transition: "transform 0.2s ease",
