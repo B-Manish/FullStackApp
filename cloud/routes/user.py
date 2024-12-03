@@ -219,7 +219,7 @@ def getallRestaurants(city:str):
     table = dynamodb.Table(city)
     items = table.scan()
 
-    # Iterate through the items and remove 'menu' if it exists
+    # Remove menu from each restaurant
     for item in items["Items"]:
         for restaurant in item["restaurants"]:
               restaurant["restaurant_data"].pop("menu", None) 
