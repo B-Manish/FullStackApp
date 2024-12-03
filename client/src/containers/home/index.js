@@ -13,6 +13,8 @@ function Home() {
   const [data, setData] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [rating, setRating] = useState(null);
+  const [cuisine, setCuisine] = useState(null);
 
   const goTo = (restaurantId) => {
     navigate(`/restaurant/${restaurantId}`);
@@ -20,7 +22,7 @@ function Home() {
 
   useEffect(() => {
     setLoading(true);
-    getAllRestaurants("Hyderabad")
+    getAllRestaurants({ city: "Hyderabad", rating: rating, cuisine: cuisine })
       .then((res) => {
         setData(res?.restaurants);
         setLoading(false);
