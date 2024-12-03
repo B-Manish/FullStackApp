@@ -94,7 +94,7 @@ function Home() {
                 sm={6}
                 lg={3}
                 key={item}
-                sx={{ padding: "20px 20px 0", border: "1px solid red" }}
+                sx={{ padding: "20px 20px 0" }}
               >
                 <RestaurantCard loading={loading} />
               </Grid>
