@@ -216,22 +216,23 @@ dynamodb = boto3.resource('dynamodb',
 
 
 @router.get("/v2/getAllRestaurants")
-# def getallRestaurants(city:str,rating: Optional[float] = None):
-def getallRestaurants(city:str):
+def getallRestaurants(city: str, rating: Optional[float] = None, cuisine: Optional[str] = None):
     table = dynamodb.Table(city)
     items = table.scan()
 
     restaurants = []
-    data=items["Items"]
+    data = items["Items"]
 
     for singlearea in data:
         area = singlearea["area"]
         for restaurant in singlearea["restaurants"]:
-            restaurant["restaurant_data"]["area"] = area
-            restaurant["restaurant_data"].pop("menu", None)
-            restaurants.append(restaurant)
+            restaurant_data = restaurant["restaurant_data"]
+            if rating is None or float(restaurant_data.get("rating", 0)) >= rating:
+                if cuisine is None or cuisine in restaurant_data.get("cuisine", []):
+                    restaurant_data["area"] = area
+                    restaurant_data.pop("menu", None)  # to remove menu from each restaurant
+                    restaurants.append(restaurant)
 
-    
     return {"restaurants": restaurants}
 
 
