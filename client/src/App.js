@@ -24,7 +24,7 @@ function App() {
 
   return (
     <Routes>
-      <Route path="/" element={<Template screen={<Home />} />} />
+      <Route path="/" element={<Template screen={<Home />} page="home" />} />
       <Route
         path="/restaurant/:restaurantID"
         element={<Template screen={<RestaurantDetails />} />}

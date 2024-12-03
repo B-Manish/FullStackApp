@@ -1,4 +1,4 @@
-import { Paper, Box } from "@mui/material";
+import { Box } from "@mui/material";
 import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Swiggy from "../assets/swiggy.svg";
@@ -6,10 +6,7 @@ import Icon from "./Icon";
 import NavbarCards from "./NavbarCards";
 import CustomModal from "./CustomModal";
 import SignIn from "../containers/signin";
-// import { useDispatch, useSelector } from "react-redux";
 import { LoginContext } from "../context/LoginContext";
-// import { fetchCartdata } from "../redux/cartSlice";
-// import { getCartDetails } from "../api/restaurantApi";
 
 function Navbar() {
   const navigate = useNavigate();
@@ -50,7 +47,7 @@ function Navbar() {
     },
   ];
   return (
-    <Paper
+    <Box
       sx={{
         height: "80px",
         width: "100%",
@@ -58,6 +55,7 @@ function Navbar() {
         justifyContent: "center",
         boxShadow:
           "0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)",
+        borderBottom: "1px solid grey",
       }}
     >
       <CustomModal open={openModal} handleClose={handleClose}>
@@ -106,7 +104,7 @@ function Navbar() {
           ))}
         </Box>
       </Box>
-    </Paper>
+    </Box>
   );
 }
 

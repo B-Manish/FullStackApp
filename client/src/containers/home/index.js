@@ -12,18 +12,22 @@ function Home() {
   const restData = useSelector((state) => state);
   const [data, setData] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const goTo = (restaurantId) => {
     navigate(`/restaurant/${restaurantId}`);
   };
 
   useEffect(() => {
+    setLoading(true);
     getAllRestaurants("Hyderabad")
       .then((res) => {
         setData(res?.categories[0]?.restaurants);
+        setLoading(false);
       })
       .catch((err) => {
         console.log("err", err);
+        setLoading(false);
       });
 
     getCategories()
@@ -42,6 +46,7 @@ function Home() {
           fontFamily: '"GilroyBold", sans-serif',
           fontSize: "24px",
           mt: "15px",
+          pl: "20px",
         }}
       >
         What's on your mind?
@@ -75,23 +80,45 @@ function Home() {
           fontSize: "24px",
           fontWeight: "600",
           m: "50px 0 10px 0",
+          paddingLeft: "20px",
         }}
       >
         Top restaurant chains in Hyderabad
       </Box>
-      <Grid container sx={{ width: "80vw" }} rowSpacing={5}>
-        {data?.map((item) => (
-          <Grid item xs={6} md={3} key={item?.restaurant_data?.name}>
-            <RestaurantCard
-              imgSrc={item?.restaurant_data?.img}
-              name={item?.restaurant_data?.name}
-              rating={item?.restaurant_data?.rating}
-              type={item?.restaurant_data?.cuisine}
-              clickHandler={() => goTo(item?.restaurant_id)}
-              location={"gg"}
-            />
-          </Grid>
-        ))}
+      <Grid container sx={{ width: "80vw" }}>
+        {loading
+          ? [1, 2, 3, 4].map((item) => (
+              <Grid
+                item
+                xs={12}
+                sm={6}
+                lg={3}
+                key={item}
+                sx={{ padding: "20px 20px 0" }}
+              >
+                <RestaurantCard loading={loading} />
+              </Grid>
+            ))
+          : data?.map((item) => (
+              <Grid
+                item
+                xs={12}
+                sm={6}
+                lg={3}
+                key={item?.restaurant_data?.name}
+                sx={{ padding: "20px 20px 0" }}
+              >
+                <RestaurantCard
+                  imgSrc={item?.restaurant_data?.img}
+                  name={item?.restaurant_data?.name}
+                  rating={item?.restaurant_data?.rating}
+                  type={item?.restaurant_data?.cuisine}
+                  clickHandler={() => goTo(item?.restaurant_id)}
+                  location={"gg"}
+                  loading={loading}
+                />
+              </Grid>
+            ))}
       </Grid>
     </Box>
   );
