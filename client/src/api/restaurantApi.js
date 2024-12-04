@@ -1,7 +1,7 @@
 import api from "./customAxios";
 
 export const getAllRestaurants = (bodyParameters) => {
-  let url = `http://localhost:8000/v2/getAllRestaurants?city=${bodyParameters?.city}`;
+  let url = `https://b54wrr1x44.execute-api.us-east-1.amazonaws.com/prod/getAllRestaurants?city=${bodyParameters.city}`;
 
   if (bodyParameters?.rating) {
     url += `&rating=${bodyParameters.rating}`;
