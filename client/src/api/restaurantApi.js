@@ -1,13 +1,19 @@
 import api from "./customAxios";
 
-export const getAllRestaurants = (city) => {
-  return api
-    .get(
-      `https://csq3luyxzc.execute-api.us-east-1.amazonaws.com/prod/getAllRestaurants`
-    )
-    .then((payload) => {
-      return payload;
-    });
+export const getAllRestaurants = (bodyParameters) => {
+  let url = `https://b54wrr1x44.execute-api.us-east-1.amazonaws.com/prod/getAllRestaurants?city=${bodyParameters.city}`;
+
+  if (bodyParameters?.rating) {
+    url += `&rating=${bodyParameters.rating}`;
+  }
+
+  if (bodyParameters?.cuisine) {
+    url += `&cuisine=${bodyParameters.cuisine}`;
+  }
+
+  return api.get(url).then((payload) => {
+    return payload;
+  });
 };
 
 export const getRestaurantDetails = (bodyParameters) => {

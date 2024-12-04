@@ -13,6 +13,8 @@ function Home() {
   const [data, setData] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [rating, setRating] = useState(null);
+  const [cuisine, setCuisine] = useState(null);
 
   const goTo = (restaurantId) => {
     navigate(`/restaurant/${restaurantId}`);
@@ -20,9 +22,9 @@ function Home() {
 
   useEffect(() => {
     setLoading(true);
-    getAllRestaurants("Hyderabad")
+    getAllRestaurants({ city: "Hyderabad", rating: rating, cuisine: cuisine })
       .then((res) => {
-        setData(res?.categories[0]?.restaurants);
+        setData(res?.restaurants);
         setLoading(false);
       })
       .catch((err) => {
@@ -114,7 +116,7 @@ function Home() {
                   rating={item?.restaurant_data?.rating}
                   type={item?.restaurant_data?.cuisine}
                   clickHandler={() => goTo(item?.restaurant_id)}
-                  location={"gg"}
+                  location={item?.restaurant_data?.area}
                   loading={loading}
                 />
               </Grid>

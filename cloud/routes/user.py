@@ -202,6 +202,7 @@ from fastapi import APIRouter,Query
 import boto3
 from .keys import ACCESS_KEY_ID,SECRET_ACCESS_KEY
 from enum import Enum
+from typing import Optional
 
 router = APIRouter() 
 
@@ -215,17 +216,24 @@ dynamodb = boto3.resource('dynamodb',
 
 
 @router.get("/v2/getAllRestaurants")
-def getallRestaurants(city:str):
+def getallRestaurants(city: str, rating: Optional[float] = None, cuisine: Optional[str] = None):
     table = dynamodb.Table(city)
     items = table.scan()
 
-    # Remove menu from each restaurant
-    for item in items["Items"]:
-        for restaurant in item["restaurants"]:
-              restaurant["restaurant_data"].pop("menu", None) 
+    restaurants = []
+    data = items["Items"]
 
-    
-    return {"categories": items["Items"]}
+    for singlearea in data:
+        area = singlearea["area"]
+        for restaurant in singlearea["restaurants"]:
+            restaurant_data = restaurant["restaurant_data"]
+            if rating is None or float(restaurant_data.get("rating", 0)) >= rating:
+                if cuisine is None or cuisine in restaurant_data.get("cuisine", []):
+                    restaurant_data["area"] = area
+                    restaurant_data.pop("menu", None)  # to remove menu from each restaurant
+                    restaurants.append(restaurant)
+
+    return {"restaurants": restaurants}
 
 
 class FoodType(str, Enum):
