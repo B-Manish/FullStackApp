@@ -40,7 +40,7 @@ function RestaurantDetails() {
   useEffect(() => {
     getRestaurantDetails({
       city: "Hyderabad",
-      id: restaurantID,
+      restaurantID: restaurantID,
       foodType: foodType,
     })
       .then((res) => {
@@ -55,7 +55,8 @@ function RestaurantDetails() {
     if (cartData?.items_count === 0) {
       setUpdateCount(true);
     } else if (
-      cartData?.restaurant_name === "" || cartData?.restaurant_name  === data?.restaurant_data?.name
+      cartData?.restaurant_name === "" ||
+      cartData?.restaurant_name === data?.restaurant_data?.name
     ) {
       setUpdateCount(true);
     } else {
@@ -91,7 +92,10 @@ function RestaurantDetails() {
   }, [cartData]);
 
   const ClickHandler = (Item, isVeg = true) => {
-    if (cartData?.restaurant_name === "" || cartData?.restaurant_name  === data?.restaurant_data.name) {
+    if (
+      cartData?.restaurant_name === "" ||
+      cartData?.restaurant_name === data?.restaurant_data.name
+    ) {
       setCartRestaurant(data?.restaurant_id);
       setCartData((prev) => {
         const itemIndex = prev.items.findIndex(
