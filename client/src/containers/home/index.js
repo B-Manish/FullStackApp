@@ -43,16 +43,18 @@ function Home() {
 
   return (
     <Box>
-      <Box
-        sx={{
-          fontFamily: '"GilroyBold", sans-serif',
-          fontSize: "24px",
-          mt: "15px",
-          pl: "20px",
-        }}
-      >
-        What's on your mind?
-      </Box>
+      {categories?.length !== 0 && (
+        <Box
+          sx={{
+            fontFamily: '"GilroyBold", sans-serif',
+            fontSize: "24px",
+            mt: "15px",
+            pl: "20px",
+          }}
+        >
+          What's on your mind?
+        </Box>
+      )}
       <Box sx={{ width: "80vw", display: "flex", mt: "20px" }}>
         {categories?.map((item) => (
           <Box
