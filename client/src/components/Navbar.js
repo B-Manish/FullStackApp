@@ -7,11 +7,13 @@ import NavbarCards from "./NavbarCards";
 import CustomModal from "./CustomModal";
 import SignIn from "../containers/signin";
 import { LoginContext } from "../context/LoginContext";
+import { useMediaQuery } from "@mui/material";
 
 function Navbar() {
   const navigate = useNavigate();
   const { username, isLoggedIn, cartData } = useContext(LoginContext);
   const [openModal, setOpenModal] = useState(false);
+  const isSxScreen = useMediaQuery("(max-width:599px)");
 
   const openSigninModal = () => {
     if (!isLoggedIn) {
@@ -81,28 +83,29 @@ function Navbar() {
         >
           <Icon src={Swiggy} imgWidth="37px" imgHeight="54px" />
         </Box>
-
-        <Box sx={{ display: "flex" }}>
-          {navbaritems.map((item, index) => (
-            <Box
-              key={item?.heading}
-              sx={{
-                display: "flex",
-                marginRight: index !== navbaritems.length ? "60px" : "0px",
-              }}
-            >
-              <NavbarCards
-                heading={item?.heading}
-                hasSearch={item?.hasSearch}
-                hasSignin={item?.hasSignin}
-                clickhandler={item?.clickHandler}
-                type={item?.type || "notsignin"}
-                isLoggedIn={item?.isLoggedIn}
-                cartCount={cartData?.items_count}
-              />
-            </Box>
-          ))}
-        </Box>
+        {!isSxScreen && (
+          <Box sx={{ display: "flex" }}>
+            {navbaritems.map((item, index) => (
+              <Box
+                key={item?.heading}
+                sx={{
+                  display: "flex",
+                  marginRight: index !== navbaritems.length ? "60px" : "0px",
+                }}
+              >
+                <NavbarCards
+                  heading={item?.heading}
+                  hasSearch={item?.hasSearch}
+                  hasSignin={item?.hasSignin}
+                  clickhandler={item?.clickHandler}
+                  type={item?.type || "notsignin"}
+                  isLoggedIn={item?.isLoggedIn}
+                  cartCount={cartData?.items_count}
+                />
+              </Box>
+            ))}
+          </Box>
+        )}
       </Box>
     </Box>
   );

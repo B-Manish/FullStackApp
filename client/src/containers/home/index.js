@@ -89,7 +89,15 @@ function Home() {
       >
         Top restaurant chains in Hyderabad
       </Box>
-      <Grid container sx={{ width: "80vw" }}>
+      <Grid
+        container
+        sx={{
+          width: "80vw",
+          "@media (max-width:600px)": {
+            width: "100vw", // Width for screens larger than 600px
+          },
+        }}
+      >
         {loading
           ? [1, 2, 3, 4].map((item) => (
               <Grid
