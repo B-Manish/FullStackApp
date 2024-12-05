@@ -20,7 +20,7 @@ export const getRestaurantDetails = (bodyParameters) => {
   let url = `https://b54wrr1x44.execute-api.us-east-1.amazonaws.com/prod/getRestaurant?restaurantId=${bodyParameters.restaurantId}&city=${bodyParameters.city}`;
 
   if (bodyParameters?.foodType) {
-    url += `&rating=${bodyParameters.foodType}`;
+    url += `&foodType=${bodyParameters.foodType}`;
   }
   return api.get(url).then((payload) => {
     return payload;
