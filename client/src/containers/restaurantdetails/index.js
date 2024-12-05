@@ -40,7 +40,7 @@ function RestaurantDetails() {
   useEffect(() => {
     getRestaurantDetails({
       city: "Hyderabad",
-      restaurantID: restaurantID,
+      restaurantId: restaurantID,
       foodType: foodType,
     })
       .then((res) => {
