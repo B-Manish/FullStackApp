@@ -5,7 +5,7 @@ import Swiggy from "../assets/swiggy.svg";
 import Icon from "./Icon";
 import NavbarCards from "./NavbarCards";
 import CustomModal from "./CustomModal";
-import SignIn from "../containers/signin";
+// import SignIn from "../containers/signin";
 import { LoginContext } from "../context/LoginContext";
 import { useMediaQuery } from "@mui/material";
 
@@ -60,9 +60,9 @@ function Navbar() {
         borderBottom: "1px solid grey",
       }}
     >
-      <CustomModal open={openModal} handleClose={handleClose}>
+      {/* <CustomModal open={openModal} handleClose={handleClose}>
         <SignIn />
-      </CustomModal>
+      </CustomModal> */}
       <Box
         sx={{
           display: "flex",
