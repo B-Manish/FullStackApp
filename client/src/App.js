@@ -12,6 +12,7 @@ import React, { useEffect, useContext } from "react";
 import { LoginContext } from "./context/LoginContext";
 import { useLocation } from "react-router-dom";
 import Signin from "./components/SIgnin";
+import PasswordRecovery from "./components/PasswordRecovery";
 
 function App() {
 
@@ -24,7 +25,7 @@ function App() {
       />
       <Route path="/signup" element={<Template screen={<SignUpp />} />} />
       <Route path="/signin" element={<Template screen={<Signin />} />} />
-
+      <Route path="/forgot" element={<Template screen={<PasswordRecovery />} />} />
       <Route path="/profile" element={<Template screen={<Profile />} />} />
       <Route path="/cart" element={<Template screen={<CartDetails />} />} />
       <Route path="/search" element={<Template screen={<Search />} />} />
