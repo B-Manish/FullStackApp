@@ -1,11 +1,13 @@
-import { Box } from "@mui/material";
-import React, { useState, useContext, useEffect } from "react";
+import { Box, Typography } from "@mui/material";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import Swiggy from "../assets/swiggy.svg";
 import Icon from "./Icon";
 import NavbarCards from "./NavbarCards";
 import CustomModal from "./CustomModal";
 // import SignIn from "../containers/signin";
+import Signin from "./SIgnin";
+import Signupp from "./Signupp";
 import { LoginContext } from "../context/LoginContext";
 import { useMediaQuery } from "@mui/material";
 
@@ -14,6 +16,7 @@ function Navbar() {
   const { username, isLoggedIn, cartData } = useContext(LoginContext);
   const [openModal, setOpenModal] = useState(false);
   const isSxScreen = useMediaQuery("(max-width:599px)");
+  const [showSignIn, setShowSignIn] = useState(true);
 
   const openSigninModal = () => {
     if (!isLoggedIn) {
@@ -60,9 +63,23 @@ function Navbar() {
         borderBottom: "1px solid grey",
       }}
     >
-      {/* <CustomModal open={openModal} handleClose={handleClose}>
-        <SignIn />
-      </CustomModal> */}
+      <CustomModal open={openModal} handleClose={handleClose}>
+        <Box>
+          <Typography sx={{ color: "#282C3F", fontSize: "30px", mb: "7px" }}>
+            {showSignIn ? "Login" : "Signup"}
+          </Typography>
+          <Box sx={{ display: "flex", mb: "20px" }}>
+            <Box sx={{ mr: "4px" }}>or</Box>
+            <Box
+              onClick={() => setShowSignIn((prev) => !prev)}
+              sx={{ cursor: "pointer", color: "orange" }}
+            >
+              {showSignIn ? "create an account" : "login to your account"}
+            </Box>
+          </Box>
+          {showSignIn ? <Signin /> : <Signupp />}
+        </Box>
+      </CustomModal>
       <Box
         sx={{
           display: "flex",

@@ -133,11 +133,6 @@ const SignUpAndVerify = () => {
     // </div>
 
     <Box sx={{ width: "360px" }}>
-      <Typography
-        sx={{ color: "#282C3F", fontSize: "30px", marginBottom: "50px" }}
-      >
-        Sign Up
-      </Typography>
       <Box
         sx={{
           border: "1px solid #d4d5d9",
