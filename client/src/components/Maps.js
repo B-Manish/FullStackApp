@@ -87,8 +87,8 @@ const Maps = () => {
         {currentLocation.lat !== 0 && (
           <Marker
             position={currentLocation}
-            draggable={true} // Makes the marker draggable
-            onDragEnd={onMarkerDragEnd} // Handles the drag end event
+            draggable={true}
+            onDragEnd={onMarkerDragEnd}
             title="Drag to set your location"
           />
         )}
