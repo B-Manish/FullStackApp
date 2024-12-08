@@ -14,6 +14,7 @@ const SignUpAndVerify = () => {
   const [password, setPassword] = useState("");
   const [signUpError, setSignUpError] = useState("");
   const [signUpMessage, setSignUpMessage] = useState("");
+  const [verifyingCode, setVerifyingCode] = useState(false);
 
   // States for Verification
   const [verificationCode, setVerificationCode] = useState("");
@@ -49,6 +50,7 @@ const SignUpAndVerify = () => {
         setSignUpMessage("");
         return;
       }
+      setVerifyingCode(true);
       setSignUpMessage(
         "User registered successfully. Please check your email for verification."
       );
@@ -60,7 +62,6 @@ const SignUpAndVerify = () => {
   const handleVerification = (e) => {
     e.preventDefault();
 
-    // Create a CognitoUser instance with the username (email/phone number)
     const cognitoUser = new CognitoUser({
       Username: username, // This should be the email/phone number used during sign-up
       Pool: userPool,
@@ -75,6 +76,7 @@ const SignUpAndVerify = () => {
       }
       setVerificationMessage("Verification successful! You can now sign in.");
       setVerificationError("");
+      setVerifyingCode(false);
     });
   };
 
@@ -132,132 +134,187 @@ const SignUpAndVerify = () => {
     //   {verificationMessage && <p>{verificationMessage}</p>}
     // </div>
 
-    <Box sx={{ width: "360px" }}>
-      <Box
-        sx={{
-          border: "1px solid #d4d5d9",
-          height: "72px",
-          padding: "7px 0 0 20px",
-        }}
-      >
-        <TextField
-          id="standard-basic"
-          label="Email"
-          variant="standard"
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
-          InputLabelProps={{
-            style: { color: "#93959f" },
-          }}
+    verifyingCode ? (
+      <Box sx={{ width: "360px" }}>
+        <Box sx={{ mb: "20px" }}>Verify Your Email</Box>
+        <Box
           sx={{
-            "& .MuiInput-underline:before": {
-              borderBottom: "none",
-            },
-            "& .MuiInput-underline:after": {
-              borderBottom: "none",
-            },
-            "& .MuiInput-root": {
-              "&:hover:not(.Mui-disabled):before": {
+            border: "1px solid #d4d5d9",
+            height: "72px",
+            padding: "7px 0 0 20px",
+          }}
+        >
+          <TextField
+            id="standard-basic"
+            label="Verification Code"
+            variant="standard"
+            value={verificationCode}
+            onChange={(e) => setVerificationCode(e.target.value)}
+            InputLabelProps={{
+              style: { color: "#93959f" },
+            }}
+            sx={{
+              "& .MuiInput-underline:before": {
                 borderBottom: "none",
               },
-            },
-          }}
-        />
-      </Box>
-      <Box
-        sx={{
-          border: "1px solid #d4d5d9",
-          height: "72px",
-          padding: "7px 0 0 20px",
-        }}
-      >
-        <TextField
-          id="standard-basic"
-          label="Username"
-          variant="standard"
-          value={username}
-          onChange={(event) => setUsername(event.target.value)}
-          InputLabelProps={{
-            style: { color: "#93959f" },
-          }}
-          sx={{
-            "& .MuiInput-underline:before": {
-              borderBottom: "none",
-            },
-            "& .MuiInput-underline:after": {
-              borderBottom: "none",
-            },
-            "& .MuiInput-root": {
-              "&:hover:not(.Mui-disabled):before": {
+              "& .MuiInput-underline:after": {
                 borderBottom: "none",
               },
-            },
-          }}
-        />
-      </Box>
-      <Box
-        sx={{
-          border: "1px solid #d4d5d9",
-          height: "72px",
-          padding: "7px 0 0 20px",
-        }}
-      >
-        <TextField
-          id="standard-basic"
-          label="Password"
-          variant="standard"
-          type="password"
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-          InputLabelProps={{
-            style: { color: "#93959f" },
-          }}
+              "& .MuiInput-root": {
+                "&:hover:not(.Mui-disabled):before": {
+                  borderBottom: "none",
+                },
+              },
+            }}
+          />
+        </Box>
+        <Box
+          onClick={(e) => handleVerification(e)}
           sx={{
-            "& .MuiInput-underline:before": {
-              borderBottom: "none",
-            },
-            "& .MuiInput-underline:after": {
-              borderBottom: "none",
-            },
-            "& .MuiInput-root": {
-              "&:hover:not(.Mui-disabled):before": {
+            background: "#FC8019",
+            height: "50px",
+            color: "white",
+            fontWeight: "700",
+            display: "grid",
+            placeItems: "center",
+            cursor: "pointer",
+            margin: "35px 0 0 0",
+          }}
+        >
+          Verify
+        </Box>
+        {verificationError && <p>{verificationError}</p>}
+        {verificationMessage && <p>{verificationMessage}</p>}
+      </Box>
+    ) : (
+      <Box sx={{ width: "360px" }}>
+        <Box
+          sx={{
+            border: "1px solid #d4d5d9",
+            height: "72px",
+            padding: "7px 0 0 20px",
+          }}
+        >
+          <TextField
+            id="standard-basic"
+            label="Email"
+            variant="standard"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+            InputLabelProps={{
+              style: { color: "#93959f" },
+            }}
+            sx={{
+              "& .MuiInput-underline:before": {
                 borderBottom: "none",
               },
-            },
+              "& .MuiInput-underline:after": {
+                borderBottom: "none",
+              },
+              "& .MuiInput-root": {
+                "&:hover:not(.Mui-disabled):before": {
+                  borderBottom: "none",
+                },
+              },
+            }}
+          />
+        </Box>
+        <Box
+          sx={{
+            border: "1px solid #d4d5d9",
+            height: "72px",
+            padding: "7px 0 0 20px",
           }}
-        />
+        >
+          <TextField
+            id="standard-basic"
+            label="Username"
+            variant="standard"
+            value={username}
+            onChange={(event) => setUsername(event.target.value)}
+            InputLabelProps={{
+              style: { color: "#93959f" },
+            }}
+            sx={{
+              "& .MuiInput-underline:before": {
+                borderBottom: "none",
+              },
+              "& .MuiInput-underline:after": {
+                borderBottom: "none",
+              },
+              "& .MuiInput-root": {
+                "&:hover:not(.Mui-disabled):before": {
+                  borderBottom: "none",
+                },
+              },
+            }}
+          />
+        </Box>
+        <Box
+          sx={{
+            border: "1px solid #d4d5d9",
+            height: "72px",
+            padding: "7px 0 0 20px",
+          }}
+        >
+          <TextField
+            id="standard-basic"
+            label="Password"
+            variant="standard"
+            type="password"
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
+            InputLabelProps={{
+              style: { color: "#93959f" },
+            }}
+            sx={{
+              "& .MuiInput-underline:before": {
+                borderBottom: "none",
+              },
+              "& .MuiInput-underline:after": {
+                borderBottom: "none",
+              },
+              "& .MuiInput-root": {
+                "&:hover:not(.Mui-disabled):before": {
+                  borderBottom: "none",
+                },
+              },
+            }}
+          />
+        </Box>
+
+        <Box
+          onClick={(e) => handleSignUp(e)}
+          sx={{
+            background: "#FC8019",
+            height: "50px",
+            color: "white",
+            fontWeight: "700",
+            display: "grid",
+            placeItems: "center",
+            cursor: "pointer",
+            margin: "35px 0 0 0",
+          }}
+        >
+          CONTINUE
+        </Box>
+
+        <Typography
+          sx={{
+            mt: "6px",
+            color: "#686b78",
+            fontSize: "12px",
+            fontWeight: "500",
+          }}
+        >
+          By creating an account,I accept the Terms & Conditions & Privacy
+          Policy
+        </Typography>
+
+        {signUpError && <p>{signUpError}</p>}
+        {signUpMessage && <p>{signUpMessage}</p>}
       </Box>
-
-      <Box
-        onClick={(e) => handleSignUp(e)}
-        sx={{
-          background: "#FC8019",
-          height: "50px",
-          color: "white",
-          fontWeight: "700",
-          display: "grid",
-          placeItems: "center",
-          cursor: "pointer",
-          margin: "35px 0 0 0",
-        }}
-      >
-        CONTINUE
-      </Box>
-
-      <Typography
-        sx={{
-          mt: "6px",
-          color: "#686b78",
-          fontSize: "12px",
-          fontWeight: "500",
-        }}
-      >
-        By creating an account,I accept the Terms & Conditions & Privacy Policy
-      </Typography>
-
-      {signUpError && <p>{signUpError}</p>}
-      {signUpMessage && <p>{signUpMessage}</p>}
-    </Box>
+    )
   );
 };
 
