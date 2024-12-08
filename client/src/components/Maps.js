@@ -22,12 +22,96 @@ const Maps = () => {
     lng: 77.5946,
   };
 
-  // const destination = {
-  //   lat: 12.9352, // Example destination (Change this to any destination)
-  //   lng: 77.6245,
-  // };
+  const destination = {
+    lat: 12.973046385730271, // Example destination (Change this to any destination)
+    lng: 80.251504685,
+  };
 
-  const destination = { lat: 12.973046385730271, lng: 80.25150468514555 }; // office
+  const customThemeStyle = [
+    // // {
+    // //   elementType: "geometry",
+    // //   stylers: [{ color: "#F8FAFB" }],
+    // // },
+    // // {
+    // //   elementType: "labels.text.fill",
+    // //   stylers: [{ color: "#e87c00" }],
+    // // },
+    // {
+    //   elementType: "labels.text.stroke",
+    //   stylers: [{ color: "#f5e6c8" }],
+    // },
+    // {
+    //   featureType: "administrative",
+    //   elementType: "geometry",
+    //   stylers: [{ color: "#e87c00" }],
+    // },
+    // {
+    //   featureType: "administrative.land_parcel",
+    //   elementType: "labels.text.fill",
+    //   stylers: [{ color: "#ffb84d" }],
+    // },
+    // {
+    //   featureType: "poi",
+    //   elementType: "geometry",
+    //   stylers: [{ color: "#ffe0b2" }],
+    // },
+    // {
+    //   featureType: "poi.park",
+    //   elementType: "geometry.fill",
+    //   stylers: [{ color: "#9AC0F5" }],
+    // },
+    // {
+    //   featureType: "road",
+    //   elementType: "geometry.fill",
+    //   stylers: [{ color: "#BBC9D6" }],
+    // },
+    // {
+    //   featureType: "road",
+    //   elementType: "geometry.stroke",
+    //   stylers: [{ color: "#FFFFFF" }],
+    // },
+    // {
+    //   featureType: "road.highway",
+    //   elementType: "geometry.fill",
+    //   stylers: [{ color: "#8BA5C1" }],
+    // },
+    // {
+    //   featureType: "water",
+    //   elementType: "geometry",
+    //   stylers: [{ color: "#9AC0F5" }],
+    // },
+    // {
+    //   featureType: "transit",
+    //   elementType: "geometry",
+    //   stylers: [{ color: "#ffab91" }],
+    // },
+    //
+    {
+      featureType: "administrative",
+      elementType: "labels",
+      stylers: [{ visibility: "off" }], // Hide administrative labels
+    },
+    {
+      featureType: "poi",
+      elementType: "labels",
+      stylers: [{ visibility: "off" }], // Hide points of interest labels
+    },
+    {
+      featureType: "water",
+      elementType: "labels",
+      stylers: [{ visibility: "off" }], // Hide water labels
+    },
+    {
+      featureType: "road",
+      elementType: "labels.text.fill",
+      stylers: [{ visibility: "on" }], // Show street names
+    },
+    {
+      featureType: "transit",
+      elementType: "labels",
+      stylers: [{ visibility: "off" }], // Hide transit labels
+    },
+  ];
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
@@ -107,6 +191,10 @@ const Maps = () => {
           mapContainerStyle={containerStyle}
           center={currentLocation.lat !== 0 ? currentLocation : defaultCenter}
           zoom={15}
+          options={{
+            styles: customThemeStyle,
+            disableDefaultUI: true, // Optional: Disable default UI controls (like zoom, street view)
+          }}
         >
           {currentLocation.lat !== 0 && (
             <Marker
