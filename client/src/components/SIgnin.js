@@ -72,7 +72,7 @@ const Signin = () => {
         }}
       >
         <TextField
-          label="Email"
+          label="Email/Username"
           variant="standard"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
