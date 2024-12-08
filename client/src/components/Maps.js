@@ -10,6 +10,7 @@ import {
 const Maps = () => {
   const [currentLocation, setCurrentLocation] = useState({ lat: 0, lng: 0 });
   const [directionsResponse, setDirectionsResponse] = useState(null);
+  const [address, setAddress] = useState("");
 
   const containerStyle = {
     width: "100%",
@@ -32,6 +33,10 @@ const Maps = () => {
     navigator.geolocation.getCurrentPosition(
       (position) => {
         setCurrentLocation({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        });
+        reverseGeocode({
           lat: position.coords.latitude,
           lng: position.coords.longitude,
         });
@@ -75,28 +80,51 @@ const Maps = () => {
     console.log("Marker dragged to: ", newLat, newLng);
 
     setCurrentLocation({ lat: newLat, lng: newLng });
+    reverseGeocode({ lat: newLat, lng: newLng });
+  };
+
+  // Function to get the address from latitude and longitude
+  const reverseGeocode = (location) => {
+    const geocoder = new window.google.maps.Geocoder();
+    geocoder.geocode({ location }, (results, status) => {
+      if (status === window.google.maps.GeocoderStatus.OK) {
+        if (results[0]) {
+          setAddress(results[0].formatted_address);
+          console.log("Address:", results[0].formatted_address);
+        } else {
+          console.error("No results found");
+        }
+      } else {
+        console.error("Geocoder failed due to:", status);
+      }
+    });
   };
 
   return (
     <LoadScript googleMapsApiKey="AIzaSyDEdqREu6S96D5ACHBJ-SBUIF7EQE3K8Hg">
-      <GoogleMap
-        mapContainerStyle={containerStyle}
-        center={currentLocation.lat !== 0 ? currentLocation : defaultCenter}
-        zoom={15}
-      >
-        {currentLocation.lat !== 0 && (
-          <Marker
-            position={currentLocation}
-            draggable={true}
-            onDragEnd={onMarkerDragEnd}
-            title="Drag to set your location"
-          />
-        )}
-        {/*gives the routes between two points*/}
-        {/* {directionsResponse && (
+      <div>
+        <GoogleMap
+          mapContainerStyle={containerStyle}
+          center={currentLocation.lat !== 0 ? currentLocation : defaultCenter}
+          zoom={15}
+        >
+          {currentLocation.lat !== 0 && (
+            <Marker
+              position={currentLocation}
+              draggable={true}
+              onDragEnd={onMarkerDragEnd}
+              title="Drag to set your location"
+            />
+          )}
+          {/*gives the routes between two points*/}
+          {/* {directionsResponse && (
           <DirectionsRenderer directions={directionsResponse} />
         )} */}
-      </GoogleMap>
+        </GoogleMap>
+
+        {/* Display the address after marker is dropped */}
+        {address && <p>Address: {address}</p>}
+      </div>
     </LoadScript>
   );
 };
