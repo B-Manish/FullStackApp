@@ -1,30 +1,36 @@
 import React, { useState, useEffect } from "react";
-import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
+import {
+  GoogleMap,
+  LoadScript,
+  Marker,
+  DirectionsService,
+  DirectionsRenderer,
+} from "@react-google-maps/api";
 
 const Maps = () => {
   const [currentLocation, setCurrentLocation] = useState({ lat: 0, lng: 0 });
+  const [directionsResponse, setDirectionsResponse] = useState(null);
 
-  // Map container styling
   const containerStyle = {
     width: "100%",
     height: "400px",
   };
 
-  // Default center of the map
   const defaultCenter = {
     lat: 12.9716, // Default to Bangalore
     lng: 77.5946,
   };
 
-  // Function to get current location
+  // const destination = {
+  //   lat: 12.9352, // Example destination (Change this to any destination)
+  //   lng: 77.6245,
+  // };
+
+  const destination = { lat: 12.973046385730271, lng: 80.25150468514555 }; // office
+
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        console.log(
-          "Location fetched:",
-          position.coords.latitude,
-          position.coords.longitude
-        ); // Check if location is being fetched
         setCurrentLocation({
           lat: position.coords.latitude,
           lng: position.coords.longitude,
@@ -35,8 +41,31 @@ const Maps = () => {
     );
   }, []);
 
+  // Function to calculate and display route
+  const calculateRoute = (origin, destination) => {
+    if (!origin || !destination) return;
+
+    const directionsService = new window.google.maps.DirectionsService();
+    directionsService.route(
+      {
+        origin: origin,
+        destination: destination,
+        travelMode: window.google.maps.TravelMode.DRIVING, // Use DRIVING, BICYCLING, TRANSIT, or WALKING
+      },
+      (result, status) => {
+        if (status === window.google.maps.DirectionsStatus.OK) {
+          setDirectionsResponse(result);
+        } else {
+          console.error(`Error fetching directions ${result}`);
+        }
+      }
+    );
+  };
+
   useEffect(() => {
-    console.log("currentLocation", currentLocation);
+    if (currentLocation.lat !== 0) {
+      calculateRoute(currentLocation, destination);
+    }
   }, [currentLocation]);
 
   return (
@@ -49,12 +78,8 @@ const Maps = () => {
         {currentLocation.lat !== 0 && (
           <Marker position={currentLocation} title="You are here" />
         )}
-        {/* Fallback marker (centered at Bangalore) if no location is available */}
-        {currentLocation.lat === 0 && (
-          <Marker
-            position={defaultCenter} // Default location (Bangalore)
-            title="Default Marker (Bangalore)"
-          />
+        {directionsResponse && (
+          <DirectionsRenderer directions={directionsResponse} />
         )}
       </GoogleMap>
     </LoadScript>
