@@ -50,7 +50,7 @@ const Maps = () => {
       {
         origin: origin,
         destination: destination,
-        travelMode: window.google.maps.TravelMode.DRIVING, // Use DRIVING, BICYCLING, TRANSIT, or WALKING
+        travelMode: window.google.maps.TravelMode.DRIVING, // Can change to WALKING, BICYCLING, etc.
       },
       (result, status) => {
         if (status === window.google.maps.DirectionsStatus.OK) {
@@ -68,6 +68,15 @@ const Maps = () => {
     }
   }, [currentLocation]);
 
+  // Function to handle dragging the marker
+  const onMarkerDragEnd = (event) => {
+    const newLat = event.latLng.lat();
+    const newLng = event.latLng.lng();
+    console.log("Marker dragged to: ", newLat, newLng);
+
+    setCurrentLocation({ lat: newLat, lng: newLng });
+  };
+
   return (
     <LoadScript googleMapsApiKey="AIzaSyDEdqREu6S96D5ACHBJ-SBUIF7EQE3K8Hg">
       <GoogleMap
@@ -76,11 +85,17 @@ const Maps = () => {
         zoom={15}
       >
         {currentLocation.lat !== 0 && (
-          <Marker position={currentLocation} title="You are here" />
+          <Marker
+            position={currentLocation}
+            draggable={true} // Makes the marker draggable
+            onDragEnd={onMarkerDragEnd} // Handles the drag end event
+            title="Drag to set your location"
+          />
         )}
-        {directionsResponse && (
+        {/*gives the routes between two points*/}
+        {/* {directionsResponse && (
           <DirectionsRenderer directions={directionsResponse} />
-        )}
+        )} */}
       </GoogleMap>
     </LoadScript>
   );
