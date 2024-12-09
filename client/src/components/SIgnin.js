@@ -9,7 +9,7 @@ const Signin = () => {
   const [password, setPassword] = useState("");
   const [signInError, setSignInError] = useState("");
   const [signInMessage, setSignInMessage] = useState("");
-  const { setUsername } = useContext(LoginContext);
+  const { setUsername, setEmail } = useContext(LoginContext);
 
   const userPoolId = "17shnbmh639c0vhp8j591437j7"; // Replace with your actual User Pool ID
   const lastAuthUserKey = `CognitoIdentityServiceProvider.${userPoolId}.LastAuthUser`;
@@ -46,6 +46,19 @@ const Signin = () => {
         setSignInMessage("Sign-in successful!");
         setSignInError("");
         console.log("Access Token:", accessToken);
+
+        // Get the user's email
+        cognitoUser.getUserAttributes((err, attributes) => {
+          if (err) {
+            console.log("Error fetching user attributes:", err);
+            return;
+          }
+          attributes.forEach((attribute) => {
+            if (attribute.Name === "email") {
+              setEmail(attribute.Value); // Set the email from user attributes
+            }
+          });
+        });
 
         // Tokens are already stored by Cognito in localStorage
       },

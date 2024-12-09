@@ -10,6 +10,8 @@ const LoginProvider = ({ children }) => {
   const [cartRestaurant, setCartRestaurant] = useState("");
   const [updateCount, setUpdateCount] = useState(false);
   const [openDialogBox, setOpenDialogBox] = useState(false);
+  const [email, setEmail] = useState("");
+
   const defaultCartData = {
     billdetails: {
       deliveryfee: 0,
@@ -76,6 +78,8 @@ const LoginProvider = ({ children }) => {
         setUpdateCount,
         openDialogBox,
         setOpenDialogBox,
+        email,
+        setEmail,
       }}
     >
       {children}
