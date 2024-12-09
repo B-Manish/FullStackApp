@@ -4,7 +4,13 @@ import { Modal, Backdrop, Fade } from "@mui/material";
 import { Box, Grid, Tab, Button } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
-const CustomModal = ({ open, handleClose, children }) => {
+const CustomModal = ({
+  open,
+  handleClose,
+  children,
+  width = "40%",
+  haveCloseIcon = true,
+}) => {
   return (
     <Modal
       open={open}
@@ -23,7 +29,7 @@ const CustomModal = ({ open, handleClose, children }) => {
       <Fade in={open}>
         <Box
           sx={{
-            width: "40%",
+            width: width,
             background: "white",
             height: "100%",
             outline: "none",
@@ -31,7 +37,7 @@ const CustomModal = ({ open, handleClose, children }) => {
           }}
         >
           <Box onClick={handleClose} sx={{ cursor: "pointer", mt: "20px" }}>
-            <CloseIcon />
+            {haveCloseIcon && <CloseIcon />}
           </Box>
           {children}
         </Box>

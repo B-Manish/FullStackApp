@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Box } from "@mui/material";
 import {
   GoogleMap,
   LoadScript,
@@ -6,11 +7,15 @@ import {
   DirectionsService,
   DirectionsRenderer,
 } from "@react-google-maps/api";
+import CustomTextField from "./CustomTextField";
 
-const Maps = () => {
+const Maps = ({ draggable = false, showRoute = false }) => {
   const [currentLocation, setCurrentLocation] = useState({ lat: 0, lng: 0 });
   const [directionsResponse, setDirectionsResponse] = useState(null);
   const [address, setAddress] = useState("");
+  const [door, setDoor] = useState("");
+  const [landmark, setLandmark] = useState("");
+  const [nickname, setNickname] = useState("");
 
   const containerStyle = {
     width: "100%",
@@ -190,7 +195,7 @@ const Maps = () => {
         <GoogleMap
           mapContainerStyle={containerStyle}
           center={currentLocation.lat !== 0 ? currentLocation : defaultCenter}
-          zoom={15}
+          zoom={17}
           options={{
             styles: customThemeStyle,
             disableDefaultUI: true, // Optional: Disable default UI controls (like zoom, street view)
@@ -199,19 +204,63 @@ const Maps = () => {
           {currentLocation.lat !== 0 && (
             <Marker
               position={currentLocation}
-              draggable={true}
+              draggable={draggable}
               onDragEnd={onMarkerDragEnd}
               title="Drag to set your location"
             />
           )}
           {/*gives the routes between two points*/}
-          {/* {directionsResponse && (
-          <DirectionsRenderer directions={directionsResponse} />
-        )} */}
+          {directionsResponse && showRoute && (
+            <DirectionsRenderer directions={directionsResponse} />
+          )}
         </GoogleMap>
 
         {/* Display the address after marker is dropped */}
-        {address && <p>Address: {address}</p>}
+
+        {address && (
+          <CustomTextField
+            label="Address"
+            value={address}
+            editable={false}
+            margin="0 0 10px 0"
+          />
+        )}
+
+        <CustomTextField
+          label="Door/Flat NO."
+          value={door}
+          setValue={setDoor}
+          margin="0 0 10px 0"
+        />
+
+        <CustomTextField
+          label="Landmark"
+          value={landmark}
+          setValue={setLandmark}
+          margin="0 0 10px 0"
+        />
+
+        <CustomTextField
+          label="Nickname"
+          value={nickname}
+          setValue={setNickname}
+          margin="0 0 10px 0"
+        />
+
+        <Box
+          // onClick={(e) => handleSignIn(e)}
+          sx={{
+            background: "#FC8019",
+            height: "50px",
+            color: "white",
+            fontWeight: "700",
+            display: "grid",
+            placeItems: "center",
+            cursor: "pointer",
+          }}
+        >
+          SAVE ADDRESS AND PROCEED
+        </Box>
       </div>
     </LoadScript>
   );

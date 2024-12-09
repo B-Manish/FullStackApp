@@ -68,7 +68,7 @@ const Signin = () => {
         sx={{
           border: "1px solid #d4d5d9",
           height: "72px",
-          padding: "7px 0 0 20px",
+          padding: "7px 20px 0 20px",
         }}
       >
         <TextField
@@ -80,6 +80,7 @@ const Signin = () => {
             style: { color: "#93959f" },
           }}
           sx={{
+            width: "100%",
             "& .MuiInput-underline:before": {
               borderBottom: "none",
             },
@@ -98,7 +99,7 @@ const Signin = () => {
         sx={{
           border: "1px solid #d4d5d9",
           height: "72px",
-          padding: "7px 0 0 20px",
+          padding: "7px 20px 0 20px",
         }}
       >
         <TextField
@@ -112,6 +113,7 @@ const Signin = () => {
             style: { color: "#93959f" },
           }}
           sx={{
+            width: "100%",
             "& .MuiInput-underline:before": {
               borderBottom: "none",
             },

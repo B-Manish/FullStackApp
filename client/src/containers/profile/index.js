@@ -1,8 +1,10 @@
 import { Box, Grid } from "@mui/material";
 import React, { useState } from "react";
 import Orders from "../../components/Orders";
+import Addresses from "../../components/Addresses";
 
 function Profile() {
+  const [tabValue, setTabValue] = useState("Orders");
   return (
     <Grid
       container
@@ -29,10 +31,24 @@ function Profile() {
         </Box>
         <Grid container sx={{ mt: "10px" }}>
           <Grid item xs={2}>
-            ORDERS
+            <Box
+              onClick={() => setTabValue("Orders")}
+              sx={{ cursor: "pointer" }}
+            >
+              ORDERS
+            </Box>{" "}
+            <Box
+              onClick={() => setTabValue("Addresses")}
+              sx={{ cursor: "pointer" }}
+            >
+              ADDRESSES
+            </Box>
           </Grid>
           <Grid item xs={10}>
-            <Orders itemHeight={150} occupied={145}  />
+            {tabValue === "Orders" && (
+              <Orders itemHeight={150} occupied={145} />
+            )}
+            {tabValue === "Addresses" && <Addresses />}
           </Grid>
         </Grid>
       </Box>
