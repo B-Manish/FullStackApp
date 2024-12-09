@@ -9,9 +9,8 @@ const Signin = () => {
   const [password, setPassword] = useState("");
   const [signInError, setSignInError] = useState("");
   const [signInMessage, setSignInMessage] = useState("");
-  const { setUsername, setEmail } = useContext(LoginContext);
+  const { setUsername, setEmail, userPoolId } = useContext(LoginContext);
 
-  const userPoolId = "17shnbmh639c0vhp8j591437j7"; // Replace with your actual User Pool ID
   const lastAuthUserKey = `CognitoIdentityServiceProvider.${userPoolId}.LastAuthUser`;
   const accessTokenKey = `CognitoIdentityServiceProvider.${userPoolId}.manish.accessToken`;
 

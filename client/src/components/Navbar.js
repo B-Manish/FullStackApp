@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Swiggy from "../assets/swiggy.svg";
 import Icon from "./Icon";
@@ -13,7 +13,8 @@ import { useMediaQuery } from "@mui/material";
 
 function Navbar() {
   const navigate = useNavigate();
-  const { username, isLoggedIn, cartData } = useContext(LoginContext);
+  const { username, isLoggedIn, cartData, extractUserInfoFromToken } =
+    useContext(LoginContext);
   const [openModal, setOpenModal] = useState(false);
   const isSxScreen = useMediaQuery("(max-width:599px)");
   const [showSignIn, setShowSignIn] = useState(true);
@@ -51,6 +52,10 @@ function Navbar() {
       isLoggedIn: isLoggedIn,
     },
   ];
+
+  useEffect(() => {
+    extractUserInfoFromToken();
+  }, []);
   return (
     <Box
       sx={{

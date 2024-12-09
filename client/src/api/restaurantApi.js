@@ -27,6 +27,14 @@ export const getRestaurantDetails = (bodyParameters) => {
   });
 };
 
+export const getAdresses = (email) => {
+  let url = `http://localhost:8000/getAddresses/${email}`;
+
+  return api.get(url).then((payload) => {
+    return payload;
+  });
+};
+
 // export const getAllRestaurants = (bodyParameters) => {
 //   return api
 //     .get(`http://localhost:8000/getAllRestaurants`, {

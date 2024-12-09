@@ -305,5 +305,14 @@ def get_all_orders(page: int = Query(1, ge=1), count: int = Query(10, ge=1)):
     } 
 
 
-   
+
+@router.get("/getAddresses/{email}")
+def getall(email:str):
+    table = dynamodb.Table('addresses')
+    items = table.scan()
+
+    for user in items["Items"]:
+        if user['email'] == email:
+            return user
+
 

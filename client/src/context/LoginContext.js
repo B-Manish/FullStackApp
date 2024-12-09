@@ -1,16 +1,17 @@
 import React, { createContext, useState } from "react";
 // import UserPool from "../UserPool";
 import { useNavigate } from "react-router-dom";
-
+import { jwtDecode } from "jwt-decode";
 export const LoginContext = createContext();
 
 const LoginProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [username, setUsername] = useState("");
   const [cartRestaurant, setCartRestaurant] = useState("");
   const [updateCount, setUpdateCount] = useState(false);
   const [openDialogBox, setOpenDialogBox] = useState(false);
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
+  const userPoolId = "17shnbmh639c0vhp8j591437j7";
 
   const defaultCartData = {
     billdetails: {
@@ -59,6 +60,22 @@ const LoginProvider = ({ children }) => {
     // }
   };
 
+  const idTokenKey = `CognitoIdentityServiceProvider.${userPoolId}.manish.idToken`;
+
+  const extractUserInfoFromToken = () => {
+    const idToken = localStorage.getItem(idTokenKey);
+    if (idToken) {
+      const decodedToken = jwtDecode(idToken);
+      const userEmail = decodedToken?.email;
+      const userName = decodedToken?.["cognito:username"];
+
+      if (userEmail) setEmail(userEmail);
+      if (userName) setUsername(userName);
+    } else {
+      console.log("not logged in");
+    }
+  };
+
   return (
     <LoginContext.Provider
       value={{
@@ -80,6 +97,8 @@ const LoginProvider = ({ children }) => {
         setOpenDialogBox,
         email,
         setEmail,
+        extractUserInfoFromToken,
+        userPoolId,
       }}
     >
       {children}
