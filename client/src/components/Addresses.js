@@ -4,11 +4,13 @@ import CustomModal from "./CustomModal";
 import Maps from "./Maps";
 import { getAdresses } from "../api/restaurantApi";
 import { LoginContext } from "../context/LoginContext";
+import AddressCard from "./AddressCard";
 
 function Addresses() {
   const { email } = useContext(LoginContext);
   const [openModal, setOpenModal] = useState(false);
   const [addresses, setAddresses] = useState([]);
+  const [currentLocation, setCurrentLocation] = useState({ lat: 0, lng: 0 });
 
   const handleClose = () => {
     setOpenModal(false);
@@ -38,18 +40,23 @@ function Addresses() {
       <Grid container>
         {addresses.map((address) => {
           return (
-            <Grid item xs={6}>
-              {address?.nickname}
+            <Grid item xs={6} sx={{ pr: "10px" }}>
+              <AddressCard data={address} />
             </Grid>
           );
         })}
       </Grid>
 
-      <Box onClick={() => setOpenModal(true)}>Add Address</Box>
+      <Box
+        onClick={() => setOpenModal(true)}
+        sx={{ mt: "15px", cursor: "pointer" }}
+      >
+        Add Address
+      </Box>
       <CustomModal
         open={openModal}
         handleClose={handleClose}
-        width="100%"
+        width="40%"
         haveCloseIcon={true}
       >
         <Box sx={{ width: "70%" }}>

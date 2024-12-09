@@ -157,7 +157,7 @@ const Maps = ({ draggable = false, showRoute = false }) => {
   };
 
   useEffect(() => {
-    if (currentLocation.lat !== 0) {
+    if (showRoute && currentLocation.lat !== 0) {
       calculateRoute(currentLocation, destination);
     }
   }, [currentLocation]);
