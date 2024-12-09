@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Typography, TextField } from "@mui/material";
 import { userPool } from "../aws-cognito"; // Cognito User Pool configuration
 import { CognitoUser, AuthenticationDetails } from "amazon-cognito-identity-js";
@@ -8,13 +8,25 @@ const Signin = () => {
   const [password, setPassword] = useState("");
   const [signInError, setSignInError] = useState("");
   const [signInMessage, setSignInMessage] = useState("");
-  const [isSignedIn, setIsSignedIn] = useState(false);
-  const [cognitoUser, setCognitoUser] = useState(null);
+
+  const userPoolId = "17shnbmh639c0vhp8j591437j7"; // Replace with your actual User Pool ID
+  const lastAuthUserKey = `CognitoIdentityServiceProvider.${userPoolId}.LastAuthUser`;
+  const accessTokenKey = `CognitoIdentityServiceProvider.${userPoolId}.manish.accessToken`;
+
+  useEffect(() => {
+    // Check if the JWT token exists in localStorage to set the sign-in state
+    const lastAuthUser = localStorage.getItem(lastAuthUserKey);
+    const accessToken = localStorage.getItem(accessTokenKey);
+
+    if (lastAuthUser && accessToken) {
+      setSignInMessage("You are already signed in!");
+    }
+  }, []);
 
   const handleSignIn = (e) => {
     e.preventDefault();
 
-    const user = new CognitoUser({
+    const cognitoUser = new CognitoUser({
       Username: username,
       Pool: userPool,
     });
@@ -25,16 +37,14 @@ const Signin = () => {
     });
 
     // Authenticate the user
-    user.authenticateUser(authenticationDetails, {
+    cognitoUser.authenticateUser(authenticationDetails, {
       onSuccess: (result) => {
-        setSignInMessage(
-          "Sign-in successful! Access Token: " +
-            result.getAccessToken().getJwtToken()
-        );
+        const accessToken = result.getAccessToken().getJwtToken();
+        setSignInMessage("Sign-in successful!");
         setSignInError("");
-        setIsSignedIn(true); // Update sign-in status
-        setCognitoUser(user); // Store the user object for sign-out
-        console.log("result", result);
+        console.log("Access Token:", accessToken);
+
+        // Tokens are already stored by Cognito in localStorage
       },
       onFailure: (err) => {
         setSignInError("Error during sign-in: " + err.message);
@@ -44,15 +54,31 @@ const Signin = () => {
   };
 
   const handleSignOut = () => {
+    const cognitoUser = userPool.getCurrentUser();
+
     if (cognitoUser) {
       cognitoUser.signOut();
       setSignInMessage("You have successfully signed out.");
       setSignInError("");
-      setIsSignedIn(false); // Update sign-in status
+
+      // Remove all related keys from localStorage
+      localStorage.removeItem(lastAuthUserKey);
+      localStorage.removeItem(accessTokenKey);
+      localStorage.removeItem(
+        `CognitoIdentityServiceProvider.${userPoolId}.manish.idToken`
+      );
+      localStorage.removeItem(
+        `CognitoIdentityServiceProvider.${userPoolId}.manish.refreshToken`
+      );
+      localStorage.removeItem(
+        `CognitoIdentityServiceProvider.${userPoolId}.manish.clockDrift`
+      );
     } else {
       setSignInError("No active user session found.");
     }
   };
+
+  const isSignedIn = !!localStorage.getItem(accessTokenKey);
 
   return (
     // <div>
