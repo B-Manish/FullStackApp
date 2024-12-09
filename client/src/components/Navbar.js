@@ -36,7 +36,7 @@ function Navbar() {
       isLoggedIn: isLoggedIn,
     },
     {
-      heading: isLoggedIn ? username : "Sign In",
+      heading: username !== "" ? username : "Sign In",
       hasSearch: false,
       hasSignin: true,
       clickHandler: openSigninModal,

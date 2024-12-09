@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Box, Typography, TextField } from "@mui/material";
 import { userPool } from "../aws-cognito"; // Cognito User Pool configuration
 import { CognitoUser, AuthenticationDetails } from "amazon-cognito-identity-js";
+import { LoginContext } from "../context/LoginContext";
 
 const Signin = () => {
-  const [username, setUsername] = useState("");
+  const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [signInError, setSignInError] = useState("");
   const [signInMessage, setSignInMessage] = useState("");
+  const { setUsername } = useContext(LoginContext);
 
   const userPoolId = "17shnbmh639c0vhp8j591437j7"; // Replace with your actual User Pool ID
   const lastAuthUserKey = `CognitoIdentityServiceProvider.${userPoolId}.LastAuthUser`;
@@ -27,18 +29,19 @@ const Signin = () => {
     e.preventDefault();
 
     const cognitoUser = new CognitoUser({
-      Username: username,
+      Username: userName,
       Pool: userPool,
     });
 
     const authenticationDetails = new AuthenticationDetails({
-      Username: username,
+      Username: userName,
       Password: password,
     });
 
     // Authenticate the user
     cognitoUser.authenticateUser(authenticationDetails, {
       onSuccess: (result) => {
+        setUsername(result.getAccessToken().payload.username);
         const accessToken = result.getAccessToken().getJwtToken();
         setSignInMessage("Sign-in successful!");
         setSignInError("");
@@ -60,6 +63,7 @@ const Signin = () => {
       cognitoUser.signOut();
       setSignInMessage("You have successfully signed out.");
       setSignInError("");
+      setUsername("");
 
       // Remove all related keys from localStorage
       localStorage.removeItem(lastAuthUserKey);
@@ -87,8 +91,8 @@ const Signin = () => {
     //     <input
     //       type="text"
     //       placeholder="Username (email/phone)"
-    //       value={username}
-    //       onChange={(e) => setUsername(e.target.value)}
+    //       value={userName}
+    //       onChange={(e) => setUserName(e.target.value)}
     //       required
     //     />
     //     <input
@@ -117,8 +121,8 @@ const Signin = () => {
             <TextField
               label="Email/Username"
               variant="standard"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={userName}
+              onChange={(e) => setUserName(e.target.value)}
               InputLabelProps={{
                 style: { color: "#93959f" },
               }}
