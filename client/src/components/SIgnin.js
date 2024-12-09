@@ -8,12 +8,14 @@ const Signin = () => {
   const [password, setPassword] = useState("");
   const [signInError, setSignInError] = useState("");
   const [signInMessage, setSignInMessage] = useState("");
+  const [isSignedIn, setIsSignedIn] = useState(false);
+  const [cognitoUser, setCognitoUser] = useState(null);
 
   const handleSignIn = (e) => {
     e.preventDefault();
 
-    const cognitoUser = new CognitoUser({
-      Username: username, // This should be the email/phone number used during sign-up
+    const user = new CognitoUser({
+      Username: username,
       Pool: userPool,
     });
 
@@ -23,13 +25,15 @@ const Signin = () => {
     });
 
     // Authenticate the user
-    cognitoUser.authenticateUser(authenticationDetails, {
+    user.authenticateUser(authenticationDetails, {
       onSuccess: (result) => {
         setSignInMessage(
           "Sign-in successful! Access Token: " +
             result.getAccessToken().getJwtToken()
         );
         setSignInError("");
+        setIsSignedIn(true); // Update sign-in status
+        setCognitoUser(user); // Store the user object for sign-out
         console.log("result", result);
       },
       onFailure: (err) => {
@@ -37,6 +41,17 @@ const Signin = () => {
         setSignInMessage("");
       },
     });
+  };
+
+  const handleSignOut = () => {
+    if (cognitoUser) {
+      cognitoUser.signOut();
+      setSignInMessage("You have successfully signed out.");
+      setSignInError("");
+      setIsSignedIn(false); // Update sign-in status
+    } else {
+      setSignInError("No active user session found.");
+    }
   };
 
   return (
@@ -64,99 +79,124 @@ const Signin = () => {
     // </div>
 
     <Box sx={{ width: "360px" }}>
-      <Box
-        sx={{
-          border: "1px solid #d4d5d9",
-          height: "72px",
-          padding: "7px 20px 0 20px",
-        }}
-      >
-        <TextField
-          label="Email/Username"
-          variant="standard"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          InputLabelProps={{
-            style: { color: "#93959f" },
-          }}
-          sx={{
-            width: "100%",
-            "& .MuiInput-underline:before": {
-              borderBottom: "none",
-            },
-            "& .MuiInput-underline:after": {
-              borderBottom: "none",
-            },
-            "& .MuiInput-root": {
-              "&:hover:not(.Mui-disabled):before": {
-                borderBottom: "none",
-              },
-            },
-          }}
-        />
-      </Box>
-      <Box
-        sx={{
-          border: "1px solid #d4d5d9",
-          height: "72px",
-          padding: "7px 20px 0 20px",
-        }}
-      >
-        <TextField
-          id="standard-basic"
-          label="Password"
-          variant="standard"
-          value={password}
-          type="password"
-          onChange={(e) => setPassword(e.target.value)}
-          InputLabelProps={{
-            style: { color: "#93959f" },
-          }}
-          sx={{
-            width: "100%",
-            "& .MuiInput-underline:before": {
-              borderBottom: "none",
-            },
-            "& .MuiInput-underline:after": {
-              borderBottom: "none",
-            },
-            "& .MuiInput-root": {
-              "&:hover:not(.Mui-disabled):before": {
-                borderBottom: "none",
-              },
-            },
-          }}
-        />
-      </Box>
+      {!isSignedIn ? (
+        <>
+          <Box
+            sx={{
+              border: "1px solid #d4d5d9",
+              height: "72px",
+              padding: "7px 20px 0 20px",
+            }}
+          >
+            <TextField
+              label="Email/Username"
+              variant="standard"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              InputLabelProps={{
+                style: { color: "#93959f" },
+              }}
+              sx={{
+                width: "100%",
+                "& .MuiInput-underline:before": {
+                  borderBottom: "none",
+                },
+                "& .MuiInput-underline:after": {
+                  borderBottom: "none",
+                },
+                "& .MuiInput-root": {
+                  "&:hover:not(.Mui-disabled):before": {
+                    borderBottom: "none",
+                  },
+                },
+              }}
+            />
+          </Box>
+          <Box
+            sx={{
+              border: "1px solid #d4d5d9",
+              height: "72px",
+              padding: "7px 20px 0 20px",
+            }}
+          >
+            <TextField
+              id="standard-basic"
+              label="Password"
+              variant="standard"
+              value={password}
+              type="password"
+              onChange={(e) => setPassword(e.target.value)}
+              InputLabelProps={{
+                style: { color: "#93959f" },
+              }}
+              sx={{
+                width: "100%",
+                "& .MuiInput-underline:before": {
+                  borderBottom: "none",
+                },
+                "& .MuiInput-underline:after": {
+                  borderBottom: "none",
+                },
+                "& .MuiInput-root": {
+                  "&:hover:not(.Mui-disabled):before": {
+                    borderBottom: "none",
+                  },
+                },
+              }}
+            />
+          </Box>
 
-      <Box
-        onClick={(e) => handleSignIn(e)}
-        sx={{
-          background: "#FC8019",
-          height: "50px",
-          color: "white",
-          fontWeight: "700",
-          display: "grid",
-          placeItems: "center",
-          cursor: "pointer",
-          margin: "35px 0 0 0",
-        }}
-      >
-        SIGN IN
-      </Box>
-      <Typography
-        sx={{
-          mt: "6px",
-          color: "#686b78",
-          fontSize: "12px",
-          fontWeight: "500",
-        }}
-      >
-        By clicking on Login, I accept the Terms & Conditions & Privacy Policy
-      </Typography>
+          <Box
+            onClick={(e) => handleSignIn(e)}
+            sx={{
+              background: "#FC8019",
+              height: "50px",
+              color: "white",
+              fontWeight: "700",
+              display: "grid",
+              placeItems: "center",
+              cursor: "pointer",
+              margin: "35px 0 0 0",
+            }}
+          >
+            SIGN IN
+          </Box>
+          <Typography
+            sx={{
+              mt: "6px",
+              color: "#686b78",
+              fontSize: "12px",
+              fontWeight: "500",
+            }}
+          >
+            By clicking on Login, I accept the Terms & Conditions & Privacy
+            Policy
+          </Typography>
+        </>
+      ) : (
+        <>
+          <Typography sx={{ mt: "6px", color: "green", fontWeight: "700" }}>
+            {signInMessage}
+          </Typography>
+          <Box
+            onClick={handleSignOut}
+            sx={{
+              background: "#FC8019",
+              height: "50px",
+              color: "white",
+              fontWeight: "700",
+              display: "grid",
+              placeItems: "center",
+              cursor: "pointer",
+              margin: "35px 0 0 0",
+            }}
+          >
+            SIGN OUT
+          </Box>
+        </>
+      )}
 
       {signInError && <p>{signInError}</p>}
-      {signInMessage && <p>{signInMessage}</p>}
     </Box>
   );
 };
