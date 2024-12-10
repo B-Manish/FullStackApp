@@ -219,7 +219,10 @@ const Maps = ({
     adressId: adressId,
     door: door,
     landmark: landmark,
-    location: currentLocation,
+    location: {
+      lat: currentLocation?.lat.toString(),
+      lng: currentLocation?.lng.toString(),
+    },
     address: address,
     nickname: nickname,
   };
