@@ -7,8 +7,13 @@ import Maps from "./Maps";
 const AddressCard = ({ data }) => {
   const [openModal, setOpenModal] = useState(false);
   const [nickname, setNickname] = useState(data?.nickname);
+  const [landmark, setLandmark] = useState(data?.landmark);
+  const [address, setAddress] = useState(data?.address);
   const [door, setDoor] = useState(data?.door);
-  const [currentLocation, setCurrentLocation] = useState({ lat: 0, lng: 0 });
+  const [currentLocation, setCurrentLocation] = useState({
+    lat: parseFloat(data?.location?.lat),
+    lng: parseFloat(data?.location?.lng),
+  });
 
   const handleClose = () => {
     setOpenModal(false);
@@ -35,7 +40,11 @@ const AddressCard = ({ data }) => {
             setCurrentLocation={setCurrentLocation}
             door={door}
             setDoor={setDoor}
-
+            adressId={data?.adressId}
+            landmark={landmark}
+            setLandmark={setLandmark}
+            address={address}
+            setAddress={setAddress}
           />
         </Box>
       </CustomModal>

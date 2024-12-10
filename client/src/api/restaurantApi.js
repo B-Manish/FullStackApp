@@ -35,6 +35,17 @@ export const getAdresses = (email) => {
   });
 };
 
+export const updateAddress = (email, addressId, bodyParams) => {
+  return api
+    .put(
+      `http://localhost:8000/updateAddress/${email}/${addressId}`,
+      bodyParams
+    )
+    .then((payload) => {
+      return payload;
+    });
+};
+
 // export const getAllRestaurants = (bodyParameters) => {
 //   return api
 //     .get(`http://localhost:8000/getAllRestaurants`, {

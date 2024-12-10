@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Box } from "@mui/material";
 import {
   GoogleMap,
@@ -8,23 +8,26 @@ import {
   DirectionsRenderer,
 } from "@react-google-maps/api";
 import CustomTextField from "./CustomTextField";
+import { updateAddress } from "../api/restaurantApi";
+import { LoginContext } from "../context/LoginContext";
 
 const Maps = ({
   draggable = false,
   showRoute = false,
   nickname,
   setNickname,
+  landmark,
+  setLandmark,
   currentLocation,
   setCurrentLocation,
   door,
   setDoor,
+  adressId,
+  address,
+  setAddress,
 }) => {
-  // const [currentLocation, setCurrentLocation] = useState({ lat: 0, lng: 0 });
+  const { email } = useContext(LoginContext);
   const [directionsResponse, setDirectionsResponse] = useState(null);
-  const [address, setAddress] = useState("");
-  // const [door, setDoor] = useState("");
-  const [landmark, setLandmark] = useState("");
-  // const [nickname, setNickname] = useState("");
   const [mapLoaded, setMapLoaded] = useState(false); // Track map load status
 
   const containerStyle = {
@@ -132,13 +135,21 @@ const Maps = ({
     if (mapLoaded) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
+          // setCurrentLocation({
+          //   lat: position.coords.latitude,
+          //   lng: position.coords.longitude,
+          // });
+          // reverseGeocode({
+          //   lat: position.coords.latitude,
+          //   lng: position.coords.longitude,
+          // });
           setCurrentLocation({
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
+            lat: currentLocation.lat,
+            lng: currentLocation.lng,
           });
           reverseGeocode({
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
+            lat: currentLocation.lat,
+            lng: currentLocation.lng,
           });
         },
         (error) => console.error("Error fetching location: ", error),
@@ -172,6 +183,7 @@ const Maps = ({
     if (showRoute && currentLocation.lat !== 0) {
       calculateRoute(currentLocation, destination);
     }
+    console.log("currentLocation", currentLocation);
   }, [currentLocation, mapLoaded]);
 
   // Function to handle dragging the marker
@@ -201,6 +213,26 @@ const Maps = ({
         console.error("Geocoder failed due to:", status);
       }
     });
+  };
+
+  const bodyParams = {
+    adressId: adressId,
+    door: door,
+    landmark: landmark,
+    location: currentLocation,
+    address: address,
+    nickname: nickname,
+  };
+
+  const editAddress = (e) => {
+    e.preventDefault();
+    updateAddress(email, adressId, bodyParams)
+      .then((res) => {
+        console.log("res", res);
+      })
+      .catch((err) => {
+        console.log("err", err);
+      });
   };
 
   return (
@@ -265,7 +297,7 @@ const Maps = ({
         />
 
         <Box
-          // onClick={(e) => handleSignIn(e)}
+          onClick={(e) => editAddress(e)}
           sx={{
             background: "#FC8019",
             height: "50px",
