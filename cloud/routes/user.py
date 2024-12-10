@@ -204,6 +204,7 @@ from .keys import ACCESS_KEY_ID,SECRET_ACCESS_KEY
 from enum import Enum
 from typing import Optional
 from boto3.dynamodb.conditions import Key
+from models.user import address
 
 router = APIRouter() 
 
@@ -318,7 +319,7 @@ def getall(email:str):
 
 
 @router.put("/updateAddress/{email}/{adressId}")
-def update_address(email: str, adressId: str, new_address: dict):
+def update_address(email: str, adressId: str, new_address: address):
     table = dynamodb.Table('addresses')
     
     try:
@@ -339,7 +340,7 @@ def update_address(email: str, adressId: str, new_address: dict):
         
         for index, address in enumerate(updated_addresses):
             if address['adressId'] == adressId:
-                updated_addresses[index] = new_address  # Replace the entire address object
+                updated_addresses[index] = new_address.dict()  # Replace the entire address object
                 address_found = True
                 break
         

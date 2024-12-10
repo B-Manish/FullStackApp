@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from beanie import Document
 from typing import List, Optional
+from decimal import Decimal
 
 
 
@@ -36,6 +37,19 @@ class updatecart(BaseModel):
     items_count: int
     restaurant_id: str
     restaurant_name: str
+    
+
+class Location(BaseModel):
+    lat:str
+    lng:str 
+        
+class address(BaseModel):
+    nickname: str
+    door: str
+    location: Location
+    address: str
+    landmark: str    
+    adressId:str
 
 
 # class testuser(Document): 
