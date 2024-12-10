@@ -6,7 +6,6 @@ import { updateCart, addToCart } from "../api/restaurantApi";
 import Empty from "../assets/empty.png";
 import Icon from "./Icon";
 import { useNavigate } from "react-router-dom";
-import Maps from "./Maps";
 
 const CartDetails = ({ isLoggedIn = false }) => {
   const navigate = useNavigate();
@@ -94,9 +93,7 @@ const CartDetails = ({ isLoggedIn = false }) => {
         </Grid>
       ) : (
         <>
-          <Grid item xs={9}>
-            <Maps />
-          </Grid>
+          <Grid item xs={9}></Grid>
           <Grid item xs={3}>
             <Box>
               {isLoggedIn ? (
