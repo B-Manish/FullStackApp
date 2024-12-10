@@ -16,6 +16,7 @@ const Maps = ({ draggable = false, showRoute = false }) => {
   const [door, setDoor] = useState("");
   const [landmark, setLandmark] = useState("");
   const [nickname, setNickname] = useState("");
+  const [mapLoaded, setMapLoaded] = useState(false); // Track map load status
 
   const containerStyle = {
     width: "100%",
@@ -119,25 +120,27 @@ const Maps = ({ draggable = false, showRoute = false }) => {
   ];
 
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        setCurrentLocation({
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        });
-        reverseGeocode({
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        });
-      },
-      (error) => console.error("Error fetching location: ", error),
-      { enableHighAccuracy: true }
-    );
-  }, []);
+    if (mapLoaded) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setCurrentLocation({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          });
+          reverseGeocode({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          });
+        },
+        (error) => console.error("Error fetching location: ", error),
+        { enableHighAccuracy: true }
+      );
+    }
+  }, [mapLoaded]);
 
   // Function to calculate and display route
   const calculateRoute = (origin, destination) => {
-    if (!origin || !destination) return;
+    if (!origin || !destination || !mapLoaded) return;
 
     const directionsService = new window.google.maps.DirectionsService();
     directionsService.route(
@@ -160,7 +163,7 @@ const Maps = ({ draggable = false, showRoute = false }) => {
     if (showRoute && currentLocation.lat !== 0) {
       calculateRoute(currentLocation, destination);
     }
-  }, [currentLocation]);
+  }, [currentLocation, mapLoaded]);
 
   // Function to handle dragging the marker
   const onMarkerDragEnd = (event) => {
@@ -174,6 +177,8 @@ const Maps = ({ draggable = false, showRoute = false }) => {
 
   // Function to get the address from latitude and longitude
   const reverseGeocode = (location) => {
+    if (!mapLoaded) return;
+    
     const geocoder = new window.google.maps.Geocoder();
     geocoder.geocode({ location }, (results, status) => {
       if (status === window.google.maps.GeocoderStatus.OK) {
@@ -190,7 +195,7 @@ const Maps = ({ draggable = false, showRoute = false }) => {
   };
 
   return (
-    <LoadScript googleMapsApiKey="AIzaSyDEdqREu6S96D5ACHBJ-SBUIF7EQE3K8Hg">
+    <LoadScript googleMapsApiKey="AIzaSyDEdqREu6S96D5ACHBJ-SBUIF7EQE3K8Hg" onLoad={() => setMapLoaded(true)}>
       <div>
         <GoogleMap
           mapContainerStyle={containerStyle}
