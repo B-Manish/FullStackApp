@@ -6,6 +6,9 @@ import Maps from "./Maps";
 
 const AddressCard = ({ data }) => {
   const [openModal, setOpenModal] = useState(false);
+  const [nickname, setNickname] = useState(data?.nickname);
+  const [door, setDoor] = useState(data?.door);
+  const [currentLocation, setCurrentLocation] = useState({ lat: 0, lng: 0 });
 
   const handleClose = () => {
     setOpenModal(false);
@@ -24,7 +27,16 @@ const AddressCard = ({ data }) => {
         haveCloseIcon={true}
       >
         <Box>
-          <Maps draggable={true} />
+          <Maps
+            draggable={true}
+            nickname={nickname}
+            setNickname={setNickname}
+            currentLocation={currentLocation}
+            setCurrentLocation={setCurrentLocation}
+            door={door}
+            setDoor={setDoor}
+
+          />
         </Box>
       </CustomModal>
       <HomeOutlinedIcon />
@@ -40,7 +52,7 @@ const AddressCard = ({ data }) => {
           {data?.nickname}
         </Box>
         <Box sx={{ color: "#525665", fontSize: "13px", mb: "8px" }}>
-          {data?.location?.address}
+          {data?.address}
         </Box>
         <Box sx={{ display: "flex" }}>
           <Box

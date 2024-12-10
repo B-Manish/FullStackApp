@@ -9,13 +9,22 @@ import {
 } from "@react-google-maps/api";
 import CustomTextField from "./CustomTextField";
 
-const Maps = ({ draggable = false, showRoute = false }) => {
-  const [currentLocation, setCurrentLocation] = useState({ lat: 0, lng: 0 });
+const Maps = ({
+  draggable = false,
+  showRoute = false,
+  nickname,
+  setNickname,
+  currentLocation,
+  setCurrentLocation,
+  door,
+  setDoor,
+}) => {
+  // const [currentLocation, setCurrentLocation] = useState({ lat: 0, lng: 0 });
   const [directionsResponse, setDirectionsResponse] = useState(null);
   const [address, setAddress] = useState("");
-  const [door, setDoor] = useState("");
+  // const [door, setDoor] = useState("");
   const [landmark, setLandmark] = useState("");
-  const [nickname, setNickname] = useState("");
+  // const [nickname, setNickname] = useState("");
   const [mapLoaded, setMapLoaded] = useState(false); // Track map load status
 
   const containerStyle = {
@@ -178,7 +187,7 @@ const Maps = ({ draggable = false, showRoute = false }) => {
   // Function to get the address from latitude and longitude
   const reverseGeocode = (location) => {
     if (!mapLoaded) return;
-    
+
     const geocoder = new window.google.maps.Geocoder();
     geocoder.geocode({ location }, (results, status) => {
       if (status === window.google.maps.GeocoderStatus.OK) {
@@ -195,7 +204,10 @@ const Maps = ({ draggable = false, showRoute = false }) => {
   };
 
   return (
-    <LoadScript googleMapsApiKey="AIzaSyDEdqREu6S96D5ACHBJ-SBUIF7EQE3K8Hg" onLoad={() => setMapLoaded(true)}>
+    <LoadScript
+      googleMapsApiKey="AIzaSyDEdqREu6S96D5ACHBJ-SBUIF7EQE3K8Hg"
+      onLoad={() => setMapLoaded(true)}
+    >
       <div>
         <GoogleMap
           mapContainerStyle={containerStyle}
