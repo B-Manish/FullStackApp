@@ -135,22 +135,25 @@ const Maps = ({
     if (mapLoaded) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          // setCurrentLocation({
-          //   lat: position.coords.latitude,
-          //   lng: position.coords.longitude,
-          // });
-          // reverseGeocode({
-          //   lat: position.coords.latitude,
-          //   lng: position.coords.longitude,
-          // });
-          setCurrentLocation({
-            lat: currentLocation.lat,
-            lng: currentLocation.lng,
-          });
-          reverseGeocode({
-            lat: currentLocation.lat,
-            lng: currentLocation.lng,
-          });
+          if (currentLocation.lat === 0) {
+            setCurrentLocation({
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+            });
+            reverseGeocode({
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+            });
+          } else {
+            setCurrentLocation({
+              lat: currentLocation.lat,
+              lng: currentLocation.lng,
+            });
+            reverseGeocode({
+              lat: currentLocation.lat,
+              lng: currentLocation.lng,
+            });
+          }
         },
         (error) => console.error("Error fetching location: ", error),
         { enableHighAccuracy: true }
@@ -246,21 +249,23 @@ const Maps = ({
       <div>
         <GoogleMap
           mapContainerStyle={containerStyle}
-          center={currentLocation.lat !== 0 ? currentLocation : defaultCenter}
+          // center={currentLocation.lat !== 0 ? currentLocation : defaultCenter}
+          center={currentLocation}
           zoom={17}
           options={{
             styles: customThemeStyle,
             disableDefaultUI: true, // Optional: Disable default UI controls (like zoom, street view)
           }}
         >
-          {currentLocation.lat !== 0 && (
-            <Marker
-              position={currentLocation}
-              draggable={draggable}
-              onDragEnd={onMarkerDragEnd}
-              title="Drag to set your location"
-            />
-          )}
+          {/* {currentLocation.lat !== 0 && ( */}
+          <Marker
+            // position={currentLocation.lat !== 0 ? currentLocation : defaultCenter}
+            position={currentLocation}
+            draggable={draggable}
+            onDragEnd={onMarkerDragEnd}
+            title="Drag to set your location"
+          />
+          {/* )} */}
           {/*gives the routes between two points*/}
           {directionsResponse && showRoute && (
             <DirectionsRenderer directions={directionsResponse} />
@@ -269,14 +274,14 @@ const Maps = ({
 
         {/* Display the address after marker is dropped */}
 
-        {address && (
-          <CustomTextField
-            label="Address"
-            value={address}
-            editable={false}
-            margin="0 0 10px 0"
-          />
-        )}
+        {/* {address && ( */}
+        <CustomTextField
+          label="Address"
+          value={address}
+          editable={false}
+          margin="0 0 10px 0"
+        />
+        {/* )} */}
 
         <CustomTextField
           label="Door/Flat NO."

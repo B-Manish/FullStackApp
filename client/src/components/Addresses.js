@@ -11,6 +11,7 @@ function Addresses() {
   const [openModal, setOpenModal] = useState(false);
   const [addresses, setAddresses] = useState([]);
   const [currentLocation, setCurrentLocation] = useState({ lat: 0, lng: 0 });
+  const [address, setAddress] = useState("");
 
   const handleClose = () => {
     setOpenModal(false);
@@ -59,9 +60,14 @@ function Addresses() {
         width="40%"
         haveCloseIcon={true}
       >
-        <Box sx={{ width: "70%" }}>
-          <Maps draggable={true} />
-        </Box>
+          <Maps
+            draggable={true}
+            currentLocation={currentLocation}
+            setCurrentLocation={setCurrentLocation}
+            address={address}
+            setAddress={setAddress}
+          />
+        
       </CustomModal>
     </Box>
   );
