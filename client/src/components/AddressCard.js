@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Box } from "@mui/material";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import CustomModal from "./CustomModal";
 import Maps from "./Maps";
+import { deleteAddress } from "../api/restaurantApi";
+import { LoginContext } from "../context/LoginContext";
 
 const AddressCard = ({ data }) => {
+  const { email } = useContext(LoginContext);
   const [openModal, setOpenModal] = useState(false);
   const [nickname, setNickname] = useState(data?.nickname);
   const [landmark, setLandmark] = useState(data?.landmark);
@@ -18,6 +21,15 @@ const AddressCard = ({ data }) => {
   const handleClose = () => {
     setOpenModal(false);
   };
+
+  const removeAdress = (email, addresId) => {
+    deleteAddress(email, addresId)
+      .then((res) => {})
+      .catch((err) => {
+        console.log("err", err);
+      });
+  };
+
   return (
     <Box
       sx={{
@@ -75,7 +87,12 @@ const AddressCard = ({ data }) => {
           >
             EDIT
           </Box>
-          <Box sx={{ fontSize: "14px", color: "#FF5200", cursor: "pointer" }}>
+          <Box
+            sx={{ fontSize: "14px", color: "#FF5200", cursor: "pointer" }}
+            onClick={() => {
+              removeAdress(email, data?.adressId);
+            }}
+          >
             DELETE
           </Box>
         </Box>

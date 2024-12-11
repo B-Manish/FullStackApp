@@ -46,6 +46,14 @@ export const updateAddress = (email, addressId, bodyParams) => {
     });
 };
 
+export const deleteAddress = (email, addressId) => {
+  return api
+    .put(`http://localhost:8000/deleteAddress/${email}/${addressId}`)
+    .then((payload) => {
+      return payload;
+    });
+};
+
 // export const getAllRestaurants = (bodyParameters) => {
 //   return api
 //     .get(`http://localhost:8000/getAllRestaurants`, {

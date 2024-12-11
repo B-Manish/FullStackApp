@@ -163,7 +163,14 @@ const Maps = ({
 
   // Function to calculate and display route
   const calculateRoute = (origin, destination) => {
-    if (!origin || !destination || !mapLoaded) return;
+    if (
+      !origin ||
+      !destination ||
+      !mapLoaded ||
+      !window.google ||
+      !window.google.maps
+    )
+      return; // Ensure google.maps is available
 
     const directionsService = new window.google.maps.DirectionsService();
     directionsService.route(
@@ -201,7 +208,7 @@ const Maps = ({
 
   // Function to get the address from latitude and longitude
   const reverseGeocode = (location) => {
-    if (!mapLoaded) return;
+    if (!mapLoaded || !window.google || !window.google.maps) return; // Ensure google.maps is available
 
     const geocoder = new window.google.maps.Geocoder();
     geocoder.geocode({ location }, (results, status) => {

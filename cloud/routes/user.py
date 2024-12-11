@@ -367,7 +367,7 @@ def update_address(email: str, adressId: str, new_address: address):
     
     
 @router.put("/addAddress/{email}")
-def update_address(email: str, new_address: dict):
+def add_address(email: str, new_address: dict):
     table = dynamodb.Table('addresses')
     
     try:
@@ -406,6 +406,50 @@ def update_address(email: str, new_address: dict):
         )
 
         return {"message": "Address updated successfully"}
+    
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    
+
+
+@router.put("/deleteAddress/{email}/{adressId}")
+def delete_address(email: str, adressId: str):
+    table = dynamodb.Table('addresses')
+    
+    try:
+        # Fetch the item based on the email
+        response = table.query(
+            KeyConditionExpression=Key('email').eq(email)
+        )
+
+        if 'Items' not in response or len(response['Items']) == 0:
+            raise HTTPException(status_code=404, detail="Email not found")
+        
+        # Extract the user data
+        user = response['Items'][0]
+
+        # Find the address in the addresses array based on adressId
+        updated_addresses = user['addresses']
+        
+        for index,address in enumerate(updated_addresses):
+            if address['adressId'] == adressId:
+                updated_addresses.pop(index)
+                break
+
+        
+        # Update the item in DynamoDB
+        table.update_item(
+            Key={
+                'email': email
+            },
+            UpdateExpression="SET addresses = :addresses",
+            ExpressionAttributeValues={
+                ':addresses': updated_addresses
+            },
+            ReturnValues="UPDATED_NEW"
+        )
+
+        return {"mesage": "succesfullt deleted the address"}
     
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
