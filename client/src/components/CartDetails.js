@@ -118,6 +118,82 @@ const CartDetails = ({ isLoggedIn = false }) => {
         ) : (
           <>
             <Grid item xs={8} sx={{ background: "#E9ECEE" }}>
+              <Box sx={{ background: "white", padding: "20px", mb: "25px" }}>
+                <Box
+                  sx={{
+                    fontSize: "21px",
+                    fontFamily: '"GilroyBold", sans-serif',
+                    color: "#282c3f",
+                    mb: "10px",
+                  }}
+                >
+                  Account
+                </Box>
+                <Box
+                  sx={{
+                    fontSize: "16px",
+                    fontFamily: '"GilroyBold", sans-serif',
+                    color: "#7e808c",
+                    mb: "15px",
+                  }}
+                >
+                  To place your order now, log in to your existing account or
+                  sign up.
+                </Box>
+                <Box sx={{ display: "flex" }}>
+                  <Box
+                    sx={{
+                      color: "#60b246",
+                      border: "1px solid #60b246",
+                      padding: "7px 15px",
+                      width: "140px",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      mr: "20px",
+                      cursor: "pointer",
+                    }}
+                  >
+                    <Box sx={{ fontSize: "13px", mb: "2px" }}>
+                      Have an account?
+                    </Box>
+                    <Box
+                      sx={{
+                        fontSize: "14px",
+                        fontFamily: '"GilroyBold", sans-serif',
+                      }}
+                    >
+                      LOG IN
+                    </Box>
+                  </Box>
+
+                  <Box
+                    sx={{
+                      background: "#60b246",
+                      color: "white",
+                      border: "1px solid #60b246",
+                      padding: "7px 15px",
+                      width: "140px",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      cursor: "pointer",
+                    }}
+                  >
+                    <Box sx={{ fontSize: "13px", mb: "2px" }}>
+                      New to Swiggy?
+                    </Box>
+                    <Box
+                      sx={{
+                        fontSize: "14px",
+                        fontFamily: '"GilroyBold", sans-serif',
+                      }}
+                    >
+                      SIGN UP
+                    </Box>
+                  </Box>
+                </Box>
+              </Box>
               <Box sx={{ background: "white", padding: "20px" }}>
                 <Box
                   sx={{
@@ -159,7 +235,7 @@ const CartDetails = ({ isLoggedIn = false }) => {
                     {cartData?.items.map(
                       (item) =>
                         item?.count > 0 && (
-                          <Box key={item?.name} sx={{mb:'4px'}}>
+                          <Box key={item?.name} sx={{ mb: "4px" }}>
                             <CartItem cartitem={item} />
                           </Box>
                         )

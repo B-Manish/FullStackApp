@@ -110,7 +110,8 @@ const AddressCard = ({ data, chooseAdress = false, time }) => {
                 height: "34px",
                 display: "inline-flex",
                 alignItems: "center",
-                padding:'0 10px'
+                padding:'0 10px',
+                fontFamily: '"GilroyBold", sans-serif',
               }}
             >
               DELIVER HERE
