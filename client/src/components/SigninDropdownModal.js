@@ -6,7 +6,7 @@ import { LoginContext } from "../context/LoginContext";
 
 const SignInDropDownModal = () => {
   const navigate = useNavigate();
-  const { logOut } = useContext(LoginContext);
+  const { handleSignOut } = useContext(LoginContext);
 
   const goTo = (path) => {
     navigate(path);
@@ -78,7 +78,10 @@ const SignInDropDownModal = () => {
             Profile
           </Box>
           <Box
-            onClick={() => logOut()}
+            onClick={() => {
+              handleSignOut();
+              goTo(`/`);
+            }}
             sx={{
               cursor: "pointer",
               "&:hover": {

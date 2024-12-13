@@ -7,9 +7,17 @@ import { LoginContext } from "../context/LoginContext";
 const Signin = () => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
-  const [signInError, setSignInError] = useState("");
-  const [signInMessage, setSignInMessage] = useState("");
-  const { setUsername, setEmail, userPoolId } = useContext(LoginContext);
+
+  const {
+    setUsername,
+    setEmail,
+    userPoolId,
+    signInError,
+    setSignInError,
+    signInMessage,
+    setSignInMessage,
+    setIsLoggedIn,
+  } = useContext(LoginContext);
 
   const lastAuthUserKey = `CognitoIdentityServiceProvider.${userPoolId}.LastAuthUser`;
   const accessTokenKey = `CognitoIdentityServiceProvider.${userPoolId}.manish.accessToken`;
@@ -44,6 +52,7 @@ const Signin = () => {
         const accessToken = result.getAccessToken().getJwtToken();
         setSignInMessage("Sign-in successful!");
         setSignInError("");
+        setIsLoggedIn(true);
         console.log("Access Token:", accessToken);
 
         // Get the user's email
