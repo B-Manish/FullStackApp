@@ -8,7 +8,7 @@ import {
   DirectionsRenderer,
 } from "@react-google-maps/api";
 import CustomTextField from "./CustomTextField";
-import { updateAddress } from "../api/restaurantApi";
+import { updateAddress, addAddress } from "../api/restaurantApi";
 import { LoginContext } from "../context/LoginContext";
 
 const Maps = ({
@@ -25,6 +25,7 @@ const Maps = ({
   adressId,
   address,
   setAddress,
+  add = false,
 }) => {
   const { email } = useContext(LoginContext);
   const [directionsResponse, setDirectionsResponse] = useState(null);
@@ -237,15 +238,37 @@ const Maps = ({
     nickname: nickname,
   };
 
-  const editAddress = (e) => {
+  const addbodyParams = {
+    door: door,
+    landmark: landmark,
+    location: {
+      lat: currentLocation?.lat.toString(),
+      lng: currentLocation?.lng.toString(),
+    },
+    address: address,
+    nickname: nickname,
+  };
+
+  const editAddress = (add, e) => {
     e.preventDefault();
-    updateAddress(email, adressId, bodyParams)
-      .then((res) => {
-        console.log("res", res);
-      })
-      .catch((err) => {
-        console.log("err", err);
-      });
+
+    if (add === true) {
+      addAddress(email, addbodyParams)
+        .then((res) => {
+          console.log("res", res);
+        })
+        .catch((err) => {
+          console.log("err", err);
+        });
+    } else {
+      updateAddress(email, adressId, bodyParams)
+        .then((res) => {
+          console.log("res", res);
+        })
+        .catch((err) => {
+          console.log("err", err);
+        });
+    }
   };
 
   return (
@@ -312,7 +335,7 @@ const Maps = ({
         />
 
         <Box
-          onClick={(e) => editAddress(e)}
+          onClick={(e) => editAddress(add, e)}
           sx={{
             background: "#FC8019",
             height: "50px",

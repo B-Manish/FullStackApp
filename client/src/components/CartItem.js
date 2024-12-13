@@ -63,42 +63,50 @@ const CartItem = ({ cartitem }) => {
     });
   };
   return (
-    <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-      <Box sx={{ display: "flex", alignItems: "center" }}>
-        {cartitem.veg_or_non_veg === "Veg" ? (
-          <Icon src={Veg} />
-        ) : (
-          <Icon src={NonVeg} />
-        )}
-      </Box>
-      <Box
-        sx={{
-          fontSize: "14px",
-          fontWeight: "700",
-          display: "flex",
-          alignItems: "center",
-        }}
+    <Grid container>
+      <Grid item xs={6.5} sx={{ display: "flex" }}>
+        <Box sx={{ display: "flex", alignItems: "center", mr: "5px" }}>
+          {cartitem.veg_or_non_veg === "Veg" ? (
+            <Icon src={Veg} />
+          ) : (
+            <Icon src={NonVeg} />
+          )}
+        </Box>
+        <Box
+          sx={{
+            fontSize: "14px",
+            fontWeight: "700",
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          {cartitem?.name}
+        </Box>
+      </Grid>
+      <Grid
+        item
+        xs={5.5}
+        sx={{ display: "flex", justifyContent: "space-between" }}
       >
-        {cartitem?.name}
-      </Box>
-      <AddButton
-        clickHandler={() => ClickHandler(cartitem)}
-        count={count}
-        setCount={setCount}
-        Item={cartitem}
-        updateCount={true}
-      />
-      <Box
-        sx={{
-          fontSize: "13px",
-          display: "flex",
-          alignItems: "center",
-          color: "#55665",
-        }}
-      >
-        ₹{cartitem?.price * cartitem?.count}
-      </Box>
-    </Box>
+        <AddButton
+          clickHandler={() => ClickHandler(cartitem)}
+          count={count}
+          setCount={setCount}
+          Item={cartitem}
+          updateCount={true}
+        />
+        <Box
+          sx={{
+            fontSize: "13px",
+            display: "flex",
+            alignItems: "center",
+            color: "#55665",
+          }}
+        >
+          ₹{cartitem?.price * cartitem?.count}
+        </Box>
+      </Grid>
+    </Grid>
   );
 };
 

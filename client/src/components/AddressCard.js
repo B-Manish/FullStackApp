@@ -6,7 +6,7 @@ import Maps from "./Maps";
 import { deleteAddress } from "../api/restaurantApi";
 import { LoginContext } from "../context/LoginContext";
 
-const AddressCard = ({ data }) => {
+const AddressCard = ({ data, chooseAdress = false, time }) => {
   const { email } = useContext(LoginContext);
   const [openModal, setOpenModal] = useState(false);
   const [nickname, setNickname] = useState(data?.nickname);
@@ -75,27 +75,48 @@ const AddressCard = ({ data }) => {
         <Box sx={{ color: "#525665", fontSize: "13px", mb: "8px" }}>
           {data?.address}
         </Box>
-        <Box sx={{ display: "flex" }}>
-          <Box
-            onClick={() => setOpenModal(true)}
-            sx={{
-              fontSize: "14px",
-              color: "#FF5200",
-              mr: "15px",
-              cursor: "pointer",
-            }}
-          >
-            EDIT
+        {!chooseAdress ? (
+          <Box sx={{ display: "flex" }}>
+            <Box
+              onClick={() => setOpenModal(true)}
+              sx={{
+                fontSize: "14px",
+                color: "#FF5200",
+                mr: "15px",
+                cursor: "pointer",
+              }}
+            >
+              EDIT
+            </Box>
+            <Box
+              sx={{ fontSize: "14px", color: "#FF5200", cursor: "pointer" }}
+              onClick={() => {
+                removeAdress(email, data?.adressId);
+              }}
+            >
+              DELETE
+            </Box>
           </Box>
-          <Box
-            sx={{ fontSize: "14px", color: "#FF5200", cursor: "pointer" }}
-            onClick={() => {
-              removeAdress(email, data?.adressId);
-            }}
-          >
-            DELETE
+        ) : (
+          <Box sx={{ fontSize: "13px" }}>
+            <Box sx={{mb:'7px'}}>{time}MINS</Box>
+
+            <Box
+              sx={{
+                fontSize: "14px",
+                color: "white",
+                cursor: "pointer",
+                background: "#60B246",
+                height: "34px",
+                display: "inline-flex",
+                alignItems: "center",
+                padding:'0 10px'
+              }}
+            >
+              DELIVER HERE
+            </Box>
           </Box>
-        </Box>
+        )}
       </Box>
     </Box>
   );

@@ -35,6 +35,14 @@ export const getAdresses = (email) => {
   });
 };
 
+export const addAddress = (email, bodyParams) => {
+  return api
+    .put(`http://localhost:8000/addAddress/${email}`, bodyParams)
+    .then((payload) => {
+      return payload;
+    });
+};
+
 export const updateAddress = (email, addressId, bodyParams) => {
   return api
     .put(

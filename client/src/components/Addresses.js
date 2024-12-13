@@ -12,6 +12,9 @@ function Addresses() {
   const [addresses, setAddresses] = useState([]);
   const [currentLocation, setCurrentLocation] = useState({ lat: 0, lng: 0 });
   const [address, setAddress] = useState("");
+  const [nickname, setNickname] = useState("");
+  const [landmark, setLandmark] = useState("");
+  const [door, setDoor] = useState("");
 
   const handleClose = () => {
     setOpenModal(false);
@@ -60,14 +63,20 @@ function Addresses() {
         width="40%"
         haveCloseIcon={true}
       >
-          <Maps
-            draggable={true}
-            currentLocation={currentLocation}
-            setCurrentLocation={setCurrentLocation}
-            address={address}
-            setAddress={setAddress}
-          />
-        
+        <Maps
+          draggable={true}
+          currentLocation={currentLocation}
+          setCurrentLocation={setCurrentLocation}
+          address={address}
+          setAddress={setAddress}
+          nickname={nickname}
+          setNickname={setNickname}
+          door={door}
+          setDoor={setDoor}
+          landmark={landmark}
+          setLandmark={setLandmark}
+          add
+        />
       </CustomModal>
     </Box>
   );
