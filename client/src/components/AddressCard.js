@@ -7,7 +7,7 @@ import { deleteAddress } from "../api/restaurantApi";
 import { LoginContext } from "../context/LoginContext";
 
 const AddressCard = ({ data, chooseAdress = false, time }) => {
-  const { email } = useContext(LoginContext);
+  const { email, setSelectedAddress } = useContext(LoginContext);
   const [openModal, setOpenModal] = useState(false);
   const [nickname, setNickname] = useState(data?.nickname);
   const [landmark, setLandmark] = useState(data?.landmark);
@@ -99,9 +99,10 @@ const AddressCard = ({ data, chooseAdress = false, time }) => {
           </Box>
         ) : (
           <Box sx={{ fontSize: "13px" }}>
-            <Box sx={{mb:'7px'}}>{time}MINS</Box>
+            <Box sx={{ mb: "7px" }}>{time}MINS</Box>
 
             <Box
+              onClick={() => setSelectedAddress(data)}
               sx={{
                 fontSize: "14px",
                 color: "white",
@@ -110,7 +111,7 @@ const AddressCard = ({ data, chooseAdress = false, time }) => {
                 height: "34px",
                 display: "inline-flex",
                 alignItems: "center",
-                padding:'0 10px',
+                padding: "0 10px",
                 fontFamily: '"GilroyBold", sans-serif',
               }}
             >

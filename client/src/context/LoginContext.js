@@ -13,6 +13,7 @@ const LoginProvider = ({ children }) => {
   const [signInError, setSignInError] = useState("");
   const [signInMessage, setSignInMessage] = useState("");
   const userPoolId = "17shnbmh639c0vhp8j591437j7";
+  const [selectedAddress, setSelectedAddress] = useState({});
 
   const defaultCartData = {
     billdetails: {
@@ -148,6 +149,8 @@ const LoginProvider = ({ children }) => {
         signInMessage,
         setSignInMessage,
         handleSignOut,
+        selectedAddress,
+        setSelectedAddress,
       }}
     >
       {children}
