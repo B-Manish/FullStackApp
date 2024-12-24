@@ -27,6 +27,41 @@ export const getRestaurantDetails = (bodyParameters) => {
   });
 };
 
+export const getAdresses = (email) => {
+  let url = `http://localhost:8000/getAddresses/${email}`;
+
+  return api.get(url).then((payload) => {
+    return payload;
+  });
+};
+
+export const addAddress = (email, bodyParams) => {
+  return api
+    .put(`http://localhost:8000/addAddress/${email}`, bodyParams)
+    .then((payload) => {
+      return payload;
+    });
+};
+
+export const updateAddress = (email, addressId, bodyParams) => {
+  return api
+    .put(
+      `http://localhost:8000/updateAddress/${email}/${addressId}`,
+      bodyParams
+    )
+    .then((payload) => {
+      return payload;
+    });
+};
+
+export const deleteAddress = (email, addressId) => {
+  return api
+    .put(`http://localhost:8000/deleteAddress/${email}/${addressId}`)
+    .then((payload) => {
+      return payload;
+    });
+};
+
 // export const getAllRestaurants = (bodyParameters) => {
 //   return api
 //     .get(`http://localhost:8000/getAllRestaurants`, {

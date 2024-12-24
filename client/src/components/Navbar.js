@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Swiggy from "../assets/swiggy.svg";
 import Icon from "./Icon";
@@ -13,7 +13,13 @@ import { useMediaQuery } from "@mui/material";
 
 function Navbar() {
   const navigate = useNavigate();
-  const { username, isLoggedIn, cartData } = useContext(LoginContext);
+  const {
+    username,
+    isLoggedIn,
+    cartData,
+    extractUserInfoFromToken,
+    selectedAddress,
+  } = useContext(LoginContext);
   const [openModal, setOpenModal] = useState(false);
   const isSxScreen = useMediaQuery("(max-width:599px)");
   const [showSignIn, setShowSignIn] = useState(true);
@@ -36,7 +42,7 @@ function Navbar() {
       isLoggedIn: isLoggedIn,
     },
     {
-      heading: isLoggedIn ? username : "Sign In",
+      heading: username !== "" ? username : "Sign In",
       hasSearch: false,
       hasSignin: true,
       clickHandler: openSigninModal,
@@ -51,6 +57,10 @@ function Navbar() {
       isLoggedIn: isLoggedIn,
     },
   ];
+
+  useEffect(() => {
+    extractUserInfoFromToken();
+  }, []);
   return (
     <Box
       sx={{
@@ -88,17 +98,40 @@ function Navbar() {
           justifyContent: "space-between",
         }}
       >
-        <Box
-          onClick={() => navigate("/")}
-          sx={{
-            cursor: "pointer",
-            "&:hover": {
-              transform: "scale(1.1)",
-              transition: "transform 0.2s ease",
-            },
-          }}
-        >
-          <Icon src={Swiggy} imgWidth="37px" imgHeight="54px" />
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Box
+            onClick={() => navigate("/")}
+            sx={{
+              mr: "5px",
+              cursor: "pointer",
+              "&:hover": {
+                transform: "scale(1.1)",
+                transition: "transform 0.2s ease",
+              },
+            }}
+          >
+            <Icon src={Swiggy} imgWidth="37px" imgHeight="54px" />
+          </Box>
+          <Box
+            sx={{
+              color: "#3d4152",
+              fontSize: "14px",
+              fontFamily: '"GilroyBold", sans-serif',
+            }}
+          >
+            {selectedAddress?.nickname}
+          </Box>
+          <Box
+            sx={{
+              color: "#686b78",
+              fontSize: "14px",
+              whiteSpace: "nowrap",
+              width: "300px",
+              textOverflow: "ellipsis",
+            }}
+          >
+            {selectedAddress?.address}
+          </Box>
         </Box>
         {!isSxScreen && (
           <Box sx={{ display: "flex" }}>
