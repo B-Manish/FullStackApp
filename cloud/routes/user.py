@@ -200,7 +200,7 @@
 
 from fastapi import APIRouter,Query,HTTPException
 import boto3
-from .keys import ACCESS_KEY_ID,SECRET_ACCESS_KEY
+from keys import ACCESS_KEY_ID,SECRET_ACCESS_KEY
 from enum import Enum
 from typing import Optional
 from boto3.dynamodb.conditions import Key
