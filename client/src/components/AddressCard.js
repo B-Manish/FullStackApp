@@ -5,6 +5,7 @@ import CustomModal from "./CustomModal";
 import Maps from "./Maps";
 import { deleteAddress } from "../api/restaurantApi";
 import { LoginContext } from "../context/LoginContext";
+import { setDeliveryAddress } from "../api/restaurantApi";
 
 const AddressCard = ({ data, chooseAdress = false, time }) => {
   const { email, setSelectedAddress } = useContext(LoginContext);
@@ -24,6 +25,14 @@ const AddressCard = ({ data, chooseAdress = false, time }) => {
 
   const removeAdress = (email, addresId) => {
     deleteAddress(email, addresId)
+      .then((res) => {})
+      .catch((err) => {
+        console.log("err", err);
+      });
+  };
+
+  const setDelAddress = (email, address) => {
+    setDeliveryAddress(email, address)
       .then((res) => {})
       .catch((err) => {
         console.log("err", err);
@@ -102,7 +111,10 @@ const AddressCard = ({ data, chooseAdress = false, time }) => {
             <Box sx={{ mb: "7px" }}>{time}MINS</Box>
 
             <Box
-              onClick={() => setSelectedAddress(data)}
+              onClick={() => {
+                setSelectedAddress(data);
+                setDelAddress(email, data?.address);
+              }}
               sx={{
                 fontSize: "14px",
                 color: "white",

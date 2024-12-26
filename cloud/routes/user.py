@@ -449,9 +449,58 @@ def delete_address(email: str, adressId: str):
             ReturnValues="UPDATED_NEW"
         )
 
-        return {"mesage": "succesfullt deleted the address"}
+        return {"message": "successfully deleted the address"}
     
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+    
+    
+    
+    
+@router.put("/setDeliveryAddress/{email}/{address}")
+def delete_address(email: str,address:str):
+    table = dynamodb.Table('addresses')
+    
+    try:
+        # Fetch the item based on the email
+        response = table.query(
+            KeyConditionExpression=Key('email').eq(email)
+        )
+
+        if 'Items' not in response or len(response['Items']) == 0:
+            raise HTTPException(status_code=404, detail="Email not found")
+        
+        # Update the item in DynamoDB
+        table.update_item(
+            Key={
+                'email': email
+            },
+            UpdateExpression="SET deliveryLocation = :deliveryLocation",
+            ExpressionAttributeValues={
+                ':deliveryLocation': address
+            },
+            ReturnValues="UPDATED_NEW"
+        )
+
+        return {"message": "successfully updated the delivery address"}
+    
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    
+    
+@router.get("/getDeliveryAddress/{email}")
+def getall(email:str):
+    table = dynamodb.Table('addresses')
+    try:
+        users = table.scan()
+        
+        for user in users["Items"]:
+            if user["email"]==email:
+                return {"deliveryAddress":user["deliveryLocation"]}
+            
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+            
+
 
 
